@@ -11,8 +11,8 @@ public class FadType {
         this.navn = navn;
     }
 
-    private void createFad(int fadID, double fadStørrelse, String matriale, String leverandør, int antalGangeBrugt, FadPlacering fadPlacering, Påfyldning påfyldning) {
-        fade.add(new Fad(fadID, fadStørrelse, matriale, leverandør, antalGangeBrugt, fadPlacering, this, påfyldning));
+    private void createFad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadPlacering fadPlacering, Påfyldning påfyldning) {
+        fade.add(new Fad(fadID, fadStørrelse, materiale, leverandør, antalGangeBrugt, this, påfyldning));
     }
 
     public String getNavn() {

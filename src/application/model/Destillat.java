@@ -2,8 +2,8 @@ package application.model;
 
 import java.time.LocalDate;
 
-public class Destilat {
-    private String destilatID;
+public class Destillat {
+    private String destillatID;
     private LocalDate startDato;
     private LocalDate slutDato;
     private double literVand;
@@ -13,8 +13,8 @@ public class Destilat {
 
     private MaltBatch maltBatch;
 
-    public Destilat(String destilatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {
-        this.destilatID = destilatID;
+    public Destillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {
+        this.destillatID = destillatID;
         this.startDato = startDato;
         this.slutDato = slutDato;
         this.literVand = literVand;
@@ -24,12 +24,12 @@ public class Destilat {
         this.maltBatch = maltBatch;
     }
 
-    public String getDestilatID() {
-        return destilatID;
+    public String getDestillatID() {
+        return destillatID;
     }
 
-    public void setDestilatID(String destilatID) {
-        this.destilatID = destilatID;
+    public void setDestillatID(String destillatID) {
+        this.destillatID = destillatID;
     }
 
     public LocalDate getStartDato() {

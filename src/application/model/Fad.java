@@ -3,7 +3,7 @@ package application.model;
 public class Fad {
     private int fadID;
     private double fadStørrelse;
-    private String matriale;
+    private String materiale;
     private String leverandør;
     private  int antalGangeBrugt;
 
@@ -11,13 +11,12 @@ public class Fad {
     private FadType fadType;
     private Påfyldning påfyldning;
 
-    public Fad(int fadID, double fadStørrelse, String matriale, String leverandør, int antalGangeBrugt, FadPlacering fadPlacering, FadType fadType, Påfyldning påfyldning) {
+    public Fad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
         this.fadID = fadID;
         this.fadStørrelse = fadStørrelse;
-        this.matriale = matriale;
+        this.materiale = materiale;
         this.leverandør = leverandør;
         this.antalGangeBrugt = antalGangeBrugt;
-        this.fadPlacering = fadPlacering;
         this.fadType = fadType;
         this.påfyldning = påfyldning;
     }
@@ -38,12 +37,12 @@ public class Fad {
         this.fadStørrelse = fadStørrelse;
     }
 
-    public String getMatriale() {
-        return matriale;
+    public String getMateriale() {
+        return materiale;
     }
 
-    public void setMatriale(String matriale) {
-        this.matriale = matriale;
+    public void setMateriale(String materiale) {
+        this.materiale = materiale;
     }
 
     public String getLeverandør() {
