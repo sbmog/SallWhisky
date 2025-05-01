@@ -6,13 +6,13 @@ public class FadPlacering {
     private LocalDate datoPlaceret;
 
     private Fad fad;
-    private Hylde hylde;
+    private HyldePlads hyldePlads;
 
-    public FadPlacering(LocalDate datoPlaceret, Fad fad, Hylde hylde) {
+    public FadPlacering(LocalDate datoPlaceret, Fad fad, HyldePlads hyldePlads) {
         this.datoPlaceret = datoPlaceret;
         this.fad = fad;
-        this.hylde = hylde;
-        hylde.setPladsFri(false);
+        this.hyldePlads = hyldePlads;
+        hyldePlads.setPladsFri(false);
     }
 
     public LocalDate getDatoPlaceret() {
@@ -31,11 +31,15 @@ public class FadPlacering {
         this.fad = fad;
     }
 
-    public Hylde getHylde() {
-        return hylde;
+    public HyldePlads getHyldePlads() {
+        return hyldePlads;
     }
 
-    public void setHylde(Hylde hylde) {
-        this.hylde = hylde;
+    public void setHyldePlads(HyldePlads hyldePlads) {
+        HyldePlads oldHyldePlads = this.hyldePlads;
+        oldHyldePlads.setPladsFri(true);
+        
+        this.hyldePlads = hyldePlads;
+        hyldePlads.setPladsFri(false);
     }
 }
