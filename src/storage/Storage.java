@@ -13,6 +13,7 @@ public class Storage {
     private static ArrayList<Malt> malter;
     private static ArrayList<Tapning> tapninger;
     private static ArrayList<Whisky> whiskyer;
+
     private static ArrayList<Lager> lagre;
     private static ArrayList<FadPlacering> fadPlaceringer;
     private static ArrayList<Hylde> hylder;
@@ -105,7 +106,7 @@ public class Storage {
         return new ArrayList<>(maltBatches);
     }
 
-    //Malt
+    //Malt - OBS
     public static void addMalt(Malt malt){
         if (!malter.contains(malt)){
             malter.add(malt);
@@ -156,7 +157,6 @@ public class Storage {
         return new ArrayList<>(whiskyer);
     }
 
-
     //Lager
     public static void addLager(Lager lager){
         if (!lagre.contains(lager)){
@@ -191,19 +191,23 @@ public class Storage {
     }
 
     //Hylde
-    public static void addHylde(Hylde hylde){
+    public static void addHylde(HyldePlads hylde){
+
         if (!hylder.contains(hylde)){
             hylder.add(hylde);
         }
     }
 
-    public static void removeHylde(Hylde hylde){
+    public static void removeHylde(HyldePlads hylde){
+
+
         if (hylder.contains(hylde)){
             hylder.remove(hylde);
         }
     }
 
-    public ArrayList<Hylde> getHylder() {
+    public ArrayList<HyldePlads> getHylder() {
+ 
         return new ArrayList<>(hylder);
     }
 

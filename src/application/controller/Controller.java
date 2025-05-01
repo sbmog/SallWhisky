@@ -10,7 +10,7 @@ public class Controller {
 
     public static Destillat createDestillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {
         Destillat newDestillat = new Destillat(destillatID, startDato, slutDato, literVand, alkoholProcent, røget, væskemængde, maltBatch);
-        Storage.addDestilat(newDestillat);
+        Storage.addDestillat(newDestillat);
         return newDestillat;
     }
 
@@ -48,5 +48,11 @@ public class Controller {
         Lager newLager = new Lager(lagerID, navn, adresse);
         Storage.addLager(newLager);
         return newLager;
+    }
+
+    public static FadType createFadType(String navn) {
+        FadType newFadType = new FadType(navn);
+        Storage.addFadType(newFadType);
+        return newFadType;
     }
 }

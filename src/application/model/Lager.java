@@ -20,7 +20,7 @@ public class Lager {
     }
 
     public void removeReol(Reol reol) {
-        if (reol.getHylder().isEmpty()) {
+        if (reol.getHyldePladser().isEmpty()) {
             reoler.remove(reol);
         }
     }
