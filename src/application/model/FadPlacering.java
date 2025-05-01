@@ -16,9 +16,9 @@ public class FadPlacering {
     }
 
     public String getFullFadPlacering() {
-        Reol reol = hylde.getReol();
+        Reol reol = hyldePlads.getReol();
         Lager lager = reol.getLager();
-        return lager.getNavn() + " - " + reol.getReolID() + " - " + hylde.getHyldeID();
+        return lager.getNavn() + " - " + reol.getReolID() + " - " + hyldePlads.getHyldePladsID();
     }
 
     public LocalDate getDatoPlaceret() {

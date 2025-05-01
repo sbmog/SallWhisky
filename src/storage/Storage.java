@@ -10,14 +10,13 @@ public class Storage {
     private static ArrayList<Påfyldning> påfyldninger;
     private static ArrayList<FadType> fadTyper;
     private static ArrayList<MaltBatch> maltBatches;
-    private static ArrayList<Malt> malter;
+    private static ArrayList<Malt> malter;                  //Slettes???
     private static ArrayList<Tapning> tapninger;
     private static ArrayList<Whisky> whiskyer;
 
     private static ArrayList<Lager> lagre;
-    private static ArrayList<FadPlacering> fadPlaceringer;
-    private static ArrayList<Hylde> hylder;
-    private static ArrayList<Reol> reoler;
+    private static ArrayList<HyldePlads> hyldePladser;                  //Slettes???
+    private static ArrayList<Reol> reoler;                 //Slettes???
 
 
     //Destillat
@@ -173,42 +172,26 @@ public class Storage {
         return new ArrayList<>(lagre);
     }
 
-    //FadPlacering
-    public static void addFadPlacering(FadPlacering fadPlacering){
-        if (!fadPlaceringer.contains(fadPlacering)){
-            fadPlaceringer.add(fadPlacering);
-        }
-    }
-
-    public static void removeFadPlacering(FadPlacering fadPlacering){
-        if (fadPlaceringer.contains(fadPlacering)){
-            fadPlaceringer.remove(fadPlacering);
-        }
-    }
-
-    public ArrayList<FadPlacering> getFadPlaceringer() {
-        return new ArrayList<>(fadPlaceringer);
-    }
 
     //Hylde
     public static void addHylde(HyldePlads hylde){
 
-        if (!hylder.contains(hylde)){
-            hylder.add(hylde);
+        if (!hyldePladser.contains(hylde)){
+            hyldePladser.add(hylde);
         }
     }
 
     public static void removeHylde(HyldePlads hylde){
 
 
-        if (hylder.contains(hylde)){
-            hylder.remove(hylde);
+        if (hyldePladser.contains(hylde)){
+            hyldePladser.remove(hylde);
         }
     }
 
     public ArrayList<HyldePlads> getHylder() {
  
-        return new ArrayList<>(hylder);
+        return new ArrayList<>(hyldePladser);
     }
 
     //Reol
