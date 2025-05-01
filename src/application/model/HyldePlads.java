@@ -3,7 +3,6 @@ package application.model;
 public class HyldePlads {
     private int hyldePladsID;
     private boolean pladsFri = true;
-
     private Reol reol;
 
     public HyldePlads(int hyldePladsID, Reol reol) {

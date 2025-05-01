@@ -5,19 +5,19 @@ import application.model.*;
 import java.util.ArrayList;
 
 public class Storage {
-    private static ArrayList<Destillat> destillater;
-    private static ArrayList<Fad> fade;
-    private static ArrayList<Påfyldning> påfyldninger;
-    private static ArrayList<FadType> fadTyper;
-    private static ArrayList<MaltBatch> maltBatches;
-    private static ArrayList<Malt> malter;
-    private static ArrayList<Tapning> tapninger;
-    private static ArrayList<Whisky> whiskyer;
+    private static ArrayList<Destillat> destillater = new ArrayList<>();
+    private static ArrayList<Fad> fade = new ArrayList<>();
+    private static ArrayList<Påfyldning> påfyldninger = new ArrayList<>();
+    private static ArrayList<FadType> fadTyper = new ArrayList<>();
+    private static ArrayList<MaltBatch> maltBatches = new ArrayList<>();
+    private static ArrayList<Malt> malter = new ArrayList<>();
+    private static ArrayList<Tapning> tapninger = new ArrayList<>();
+    private static ArrayList<Whisky> whiskyer = new ArrayList<>();
 
-    private static ArrayList<Lager> lagre;
-    private static ArrayList<FadPlacering> fadPlaceringer;
-    private static ArrayList<Hylde> hylder;
-    private static ArrayList<Reol> reoler;
+    private static ArrayList<Lager> lagre = new ArrayList<>();
+    private static ArrayList<FadPlacering> fadPlaceringer = new ArrayList<>();
+    private static ArrayList<HyldePlads> hylder = new ArrayList<>();
+    private static ArrayList<Reol> reoler = new ArrayList<>();
 
 
     //Destillat

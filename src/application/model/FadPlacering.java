@@ -15,12 +15,6 @@ public class FadPlacering {
         hyldePlads.setPladsFri(false);
     }
 
-    public String getFullFadPlacering() {
-        Reol reol = hylde.getReol();
-        Lager lager = reol.getLager();
-        return lager.getNavn() + " - " + reol.getReolID() + " - " + hylde.getHyldeID();
-    }
-
     public LocalDate getDatoPlaceret() {
         return datoPlaceret;
     }
@@ -47,5 +41,11 @@ public class FadPlacering {
         
         this.hyldePlads = hyldePlads;
         hyldePlads.setPladsFri(false);
+    }
+
+    public String getFullFadPlacering() {
+        Reol reol = hyldePlads.getReol();
+        Lager lager = reol.getLager();
+        return lager.getNavn() + " - " + reol.getReolID() + " - " + hyldePlads.getHyldePladsID();
     }
 }

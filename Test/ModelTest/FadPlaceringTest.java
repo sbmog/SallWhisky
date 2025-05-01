@@ -1,5 +1,6 @@
 package ModelTest;
 
+import application.controller.Controller;
 import application.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +11,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class FadPlaceringTest {
 
     @Test
-    void getFullFadPlacering() {
-        Lager lager = new Lager("1", "Lager", "SALL");
-        Reol reol = new Reol(lager, 1);
-        Hylde hylde = new Hylde(5,reol);
-        FadType fadType = new FadType("TestFadType");
-        Fad fad = new Fad(101,200.0,"TestFad", "TestFad", 2, fad, 1);
-        FadPlacering fadPlacering = new FadPlacering(LocalDate.now(),fad,hylde);
+    void getFuldFadPlacering() {
 
-        String result = fadPlacering.getFullFadPlacering();
+            Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1");
+            lager.createReol();
+            Reol reol = lager.getReoler().get(0);
 
-        assertEquals("Lager - 1 - 5", result);
+
+            HyldePlads hyldePlads = new HyldePlads(3, reol);  // Opret hyldeplads med ID 3
+            reol.createHyldePlads(); // Tilføj hyldepladsen til reolen, hvis nødvendigt
+            FadType fadType = Controller.createFadType("Blended");
+            Fad fad = Controller.createFad(100, 200.0, "Eg", "Leverandør A", 1, null, fadType, null);
+            FadPlacering fadPlacering = new FadPlacering(LocalDate.now(), fad, hyldePlads);
+            fad.setFadPlacering(fadPlacering);
+
+            String result = fadPlacering.getFullFadPlacering();
+
+
+            assertEquals("Lager1 - 1 - 3", result);
+        }
     }
-}

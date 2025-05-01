@@ -13,6 +13,7 @@ public class Lager {
         this.lagerID = lagerID;
         this.navn = navn;
         this.adresse = adresse;
+        this.reoler = new ArrayList<>();
     }
 
     public void createReol() {
