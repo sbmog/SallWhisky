@@ -8,14 +8,14 @@ public class Påfyldning {
     private LocalDate datoForPåfyldning;
 
     private Fad fad;
-    private Destilat destilat;
+    private Destillat destillat;
 
-    public Påfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destilat destilat) {
+    public Påfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat) {
         this.initialerForMedarbejder = initialerForMedarbejder;
         this.antalLiterPåfyldt = antalLiterPåfyldt;
         this.datoForPåfyldning = datoForPåfyldning;
         this.fad = fad;
-        this.destilat = destilat;
+        this.destillat = destillat;
     }
 
     public String getInitialerForMedarbejder() {
@@ -50,11 +50,11 @@ public class Påfyldning {
         this.fad = fad;
     }
 
-    public Destilat getDestilat() {
-        return destilat;
+    public Destillat getDestillat() {
+        return destillat;
     }
 
-    public void setDestilat(Destilat destilat) {
-        this.destilat = destilat;
+    public void setDestillat(Destillat destillat) {
+        this.destillat = destillat;
     }
 }

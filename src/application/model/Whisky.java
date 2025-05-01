@@ -3,7 +3,7 @@ package application.model;
 import java.util.ArrayList;
 
 public class Whisky {
-    private double whskyID;
+    private double whiskyID;
     private String navn;
     private double alkoholProcent;
     private boolean fortyndet;
@@ -13,8 +13,8 @@ public class Whisky {
     private ArrayList<Tapning> tapninger;
     private WhiskyType whiskyType;
 
-    public Whisky(double whskyID, String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
-        this.whskyID = whskyID;
+    public Whisky(double whiskyID, String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
+        this.whiskyID = whiskyID;
         this.navn = navn;
         this.alkoholProcent = alkoholProcent;
         this.fortyndet = fortyndet;
@@ -83,11 +83,11 @@ public class Whisky {
         this.whiskyType = whiskyType;
     }
 
-    public double getWhskyID() {
-        return whskyID;
+    public double getWhiskyID() {
+        return whiskyID;
     }
 
-    public void setWhskyID(double whskyID) {
-        this.whskyID = whskyID;
+    public void setWhiskyID(double whiskyID) {
+        this.whiskyID = whiskyID;
     }
 }
