@@ -1,22 +1,22 @@
 package application.model;
 
-public class Hylde {
-    private int hyldeID;
+public class HyldePlads {
+    private int hyldePladsID;
     private boolean pladsFri = true;
 
     private Reol reol;
 
-    public Hylde(int hyldeID, Reol reol) {
-        this.hyldeID = hyldeID;
+    public HyldePlads(int hyldePladsID, Reol reol) {
+        this.hyldePladsID = hyldePladsID;
         this.reol = reol;
     }
 
-    public int getHyldeID() {
-        return hyldeID;
+    public int getHyldePladsID() {
+        return hyldePladsID;
     }
 
-    public void setHyldeID(int hyldeID) {
-        this.hyldeID = hyldeID;
+    public void setHyldePladsID(int hyldePladsID) {
+        this.hyldePladsID = hyldePladsID;
     }
 
     public boolean isPladsFri() {

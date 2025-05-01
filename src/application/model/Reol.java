@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Reol {
     private int reolID;
 
-    private ArrayList<Hylde> hylder;
+    private ArrayList<HyldePlads> hyldePladser;
     private Lager lager;
 
     public Reol(Lager lager, int reolID) {
@@ -13,14 +13,14 @@ public class Reol {
         this.reolID = reolID;
     }
 
-    public void createHylde() {
-        hylder.add(new Hylde(hylder.size() + 1, this));
+    public void createHyldePlads() {
+        hyldePladser.add(new HyldePlads(hyldePladser.size() + 1, this));
     }
 
 //    bør det være delete? i så fald, hvordan deleter vi. Må vi kalde storageklasse her? eller er den bare slettet ved at fjerne
-    public void removeHylde(Hylde hylde){
-        if (hylde.isPladsFri()){
-            hylder.remove(hylde);
+    public void removeHyldePlads(HyldePlads hyldePlads){
+        if (hyldePlads.isPladsFri()){
+            hyldePladser.remove(hyldePlads);
         }
     }
 
@@ -32,12 +32,12 @@ public class Reol {
         this.reolID = reolID;
     }
 
-    public ArrayList<Hylde> getHylder() {
-        return hylder;
+    public ArrayList<HyldePlads> getHyldePladser() {
+        return hyldePladser;
     }
 
-    public void setHylder(ArrayList<Hylde> hylder) {
-        this.hylder = hylder;
+    public void setHyldePladser(ArrayList<HyldePlads> hyldePladser) {
+        this.hyldePladser = hyldePladser;
     }
 
     public Lager getLager() {
