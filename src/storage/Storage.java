@@ -3,7 +3,6 @@ package storage;
 import application.model.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Storage {
     private static ArrayList<Destillat> destillater;
@@ -14,7 +13,6 @@ public class Storage {
     private static ArrayList<Malt> malter;
     private static ArrayList<Tapning> tapninger;
     private static ArrayList<Whisky> whiskyer;
-    private static ArrayList<Flaske> flasker;
     private static ArrayList<Lager> lagre;
     private static ArrayList<FadPlacering> fadPlaceringer;
     private static ArrayList<Hylde> hylder;
@@ -158,22 +156,6 @@ public class Storage {
         return new ArrayList<>(whiskyer);
     }
 
-    //Flaske
-    public static void addFlaske(Flaske flaske){
-        if (!flasker.contains(flaske)){
-            flasker.add(flaske);
-        }
-    }
-
-    public static void removeFlaske(Flaske flaske){
-        if (flasker.contains(flaske)){
-            flasker.remove(flaske);
-        }
-    }
-
-    public ArrayList<Flaske> getFlasker() {
-        return new ArrayList<>(flasker);
-    }
 
     //Lager
     public static void addLager(Lager lager){
