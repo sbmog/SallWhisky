@@ -7,7 +7,7 @@ public class Fad {
     private double fadStørrelse;
     private String materiale;
     private String leverandør;
-    private  int antalGangeBrugt;
+    private int antalGangeBrugt;
 
     private FadPlacering fadPlacering;
     private FadType fadType;
@@ -23,8 +23,10 @@ public class Fad {
         this.påfyldning = påfyldning;
     }
 
-    public void placerPå (HyldePlads hyldePlads, LocalDate dato) {
-        this.fadPlacering = new FadPlacering(dato, this, hyldePlads);
+    public void placerPåHylde(HyldePlads hyldePlads, LocalDate dato) {
+        if (hyldePlads.isPladsFri()) {
+            this.fadPlacering = new FadPlacering(dato, this, hyldePlads);
+        } else throw new IllegalStateException("Hyldepladsen er allerede optaget.");
     }
 
 
