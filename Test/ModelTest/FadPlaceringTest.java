@@ -15,7 +15,7 @@ class FadPlaceringTest {
 
             Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1");
             lager.createReol();
-            Reol reol = lager.getReoler().get(0);
+            Reol reol = lager.getReoler().getFirst();
 
 
             HyldePlads hyldePlads = new HyldePlads(3, reol);  // Opret hyldeplads med ID 3
