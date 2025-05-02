@@ -48,4 +48,10 @@ public class FadPlacering {
         this.hyldePlads = hyldePlads;
         hyldePlads.setPladsFri(false);
     }
+
+    public String getFullFadPlacering() {
+        Reol reol = hyldePlads.getReol();
+        Lager lager = reol.getLager();
+        return lager.getNavn() + " - " + reol.getReolID() + " - " + hyldePlads.getHyldePladsID();
+    }
 }
