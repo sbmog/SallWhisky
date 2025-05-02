@@ -16,6 +16,7 @@ public class Tapning {
         this.initialerForMedarbejder = initialerForMedarbejder;
         this.antalLiterFraFad = antalLiterFraFad;
         this.fad = fad;
+        fortyndinger = new ArrayList<>();
     }
 
     private void createFortynding(double vandMængde){
