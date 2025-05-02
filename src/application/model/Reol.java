@@ -11,6 +11,7 @@ public class Reol {
     public Reol(Lager lager, int reolID) {
         this.lager = lager;
         this.reolID = reolID;
+        this.hyldePladser = new ArrayList<>();
     }
 
     public void createHyldePlads() {
