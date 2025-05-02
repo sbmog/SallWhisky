@@ -15,7 +15,6 @@ public class Storage {
     private static ArrayList<Whisky> whiskyer = new ArrayList<>();
 
     private static ArrayList<Lager> lagre = new ArrayList<>();
-    private static ArrayList<FadPlacering> fadPlaceringer = new ArrayList<>();
     private static ArrayList<HyldePlads> hylder = new ArrayList<>();
     private static ArrayList<Reol> reoler = new ArrayList<>();
 
@@ -173,42 +172,26 @@ public class Storage {
         return new ArrayList<>(lagre);
     }
 
-    //FadPlacering
-    public static void addFadPlacering(FadPlacering fadPlacering){
-        if (!fadPlaceringer.contains(fadPlacering)){
-            fadPlaceringer.add(fadPlacering);
-        }
-    }
-
-    public static void removeFadPlacering(FadPlacering fadPlacering){
-        if (fadPlaceringer.contains(fadPlacering)){
-            fadPlaceringer.remove(fadPlacering);
-        }
-    }
-
-    public ArrayList<FadPlacering> getFadPlaceringer() {
-        return new ArrayList<>(fadPlaceringer);
-    }
 
     //Hylde
     public static void addHylde(HyldePlads hylde){
 
-        if (!hylder.contains(hylde)){
-            hylder.add(hylde);
+        if (!hyldePladser.contains(hylde)){
+            hyldePladser.add(hylde);
         }
     }
 
     public static void removeHylde(HyldePlads hylde){
 
 
-        if (hylder.contains(hylde)){
-            hylder.remove(hylde);
+        if (hyldePladser.contains(hylde)){
+            hyldePladser.remove(hylde);
         }
     }
 
     public ArrayList<HyldePlads> getHylder() {
  
-        return new ArrayList<>(hylder);
+        return new ArrayList<>(hyldePladser);
     }
 
     //Reol
