@@ -54,5 +54,6 @@ public class Controller {
         FadType newFadType = new FadType(navn);
         Storage.addFadType(newFadType);
         return newFadType;
+
     }
 }
