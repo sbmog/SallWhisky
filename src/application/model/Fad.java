@@ -1,5 +1,7 @@
 package application.model;
 
+import java.time.LocalDate;
+
 public class Fad {
     private int fadID;
     private double fadStørrelse;
@@ -20,6 +22,11 @@ public class Fad {
         this.fadType = fadType;
         this.påfyldning = påfyldning;
     }
+
+    public void placerPå (HyldePlads hyldePlads, LocalDate dato) {
+        this.fadPlacering = new FadPlacering(dato, this, hyldePlads);
+    }
+
 
     public int getFadID() {
         return fadID;
