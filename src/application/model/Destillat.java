@@ -10,7 +10,6 @@ public class Destillat {
     private double alkoholProcent;
     private boolean røget;
     private double væskemængde;
-
     private MaltBatch maltBatch;
 
     public Destillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {

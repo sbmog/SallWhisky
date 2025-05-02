@@ -15,7 +15,7 @@ public class Storage {
     private static ArrayList<Whisky> whiskyer = new ArrayList<>();
 
     private static ArrayList<Lager> lagre = new ArrayList<>();
-    private static ArrayList<HyldePlads> hylder = new ArrayList<>();
+    private static ArrayList<HyldePlads> hyldePladser = new ArrayList<>();
     private static ArrayList<Reol> reoler = new ArrayList<>();
 
 
