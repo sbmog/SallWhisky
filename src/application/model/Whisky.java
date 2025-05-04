@@ -27,6 +27,32 @@ public class Whisky {
         flasker.add(new Flaske(flasker.size() + 1, this));
     }
 
+
+    public String getHistorik() {
+        String historik = "Historik for whisky: " + navn + "\n";
+
+    for (Tapning tapning : tapninger) {
+        Fad fad = tapning.getFad();
+        Påfyldning påfyldning = fad.getPåfyldning();
+        Destillat destillat = påfyldning.getDestillat();
+
+        historik += "tapning: " + tapning.getTapningsDato() + "\n";
+        historik += "Fad ID: " + fad.getFadID() + "\n";
+        historik += "Påfyldning: " + påfyldning.getDatoForPåfyldning() + "\n";
+        historik += "Destillat ID: " + destillat.getDestillatID() + "\n";
+        historik += "Startdato: " + destillat.getStartDato() + "\n";
+        historik += "Slutdato: " + destillat.getSlutDato() + "\n";
+        historik += "Alkoholprocent: " + destillat.getAlkoholProcent() + "\n";
+        historik += "Røget: " + destillat.isRøget() + "\n";
+        historik += "Vandmængde: " + destillat.getLiterVand() + "\n";
+        historik += "Væskemængde: " + destillat.getVæskemængde() + "\n";
+        historik += "-----------------------------------\n";
+
+    }
+    return historik;
+    }
+
+
     public String getNavn() {
         return navn;
     }

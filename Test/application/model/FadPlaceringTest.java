@@ -1,7 +1,6 @@
-package ModelTest;
+package application.model;
 
 import application.controller.Controller;
-import application.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
