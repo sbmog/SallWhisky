@@ -8,12 +8,17 @@ public class Fad {
     private String materiale;
     private String leverandør;
     private int antalGangeBrugt;
+    private double nuværendeIndhold = 0;
 
     private FadPlacering fadPlacering;
     private FadType fadType;
     private Påfyldning påfyldning;
+    private static final double MAX_FAD_STØRRELSE = 500;
 
     public Fad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
+         if (fadStørrelse > MAX_FAD_STØRRELSE) {
+             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + MAX_FAD_STØRRELSE + " liter.");
+         }
         this.fadID = fadID;
         this.fadStørrelse = fadStørrelse;
         this.materiale = materiale;
@@ -27,6 +32,10 @@ public class Fad {
         if (hyldePlads.isPladsFri()) {
             this.fadPlacering = new FadPlacering(dato, this, hyldePlads);
         } else throw new IllegalStateException("Hyldepladsen er allerede optaget.");
+    }
+
+    public double getNuværendeIndhold() {
+        return nuværendeIndhold;
     }
 
 
@@ -43,7 +52,11 @@ public class Fad {
     }
 
     public void setFadStørrelse(double fadStørrelse) {
+        if (fadStørrelse < MAX_FAD_STØRRELSE) {
+            throw new IllegalArgumentException("Fad størrelse kan ikke være over " + MAX_FAD_STØRRELSE + " liter.");
+        }
         this.fadStørrelse = fadStørrelse;
+
     }
 
     public String getMateriale() {
