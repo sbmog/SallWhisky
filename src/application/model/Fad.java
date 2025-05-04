@@ -34,6 +34,13 @@ public class Fad {
         } else throw new IllegalStateException("Hyldepladsen er allerede optaget.");
     }
 
+    public int beregnAntalFlasker(double flaskeStørrelse) {
+        if ( flaskeStørrelse <= 0) {
+            throw new IllegalArgumentException("Flaske størrelse skal være større end 0.");
+        }
+        return (int) (nuværendeIndhold * 100 / flaskeStørrelse); //Konvertere fra liter til CL
+    }
+
     public double getNuværendeIndhold() {
         return nuværendeIndhold;
     }

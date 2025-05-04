@@ -29,5 +29,6 @@ class FadPlaceringTest {
 
 
             assertEquals("Lager1 - 1 - 3", result);
+
         }
     }
