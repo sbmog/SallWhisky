@@ -17,6 +17,12 @@ public class Tapning {
         this.antalLiterFraFad = antalLiterFraFad;
         this.fad = fad;
         fortyndinger = new ArrayList<>();
+
+        LocalDate påfyldningsDato = fad.getPåfyldning().getDatoForPåfyldning();
+
+        if (tapningsDato.isBefore(påfyldningsDato.plusYears(3))) {
+            throw new IllegalArgumentException("Destilliatet kan ikke tappes før den har lagret i 3 år.");
+        }
     }
 
     private void createFortynding(double vandMængde){
