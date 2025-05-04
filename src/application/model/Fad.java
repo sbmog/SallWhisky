@@ -8,7 +8,8 @@ public class Fad {
     private double fadStørrelse;
     private String materiale;
     private String leverandør;
-    private int antalGangeBrugt;
+    private int antalGangeBrugt = 0;
+    private static final int MaksAntalGangeBrugt = 3;
     private double nuværendeIndhold = 0;
 
     private FadPlacering fadPlacering;
@@ -24,7 +25,7 @@ public class Fad {
         this.fadStørrelse = fadStørrelse;
         this.materiale = materiale;
         this.leverandør = leverandør;
-        this.antalGangeBrugt = antalGangeBrugt;
+        this.antalGangeBrugt = 0;
         this.fadType = fadType;
         this.påfyldning = påfyldning;
     }
@@ -58,6 +59,20 @@ public class Fad {
             return 0;
         }
     }
+
+    public void tilføjPåfyldning(Påfyldning nyPåfyldning) {
+        if (antalGangeBrugt >= MaksAntalGangeBrugt) {
+            throw new IllegalStateException("Fadet kan ikke bruges mere end " + MaksAntalGangeBrugt + " gange.");
+        }
+        this.påfyldning = nyPåfyldning;
+        antalGangeBrugt++;
+    }
+
+    public int getMaksAntalGangeBrugt() {
+        return MaksAntalGangeBrugt;
+    }
+
+
 
     public double getNuværendeIndhold() {
         return nuværendeIndhold;
