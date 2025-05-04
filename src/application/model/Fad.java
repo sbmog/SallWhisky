@@ -1,6 +1,7 @@
 package application.model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Fad {
     private int fadID;
@@ -39,6 +40,23 @@ public class Fad {
             throw new IllegalArgumentException("Flaske størrelse skal være større end 0.");
         }
         return (int) (nuværendeIndhold * 100 / flaskeStørrelse); //Konvertere fra liter til CL
+    }
+
+    public int BeregnLagringstid() {
+        LocalDate startDato = påfyldning.getDatoForPåfyldning();
+        LocalDate nu = LocalDate.now();
+        return (int) ChronoUnit.YEARS.between(startDato,nu);
+    }
+
+    public int beregnTidTilWhisky() {
+        LocalDate startDato = påfyldning.getDatoForPåfyldning();
+        LocalDate whiskyDato = startDato.plusYears(3);
+
+        if(LocalDate.now().isBefore(whiskyDato)) {
+            return (int) ChronoUnit.DAYS.between(LocalDate.now(), whiskyDato);
+        } else {
+            return 0;
+        }
     }
 
     public double getNuværendeIndhold() {
