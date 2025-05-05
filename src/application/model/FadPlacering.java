@@ -8,7 +8,7 @@ public class FadPlacering {
     private Fad fad;
     private HyldePlads hyldePlads;
 
-    public FadPlacering(LocalDate datoPlaceret, Fad fad, HyldePlads hyldePlads) {
+    protected FadPlacering(LocalDate datoPlaceret, Fad fad, HyldePlads hyldePlads) {
         this.datoPlaceret = datoPlaceret;
         this.fad = fad;
         this.hyldePlads = hyldePlads;

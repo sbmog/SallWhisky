@@ -5,7 +5,7 @@ public class Flaske {
 
     private Whisky whisky;
 
-    public Flaske(int flaskeID, Whisky whisky) {
+    protected Flaske(int flaskeID, Whisky whisky) {
         this.flaskeID = flaskeID;
         this.whisky = whisky;
     }
