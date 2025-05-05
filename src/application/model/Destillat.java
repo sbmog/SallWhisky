@@ -13,6 +13,9 @@ public class Destillat {
     private MaltBatch maltBatch;
 
     public Destillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {
+        if (alkoholProcent < 60.0 || alkoholProcent > 63.0){
+            throw new IllegalArgumentException("Alkoholprocenten skal være mellem 60 og 63 procent");
+        }
         this.destillatID = destillatID;
         this.startDato = startDato;
         this.slutDato = slutDato;
@@ -86,4 +89,6 @@ public class Destillat {
     public void setMaltBatch(MaltBatch maltBatch) {
         this.maltBatch = maltBatch;
     }
+
+
 }
