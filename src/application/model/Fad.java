@@ -35,7 +35,7 @@ public class Fad {
             this.fadPlacering = new FadPlacering(dato, this, hyldePlads);
         } else throw new IllegalStateException("Hyldepladsen er allerede optaget.");
     }
-
+//TODO hvor får vi flaskestørrelse fra? ift. brugen i GUI
     public int beregnAntalFlasker(double flaskeStørrelse) {
         if ( flaskeStørrelse <= 0) {
             throw new IllegalArgumentException("Flaske størrelse skal være større end 0.");
@@ -60,7 +60,7 @@ public class Fad {
         }
     }
 
-    public void tilføjPåfyldning(Påfyldning nyPåfyldning) {
+    public void setPåfyldning(Påfyldning nyPåfyldning) {
         if (antalGangeBrugt >= maksAntalGangeBrugt) {
             throw new IllegalStateException("Fadet kan ikke bruges mere end " + maksAntalGangeBrugt + " gange.");
         }
@@ -141,9 +141,5 @@ public class Fad {
 
     public Påfyldning getPåfyldning() {
         return påfyldning;
-    }
-
-    public void setPåfyldning(Påfyldning påfyldning) {
-        this.påfyldning = påfyldning;
     }
 }
