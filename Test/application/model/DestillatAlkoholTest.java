@@ -1,10 +1,6 @@
-package ModelTest;
+package application.model;
 
-import application.model.Destillat;
-import application.model.Malt;
-import application.model.MaltBatch;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
