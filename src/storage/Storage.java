@@ -33,7 +33,7 @@ public class Storage {
 
     }
 
-    public ArrayList<Destillat> getDestillater() {
+    public static ArrayList<Destillat> getDestillater() {
         return new ArrayList<>(destillater);
     }
 
@@ -50,7 +50,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<Fad> getFade() {
+    public static ArrayList<Fad> getFade() {
         return new ArrayList<>(fade);
     }
 
@@ -67,7 +67,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<Påfyldning> getPåfyldninger() {
+    public static ArrayList<Påfyldning> getPåfyldninger() {
         return new ArrayList<>(påfyldninger);
     }
 
@@ -84,7 +84,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<FadType> getFadTyper() {
+    public static ArrayList<FadType> getFadTyper() {
         return new ArrayList<>(fadTyper);
     }
 
@@ -101,7 +101,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<MaltBatch> getMaltBatches() {
+    public static ArrayList<MaltBatch> getMaltBatches() {
         return new ArrayList<>(maltBatches);
     }
 
@@ -118,7 +118,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<Malt> getMalter() {
+    public static ArrayList<Malt> getMalter() {
         return new ArrayList<>(malter);
     }
 
@@ -135,7 +135,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<Tapning> getTapninger() {
+    public static ArrayList<Tapning> getTapninger() {
         return new ArrayList<>(tapninger);
     }
 
@@ -152,7 +152,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<Whisky> getWhiskyer() {
+    public static ArrayList<Whisky> getWhiskyer() {
         return new ArrayList<>(whiskyer);
     }
 
@@ -168,7 +168,7 @@ public class Storage {
             lagre.remove(lager);
         }
     }
-    public ArrayList<Lager> getLagre() {
+    public static ArrayList<Lager> getLagre() {
         return new ArrayList<>(lagre);
     }
 
@@ -189,7 +189,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<HyldePlads> getHylder() {
+    public static ArrayList<HyldePlads> getHylder() {
  
         return new ArrayList<>(hyldePladser);
     }
@@ -207,7 +207,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<Reol> getReoler() {
+    public static ArrayList<Reol> getReoler() {
         return new ArrayList<>(reoler);
     }
 }
