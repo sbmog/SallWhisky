@@ -9,18 +9,18 @@ public class Fad {
     private String materiale;
     private String leverandør;
     private int antalGangeBrugt = 0;
-    private static final int MaksAntalGangeBrugt = 3;
+    private static final int maksAntalGangeBrugt = 3;
     private double nuværendeIndhold = 0;
     private Tapning tapning;
+    private static final double maxFadStørrelse = 500;
     private FadPlacering fadPlacering;
     private FadType fadType;
     private Påfyldning påfyldning;
-    private static final double MAX_FAD_STØRRELSE = 500;
 
 
     public Fad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
-         if (fadStørrelse > MAX_FAD_STØRRELSE) {
-             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + MAX_FAD_STØRRELSE + " liter.");
+         if (fadStørrelse > maxFadStørrelse) {
+             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
          }
         this.fadID = fadID;
         this.fadStørrelse = fadStørrelse;
@@ -70,15 +70,15 @@ public class Fad {
     }
 
     public void tilføjPåfyldning(Påfyldning nyPåfyldning) {
-        if (antalGangeBrugt >= MaksAntalGangeBrugt) {
-            throw new IllegalStateException("Fadet kan ikke bruges mere end " + MaksAntalGangeBrugt + " gange.");
+        if (antalGangeBrugt >= maksAntalGangeBrugt) {
+            throw new IllegalStateException("Fadet kan ikke bruges mere end " + maksAntalGangeBrugt + " gange.");
         }
         this.påfyldning = nyPåfyldning;
         antalGangeBrugt++;
     }
 
     public int getMaksAntalGangeBrugt() {
-        return MaksAntalGangeBrugt;
+        return maksAntalGangeBrugt;
     }
 
 
@@ -101,8 +101,8 @@ public class Fad {
     }
 
     public void setFadStørrelse(double fadStørrelse) {
-        if (fadStørrelse < MAX_FAD_STØRRELSE) {
-            throw new IllegalArgumentException("Fad størrelse kan ikke være over " + MAX_FAD_STØRRELSE + " liter.");
+        if (fadStørrelse < maxFadStørrelse) {
+            throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
         }
         this.fadStørrelse = fadStørrelse;
 

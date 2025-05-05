@@ -5,7 +5,7 @@ public class HyldePlads {
     private boolean pladsFri = true;
     private Reol reol;
 
-    public HyldePlads(int hyldePladsID, Reol reol) {
+    protected HyldePlads(int hyldePladsID, Reol reol) {
         this.hyldePladsID = hyldePladsID;
         this.reol = reol;
     }

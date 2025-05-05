@@ -21,7 +21,7 @@ public class Tapning {
         LocalDate påfyldningsDato = fad.getPåfyldning().getDatoForPåfyldning();
 
         if (tapningsDato.isBefore(påfyldningsDato.plusYears(3))) {
-            throw new IllegalArgumentException("Destilliatet kan ikke tappes før den har lagret i 3 år.");
+            throw new IllegalArgumentException("Destillatet kan ikke tappes før den har lagret i 3 år.");
         }
     }
 

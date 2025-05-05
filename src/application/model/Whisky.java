@@ -14,16 +14,27 @@ public class Whisky {
     private WhiskyType whiskyType;
 
     public Whisky(double whiskyID, String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
-        if (alkoholProcent < 40.0){
+        if (alkoholProcent < 40.0) {
             throw new IllegalArgumentException("Alkoholprocent skal være over 40 procent");
         }
         this.whiskyID = whiskyID;
         this.navn = navn;
         this.alkoholProcent = alkoholProcent;
-        this.fortyndet = fortyndet;
         this.vandMængde = vandMængde;
         this.tapninger = tapninger;
         this.whiskyType = whiskyType;
+        this.flasker = new ArrayList<>();
+    }
+
+    public void updateFortyndetStatus() {
+        for (Tapning tapning : tapninger) {
+            if (!tapning.getFortyndinger().isEmpty()) {
+                this.fortyndet = true;
+                return;
+            } else {
+                this.fortyndet = false;
+            }
+        }
     }
 
     public void createFlaske() {
@@ -34,25 +45,25 @@ public class Whisky {
     public String getHistorik() {
         String historik = "Historik for whisky: " + navn + "\n";
 
-    for (Tapning tapning : tapninger) {
-        Fad fad = tapning.getFad();
-        Påfyldning påfyldning = fad.getPåfyldning();
-        Destillat destillat = påfyldning.getDestillat();
+        for (Tapning tapning : tapninger) {
+            Fad fad = tapning.getFad();
+            Påfyldning påfyldning = fad.getPåfyldning();
+            Destillat destillat = påfyldning.getDestillat();
 
-        historik += "tapning: " + tapning.getTapningsDato() + "\n";
-        historik += "Fad ID: " + fad.getFadID() + "\n";
-        historik += "Påfyldning: " + påfyldning.getDatoForPåfyldning() + "\n";
-        historik += "Destillat ID: " + destillat.getDestillatID() + "\n";
-        historik += "Startdato: " + destillat.getStartDato() + "\n";
-        historik += "Slutdato: " + destillat.getSlutDato() + "\n";
-        historik += "Alkoholprocent: " + destillat.getAlkoholProcent() + "\n";
-        historik += "Røget: " + destillat.isRøget() + "\n";
-        historik += "Vandmængde: " + destillat.getLiterVand() + "\n";
-        historik += "Væskemængde: " + destillat.getVæskemængde() + "\n";
-        historik += "-----------------------------------\n";
+            historik += "tapning: " + tapning.getTapningsDato() + "\n";
+            historik += "Fad ID: " + fad.getFadID() + "\n";
+            historik += "Påfyldning: " + påfyldning.getDatoForPåfyldning() + "\n";
+            historik += "Destillat ID: " + destillat.getDestillatID() + "\n";
+            historik += "Startdato: " + destillat.getStartDato() + "\n";
+            historik += "Slutdato: " + destillat.getSlutDato() + "\n";
+            historik += "Alkoholprocent: " + destillat.getAlkoholProcent() + "\n";
+            historik += "Røget: " + destillat.isRøget() + "\n";
+            historik += "Vandmængde: " + destillat.getLiterVand() + "\n";
+            historik += "Væskemængde: " + destillat.getVæskemængde() + "\n";
+            historik += "-----------------------------------\n";
 
-    }
-    return historik;
+        }
+        return historik;
     }
 
 
