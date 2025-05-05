@@ -5,7 +5,7 @@ public class Malt {
     private String markNavn;
     private double mængde;
 
-    public Malt(String kornSort, String markNavn, double mængde) {
+    protected Malt(String kornSort, String markNavn, double mængde) {
         this.kornSort = kornSort;
         this.markNavn = markNavn;
         this.mængde = mængde;

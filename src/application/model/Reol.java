@@ -8,7 +8,7 @@ public class Reol {
     private ArrayList<HyldePlads> hyldePladser;
     private Lager lager;
 
-    public Reol(Lager lager, int reolID) {
+    protected Reol(Lager lager, int reolID) {
         this.lager = lager;
         this.reolID = reolID;
         this.hyldePladser = new ArrayList<>();
