@@ -5,11 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class DestillatAlkoholTest {
-
+class DestillatTest {
     @Test
     void testDestillatAlkoholprocent60() {
         Malt malt = new Malt("byg", "Mark 1", 20.0);

@@ -14,6 +14,7 @@ class FadTest {
     private Destillat destillat;
     private Påfyldning påfyldning;
     private Fad fad;
+    private Tapning tapning;
 
     @BeforeEach
     void setUp() {
@@ -28,21 +29,28 @@ class FadTest {
                 50.0,
                 maltBatch);
 
-
-
         fad = new Fad(1,
                 50.0,
                 "Eg",
                 "Spanien",
                 1,
                 new FadType("Sherry"),
-                new Påfyldning("SNIPE",
-                        50.0,
-                        LocalDate.of(2020, 1, 4),
-                        this.fad,
-                        destillat));
-    }
+                null); // Midlertidigt sæt påfyldning til null
 
+        påfyldning = new Påfyldning("SNIPE",
+                50.0,
+                LocalDate.of(2020, 1, 4),
+                fad, // Brug fad her
+                destillat);
+
+        fad.setPåfyldning(påfyldning); // Tildel påfyldningen til fadet
+
+        tapning = new Tapning(LocalDate.of(2023, 1, 5),
+                "NJ",
+                50.0,
+                fad);
+        fad.setTapning(tapning);
+    }
     @Test
     void placerPåHylde() {
         Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
@@ -57,7 +65,7 @@ class FadTest {
         fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 5));
 
         assertFalse(hyldePlads.isPladsFri());
-        assertEquals(hyldePlads, fad.getFadPlacering().getFullFadPlacering());
+        assertEquals(hyldePlads, fad.getFadPlacering().getHyldePlads());
     }
 
     @Test
@@ -92,7 +100,7 @@ class FadTest {
         Påfyldning nyPåfyldning = new Påfyldning("SNIPE",
                 40.0,
                 LocalDate.of(2021, 5, 3),
-                null,
+                fad,
                 nytDestillat);
 
         fad.tilføjPåfyldning(nyPåfyldning);
