@@ -11,11 +11,12 @@ public class Fad {
     private int antalGangeBrugt = 0;
     private static final int maksAntalGangeBrugt = 3;
     private double nuværendeIndhold = 0;
+    private Tapning tapning;
     private static final double maxFadStørrelse = 500;
-
     private FadPlacering fadPlacering;
     private FadType fadType;
     private Påfyldning påfyldning;
+
 
     public Fad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
          if (fadStørrelse > maxFadStørrelse) {
@@ -30,6 +31,14 @@ public class Fad {
         this.påfyldning = påfyldning;
     }
 
+    public Tapning getTapning() {
+        return tapning;
+    }
+
+    public void setTapning(Tapning tapning) {
+        this.tapning = tapning;
+    }
+
     public void placerPåHylde(HyldePlads hyldePlads, LocalDate dato) {
         if (hyldePlads.isPladsFri()) {
             this.fadPlacering = new FadPlacering(dato, this, hyldePlads);
@@ -40,7 +49,7 @@ public class Fad {
         if ( flaskeStørrelse <= 0) {
             throw new IllegalArgumentException("Flaske størrelse skal være større end 0.");
         }
-        return (int) (nuværendeIndhold * 100 / flaskeStørrelse); //Konvertere fra liter til CL
+        return (int) (tapning.getAntalLiterFraFad() / flaskeStørrelse); //Konvertere fra liter til CL
     }
 
     public int BeregnLagringstid() {
