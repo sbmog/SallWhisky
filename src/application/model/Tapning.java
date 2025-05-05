@@ -25,7 +25,7 @@ public class Tapning {
         }
     }
 
-    private void createFortynding(double vandMængde){
+    public void createFortynding(double vandMængde){
        fortyndinger.add(new Fortynding(vandMængde));
     }
 

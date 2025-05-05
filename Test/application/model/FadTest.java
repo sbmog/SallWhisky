@@ -29,6 +29,8 @@ class FadTest {
                 50.0,
                 maltBatch);
 
+
+
         fad = new Fad(1,
                 50.0,
                 "Eg",
@@ -51,6 +53,7 @@ class FadTest {
                 fad);
         fad.setTapning(tapning);
     }
+
     @Test
     void placerPåHylde() {
         Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
@@ -103,7 +106,7 @@ class FadTest {
                 fad,
                 nytDestillat);
 
-        fad.tilføjPåfyldning(nyPåfyldning);
+        fad.setPåfyldning(nyPåfyldning);
 
         assertEquals(nyPåfyldning, fad.getPåfyldning());
     }
