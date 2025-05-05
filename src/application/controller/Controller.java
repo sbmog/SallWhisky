@@ -56,4 +56,8 @@ public class Controller {
         return newFadType;
 
     }
+
+    public static ArrayList<Fad> getFade() {
+        return Storage.getFade();
+    }
 }
