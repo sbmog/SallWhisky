@@ -14,6 +14,9 @@ public class Whisky {
     private WhiskyType whiskyType;
 
     public Whisky(double whiskyID, String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
+        if (alkoholProcent < 40.0){
+            throw new IllegalArgumentException("Alkoholprocent skal være over 40 procent");
+        }
         this.whiskyID = whiskyID;
         this.navn = navn;
         this.alkoholProcent = alkoholProcent;
