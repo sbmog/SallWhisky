@@ -12,6 +12,15 @@ public class Tapning {
     private ArrayList<Fortynding> fortyndinger;
 
     public Tapning(LocalDate tapningsDato, String initialerForMedarbejder, double antalLiterFraFad, Fad fad) {
+        if (tapningsDato == null) {
+            throw new IllegalArgumentException("Tapningsdato kan ikke være null.");
+        } else if (initialerForMedarbejder == null || initialerForMedarbejder.isEmpty()) {
+            throw new IllegalArgumentException("Initialer for medarbejder kan ikke være null eller tom.");
+        } else if (antalLiterFraFad <= 0) {
+            throw new IllegalArgumentException("Antal liter fra fad skal være større end 0.");
+        } else if (fad == null) {
+            throw new IllegalArgumentException("Fad kan ikke være null.");
+        }
         this.tapningsDato = tapningsDato;
         this.initialerForMedarbejder = initialerForMedarbejder;
         this.antalLiterFraFad = antalLiterFraFad;
@@ -22,6 +31,8 @@ public class Tapning {
 
         if (tapningsDato.isBefore(påfyldningsDato.plusYears(3))) {
             throw new IllegalArgumentException("Destillatet kan ikke tappes før den har lagret i 3 år.");
+        } else if (tapningsDato.isBefore(påfyldningsDato)) {
+            throw new IllegalArgumentException("Tapningsdato kan ikke være før påfyldningsdato.");
         }
     }
 

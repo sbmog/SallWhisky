@@ -15,6 +15,16 @@ public class Whisky {
     public Whisky(double whiskyID, String navn, double alkoholProcent, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
         if (alkoholProcent < 40.0) {
             throw new IllegalArgumentException("Alkoholprocent skal være over 40 procent");
+        } else if (navn == null || navn.isEmpty()) {
+            throw new IllegalArgumentException("Navn kan ikke være null eller tom.");
+        } else if (vandMængde < 0) {
+            throw new IllegalArgumentException("Vandmængde skal være et tal over 0.");
+        } else if (tapninger == null || tapninger.isEmpty()) {
+            throw new IllegalArgumentException("Tapninger kan ikke være null eller tom.");
+        } else if (whiskyType == null) {
+            throw new IllegalArgumentException("WhiskyType kan ikke være null.");
+        } else if (whiskyID <= 0) {
+            throw new IllegalArgumentException("WhiskyID skal være et tal over 0.");
         }
 
         this.whiskyID = whiskyID;

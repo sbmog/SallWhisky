@@ -9,13 +9,18 @@ public class Reol {
     private Lager lager;
 
     protected Reol(Lager lager, int reolID) {
+        if (reolID <= 0) {
+            throw new IllegalArgumentException("ReolID skal være et tal over 0.");
+        } else if (lager == null) {
+            throw new IllegalArgumentException("Lager kan ikke være null.");
+        }
         this.lager = lager;
         this.reolID = reolID;
         this.hyldePladser = new ArrayList<>();
     }
 
     public void createHyldePlads() {
-        hyldePladser.add(new HyldePlads(hyldePladser.size() + 1, this));
+            hyldePladser.add(new HyldePlads(hyldePladser.size() + 1, this));
     }
 
 //todo bør det være delete? i så fald, hvordan deleter vi. Må vi kalde storageklasse her? eller er den bare slettet ved at fjerne

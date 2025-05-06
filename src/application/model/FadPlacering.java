@@ -9,6 +9,15 @@ public class FadPlacering {
     private HyldePlads hyldePlads;
 
     protected FadPlacering(LocalDate datoPlaceret, Fad fad, HyldePlads hyldePlads) {
+        if (datoPlaceret == null) {
+            throw new IllegalArgumentException("Dato kan ikke være null.");
+        } else if (fad == null) {
+            throw new IllegalArgumentException("Fad kan ikke være null.");
+        } else if (hyldePlads == null) {
+            throw new IllegalArgumentException("HyldePlads kan ikke være null.");
+        } else if (!hyldePlads.isPladsFri()) {
+            throw new IllegalStateException("Hyldepladsen er allerede optaget.");
+        }
         this.datoPlaceret = datoPlaceret;
         this.fad = fad;
         this.hyldePlads = hyldePlads;
