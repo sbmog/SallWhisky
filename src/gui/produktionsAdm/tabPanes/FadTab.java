@@ -72,7 +72,7 @@ public class FadTab extends GridPane {
                 }
 
                 if (newValue.getFadPlacering() != null)
-                    fadPlacering.setValue(String.valueOf(newValue.getFadPlacering()));
+                    fadPlacering.setValue(String.valueOf(newValue.getFadPlacering().getFullFadPlacering()));
                 else fadPlacering.setValue("Fadet har ikke en plads på lageret");
 
 
