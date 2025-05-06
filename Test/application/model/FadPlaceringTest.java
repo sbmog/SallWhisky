@@ -11,7 +11,6 @@ class FadPlaceringTest {
 
     @Test
     void getFuldFadPlacering() {
-
             Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
             lager.createReol();
             Reol reol = lager.getReoler().getFirst();
