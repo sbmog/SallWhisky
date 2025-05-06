@@ -5,10 +5,10 @@ public class Malt {
     private String markNavn;
     private double mængde;
 
-    protected Malt(String kornSort, String markNavn, double mængde) {
+    protected Malt(String kornSort, String markNavn, double mængdeIKg) {
         this.kornSort = kornSort;
         this.markNavn = markNavn;
-        this.mængde = mængde;
+        this.mængde = mængdeIKg;
     }
 
     public String getKornSort() {

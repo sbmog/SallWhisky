@@ -18,12 +18,12 @@ public class Fad {
     private Påfyldning påfyldning;
 
 
-    public Fad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
-         if (fadStørrelse > maxFadStørrelse) {
+    public Fad(int fadID, double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
+         if (fadILiter > maxFadStørrelse) {
              throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
          }
         this.fadID = fadID;
-        this.fadStørrelse = fadStørrelse;
+        this.fadStørrelse = fadILiter;
         this.materiale = materiale;
         this.leverandør = leverandør;
         this.antalGangeBrugt = 0;
