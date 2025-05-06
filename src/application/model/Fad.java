@@ -22,13 +22,13 @@ public class Fad {
          if (fadILiter > maxFadStørrelse) {
              throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
             }  else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
-                throw new IllegalArgumentException("Leverandør og Materiale kan ikke være null eller tom.");
+                throw new IllegalArgumentException("Leverandør og/eller Materiale kan ikke være null eller tom.");
          } else if (antalGangeBrugt < 0) {
              throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
          } else if (fadID <= 0) {
              throw new IllegalArgumentException("Fad ID kan ikke være negativ eller 0.");
          }  else if (fadType == null || påfyldning == null) {
-             throw new IllegalArgumentException("FadType og Påfyldning kan ikke være null.");
+             throw new IllegalArgumentException("FadType og/eller Påfyldning kan ikke være null.");
 
          }
         this.fadID = fadID;
@@ -64,13 +64,22 @@ public class Fad {
     public int BeregnLagringstid() {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
         LocalDate nu = LocalDate.now();
+        if (startDato == null) {
+            throw new IllegalStateException("Startdato kan ikke være null.");
+        } else if (startDato.isBefore(nu)){
+            throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
+        }
         return (int) ChronoUnit.YEARS.between(startDato,nu);
     }
 
     public int beregnTidTilWhisky() {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
         LocalDate whiskyDato = startDato.plusYears(3);
-
+        if (startDato == null) {
+            throw new IllegalStateException("Startdato kan ikke være null.");
+        } else if (startDato.isBefore(LocalDate.now())){
+            throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
+        }
         if(LocalDate.now().isBefore(whiskyDato)) {
             return (int) ChronoUnit.DAYS.between(LocalDate.now(), whiskyDato);
         } else {
