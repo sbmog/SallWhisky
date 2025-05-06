@@ -43,17 +43,42 @@ class ControllerTest {
     }
 
     @Test
-    void createFad() {
+    void createFadKorrekt() {
         Fad fad = Controller.createFad(1,200,"Eg","FadAPS",1, null,null,null);
 
         assertNotNull(fad);
         assertEquals(1,fad.getFadID());
-        assertEquals(200,fad.getVolumen());
+        assertEquals(200,fad.getFadILiter());
+        assertEquals("Eg",fad.getMateriale());
+        assertEquals("FadAPS",fad.getLeverandør());
+        assertEquals(1,fad.getAntalGangeBrugt());
+
+
+
+    }
+
+    @Test
+    void createFadForkert() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Controller.createFad(0, 200, "Eg", "FadAPS", 1, null, null, null);
+        });
+
 
     }
 
     @Test
     void createMaltBatch() {
+
+        ArrayList<Malt> maltList = new ArrayList<>();
+
+       MaltBatch maltBatch = Controller.createMaltBatch("MB001",LocalDate.of(2020,1,1),300,maltList);
+
+       assertNotNull(maltBatch);
+       assertEquals("MB001", maltBatch.getBatchNummer());
+       assertEquals(LocalDate.of(2020,1,1), maltBatch.getDato());
+       assertEquals(300,maltBatch.getMængde());
+       assertEquals(1,maltBatch.getMalt().size());
+
     }
 
     @Test

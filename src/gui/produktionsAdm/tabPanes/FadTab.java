@@ -51,7 +51,7 @@ public class FadTab extends GridPane {
         fadeListview.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 fadID.setValue(String.valueOf(newValue.getFadID()));
-                fadStørrelse.setValue(String.valueOf(newValue.getFadStørrelse()));
+                fadStørrelse.setValue(String.valueOf(newValue.getFadILiter()));
                 materiale.setValue(newValue.getMateriale());
                 leverandør.setValue(newValue.getLeverandør());
                 fadType.setValue(String.valueOf(newValue.getFadType()));
