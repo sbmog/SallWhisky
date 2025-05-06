@@ -10,10 +10,10 @@ public class MaltBatch {
 
     private ArrayList<Malt> malt;
 
-    public MaltBatch(String batchNummer, LocalDate dato, double mængde, ArrayList<Malt> malt) {
+    public MaltBatch(String batchNummer, LocalDate dato, double mængdeIKg, ArrayList<Malt> malt) {
         this.batchNummer = batchNummer;
         this.dato = dato;
-        this.mængde = mængde;
+        this.mængde = mængdeIKg;
         this.malt = malt;
     }
 
