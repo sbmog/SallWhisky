@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Fad {
     private int fadID;
-    private double fadStørrelse;
+    private double fadILiter;
     private String materiale;
     private String leverandør;
     private int antalGangeBrugt = 0;
@@ -32,7 +32,7 @@ public class Fad {
 
          }
         this.fadID = fadID;
-        this.fadStørrelse = fadILiter;
+        this.fadILiter = fadILiter;
         this.materiale = materiale;
         this.leverandør = leverandør;
         this.antalGangeBrugt = 0;
@@ -105,15 +105,15 @@ public class Fad {
         this.fadID = fadID;
     }
 
-    public double getFadStørrelse() {
-        return fadStørrelse;
+    public double getFadILiter() {
+        return fadILiter;
     }
 
-    public void setFadStørrelse(double fadStørrelse) {
-        if (fadStørrelse < maxFadStørrelse) {
+    public void setFadILiter(double fadILiter) {
+        if (fadILiter < maxFadStørrelse) {
             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
         }
-        this.fadStørrelse = fadStørrelse;
+        this.fadILiter = fadILiter;
 
     }
 
