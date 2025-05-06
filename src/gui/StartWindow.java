@@ -47,7 +47,7 @@ public class StartWindow extends Application {
         LabeledButton opretPåfyldning = new LabeledButton("Påfyldning af fad", "Fyld");
         opretPåfyldning.getButton().setOnAction(e -> opretPåfyldningButton());
 
-        LabeledButton opretTapning = new LabeledButton("Tapning af flaske", "Tap");
+        LabeledButton opretTapning = new LabeledButton("Tapning af fad", "Tap");
         opretTapning.getButton().setOnAction(e -> opretTapningButton());
 
         opretObjekter.getChildren().addAll(produktionsHeader, opretDestillat, opretPåfyldning, opretTapning);
