@@ -45,7 +45,7 @@ public class Controller {
     }
 
     public static Lager createLager(String lagerID, String navn, String adresse, int maxAntalReoler) {
-        Lager newLager = new Lager(lagerID, navn, adresse,maxAntalReoler);
+        Lager newLager = new Lager(lagerID, navn, adresse, maxAntalReoler);
         Storage.addLager(newLager);
         return newLager;
     }
@@ -59,5 +59,13 @@ public class Controller {
 
     public static ArrayList<Fad> getFade() {
         return Storage.getFade();
+    }
+
+    public static ArrayList<Whisky> getWhiskyer() {
+        return Storage.getWhiskyer();
+    }
+
+    public static ArrayList<Destillat> getDestillater() {
+        return Storage.getDestillater();
     }
 }
