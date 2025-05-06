@@ -12,34 +12,33 @@ class WhiskyTest {
 
     @Test
     public void testGetHistorik() {
-        // 1. Opret MaltBatch
+
         ArrayList<Malt> maltListe = new ArrayList<>();
         MaltBatch maltBatch = new MaltBatch("MB001", LocalDate.of(2017, 12, 1), 300.0, maltListe);
 
-        // 2. Destillat
+
         Destillat destillat = new Destillat("D123", LocalDate.of(2018, 1, 1), LocalDate.of(2018, 2, 1), 50.0, 61.0, true, 200.0, maltBatch);
 
-        // 3. FadType og Fad
+
         FadType fadType = new FadType("Bourbon");
         Fad fad = new Fad(1, 300.0, "Eg", "Leverandør A", 0, fadType, null);
 
-        // 4. Påfyldning
         Påfyldning påfyldning = new Påfyldning("AB", 100.0, LocalDate.of(2019, 1, 1), fad, destillat);
         fad.setPåfyldning(påfyldning);
 
-        // 5. Tapning (efter minimum 3 år)
+
         Tapning tapning = new Tapning(LocalDate.of(2022, 1, 2), "CD", 80.0, fad);
 
-        // 6. Opret whisky og test historik
+
         ArrayList<Tapning> tapninger = new ArrayList<>();
         tapninger.add(tapning);
 
         Whisky whisky = new Whisky(1, "TestWhisky", 45.0, 10.0, tapninger, WhiskyType.SINGLE_MALT);
 
-        // 7. Act
+
         String historik = whisky.getHistorik();
 
-        // 8. Assert
+
         assertTrue(historik.contains("Historik for whisky: TestWhisky"));
         assertTrue(historik.contains("tapning: 2022-01-02"));
         assertTrue(historik.contains("Fad ID: 1"));
