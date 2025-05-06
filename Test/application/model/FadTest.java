@@ -72,9 +72,59 @@ class FadTest {
     }
 
     @Test
+    void fadConstructorThrowsIllegalArgumentException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Fad(1, 600.0, "Eg", "Spanien", 1, new FadType("Sherry"), null);
+        });
+        assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception.getMessage());
+    }
+
+    @Test
+    void placerPåHyldePladsErFri() {
+        Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
+        lager.createReol();
+        Reol reol = lager.getReoler().getFirst();
+
+        reol.createHyldePlads();
+        HyldePlads hyldePlads = reol.getHyldePladser().get(0);
+
+        assertTrue(hyldePlads.isPladsFri());
+
+        fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 5));
+
+        assertFalse(hyldePlads.isPladsFri());
+        assertEquals(hyldePlads, fad.getFadPlacering().getHyldePlads());
+    }
+
+    @Test
+    void placerPåHyldeIkkeFri() {
+        Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
+        lager.createReol();
+        Reol reol = lager.getReoler().getFirst();
+
+        reol.createHyldePlads();
+        HyldePlads hyldePlads = reol.getHyldePladser().get(0);
+
+        fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 5));
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 6));
+        });
+        assertEquals("Hyldepladsen er allerede optaget.", exception.getMessage());
+    }
+
+    @Test
     void beregnAntalFlasker() {
         int antalFlasker = fad.beregnAntalFlasker(0.7);
         assertEquals(71, antalFlasker); // 50.0 / 0.7 ≈ 71 flasker
+    }
+
+    @Test
+    void flaskeStørrelseIkkeGyldig() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            fad.beregnAntalFlasker(0);
+        });
+        assertEquals("Flaske størrelse skal være større end 0.", exception.getMessage());
     }
 
     @Test
