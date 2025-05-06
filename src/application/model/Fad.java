@@ -21,6 +21,15 @@ public class Fad {
     public Fad(int fadID, double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
          if (fadILiter > maxFadStørrelse) {
              throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
+            }  else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
+                throw new IllegalArgumentException("Leverandør og Materiale kan ikke være null eller tom.");
+         } else if (antalGangeBrugt < 0) {
+             throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
+         } else if (fadID <= 0) {
+             throw new IllegalArgumentException("Fad ID kan ikke være negativ eller 0.");
+         }  else if (fadType == null || påfyldning == null) {
+             throw new IllegalArgumentException("FadType og Påfyldning kan ikke være null.");
+
          }
         this.fadID = fadID;
         this.fadStørrelse = fadILiter;
