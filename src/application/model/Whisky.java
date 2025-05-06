@@ -8,15 +8,15 @@ public class Whisky {
     private double alkoholProcent;
     private boolean fortyndet;
     private double vandMængde;
-
     private ArrayList<Flaske> flasker;
     private ArrayList<Tapning> tapninger;
     private WhiskyType whiskyType;
 
-    public Whisky(double whiskyID, String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
+    public Whisky(double whiskyID, String navn, double alkoholProcent, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
         if (alkoholProcent < 40.0) {
             throw new IllegalArgumentException("Alkoholprocent skal være over 40 procent");
         }
+
         this.whiskyID = whiskyID;
         this.navn = navn;
         this.alkoholProcent = alkoholProcent;
@@ -24,6 +24,7 @@ public class Whisky {
         this.tapninger = tapninger;
         this.whiskyType = whiskyType;
         this.flasker = new ArrayList<>();
+        updateFortyndetStatus();
     }
 
     public void updateFortyndetStatus() {

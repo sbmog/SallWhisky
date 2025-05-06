@@ -39,7 +39,7 @@ public class Controller {
     }
 
     public static Whisky createWhisky(double whiskyID, String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
-        Whisky newWhisky = new Whisky(whiskyID, navn, alkoholProcent, fortyndet, vandMængde, tapninger, whiskyType);
+        Whisky newWhisky = new Whisky(whiskyID, navn, alkoholProcent, vandMængde, tapninger, whiskyType);
         Storage.addWhisky(newWhisky);
         return newWhisky;
     }

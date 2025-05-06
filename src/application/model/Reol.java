@@ -18,7 +18,7 @@ public class Reol {
         hyldePladser.add(new HyldePlads(hyldePladser.size() + 1, this));
     }
 
-//todo    bør det være delete? i så fald, hvordan deleter vi. Må vi kalde storageklasse her? eller er den bare slettet ved at fjerne
+//todo bør det være delete? i så fald, hvordan deleter vi. Må vi kalde storageklasse her? eller er den bare slettet ved at fjerne
     public void removeHyldePlads(HyldePlads hyldePlads){
         if (hyldePlads.isPladsFri()){
             hyldePladser.remove(hyldePlads);
