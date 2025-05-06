@@ -6,6 +6,11 @@ public class Flaske {
     private Whisky whisky;
 
     protected Flaske(int flaskeID, Whisky whisky) {
+        if (flaskeID <= 0) {
+            throw new IllegalArgumentException("FlaskeID skal være et tal over 0.");
+        } else if (whisky == null) {
+            throw new IllegalArgumentException("Whisky kan ikke være null.");
+        }
         this.flaskeID = flaskeID;
         this.whisky = whisky;
     }

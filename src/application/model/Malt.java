@@ -6,6 +6,13 @@ public class Malt {
     private double mængde;
 
     protected Malt(String kornSort, String markNavn, double mængdeIKg) {
+        if (kornSort == null || kornSort.isEmpty()) {
+            throw new IllegalArgumentException("Kornsort kan ikke være null eller tom.");
+        } else if (markNavn == null || markNavn.isEmpty()) {
+            throw new IllegalArgumentException("Marknavn kan ikke være null eller tom.");
+        } else if (mængdeIKg <= 0) {
+            throw new IllegalArgumentException("Mængde skal være et tal over 0.");
+        }
         this.kornSort = kornSort;
         this.markNavn = markNavn;
         this.mængde = mængdeIKg;

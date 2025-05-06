@@ -11,7 +11,15 @@ public class Lager {
     private ArrayList<Reol> reoler;
 
     public Lager(String lagerID, String navn, String adresse, int maxAnantalReoler) {
-
+        if (lagerID == null || lagerID.isEmpty()) {
+            throw new IllegalArgumentException("LagerID kan ikke være null eller tom.");
+        } else if (navn == null || navn.isEmpty()) {
+            throw new IllegalArgumentException("Navn kan ikke være null eller tom.");
+        } else if (adresse == null || adresse.isEmpty()) {
+            throw new IllegalArgumentException("Adresse kan ikke være null eller tom.");
+        } else if (maxAnantalReoler <= 0) {
+            throw new IllegalArgumentException("Maksimalt antal reoler skal være et tal over 0.");
+        }
         this.lagerID = lagerID;
         this.navn = navn;
         this.adresse = adresse;

@@ -11,6 +11,15 @@ public class MaltBatch {
     private ArrayList<Malt> malt;
 
     public MaltBatch(String batchNummer, LocalDate dato, double mængdeIKg, ArrayList<Malt> malt) {
+        if (batchNummer == null || batchNummer.isEmpty()) {
+            throw new IllegalArgumentException("Batchnummer kan ikke være null eller tom.");
+        } else if (dato == null) {
+            throw new IllegalArgumentException("Dato kan ikke være null.");
+        } else if (mængdeIKg <= 0) {
+            throw new IllegalArgumentException("Mængde skal være et tal over 0.");
+        } else if (malt == null || malt.isEmpty()) {
+            throw new IllegalArgumentException("Malt kan ikke være null eller tom.");
+        }
         this.batchNummer = batchNummer;
         this.dato = dato;
         this.mængde = mængdeIKg;

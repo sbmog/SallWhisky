@@ -6,6 +6,11 @@ public class HyldePlads {
     private Reol reol;
 
     protected HyldePlads(int hyldePladsID, Reol reol) {
+        if (hyldePladsID <= 0) {
+            throw new IllegalArgumentException("HyldePladsID skal være et tal over 0.");
+        } else if (reol == null) {
+            throw new IllegalArgumentException("Reol kan ikke være null.");
+        }
         this.hyldePladsID = hyldePladsID;
         this.reol = reol;
     }
