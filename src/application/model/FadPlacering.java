@@ -36,11 +36,15 @@ public class FadPlacering {
     }
 
     public void setHyldePlads(HyldePlads hyldePlads) {
-        HyldePlads oldHyldePlads = this.hyldePlads;
-        oldHyldePlads.setPladsFri(true);
-        
-        this.hyldePlads = hyldePlads;
-        hyldePlads.setPladsFri(false);
+        if (this.hyldePlads != null) {
+            HyldePlads oldHyldePlads = this.hyldePlads;
+            oldHyldePlads.setPladsFri(true);
+        }
+        if (!this.hyldePlads.equals(hyldePlads)) {
+            this.hyldePlads = hyldePlads;
+            this.hyldePlads.setFadPlaceret(this);
+            hyldePlads.setPladsFri(false);
+        }
     }
 
     public String getFullFadPlacering() {
