@@ -17,7 +17,7 @@ public class Fad {
     private FadType fadType;
     private Påfyldning påfyldning;
 
-
+    //todo giver mening at der skal være en påfyldning i constructeren. skal vi bruge setPåfyldning istedet
     public Fad(int fadID, double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
          if (fadILiter > maxFadStørrelse) {
              throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
@@ -35,7 +35,7 @@ public class Fad {
         this.fadILiter = fadILiter;
         this.materiale = materiale;
         this.leverandør = leverandør;
-        this.antalGangeBrugt = 0;
+        this.antalGangeBrugt = antalGangeBrugt;
         this.fadType = fadType;
         this.påfyldning = påfyldning;
     }
@@ -55,6 +55,9 @@ public class Fad {
     }
 //TODO hvor får vi flaskestørrelse fra? ift. brugen i GUI
     public int beregnAntalFlasker(double flaskeStørrelse) {
+        if (tapning == null) {
+            throw new IllegalStateException("Der er endnu ikke foretaget en tapning på dette fad");
+        }
         if ( flaskeStørrelse <= 0) {
             throw new IllegalArgumentException("Flaske størrelse skal være større end 0.");
         }
@@ -66,7 +69,7 @@ public class Fad {
         LocalDate nu = LocalDate.now();
         if (startDato == null) {
             throw new IllegalStateException("Startdato kan ikke være null.");
-        } else if (startDato.isBefore(nu)){
+        } else if (startDato.isAfter(nu)){
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
         return (int) ChronoUnit.YEARS.between(startDato,nu);

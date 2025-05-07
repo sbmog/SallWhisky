@@ -98,10 +98,6 @@ public class Whisky {
         return fortyndet;
     }
 
-    public void setFortyndet(boolean fortyndet) {
-        this.fortyndet = fortyndet;
-    }
-
     public double getVandMængde() {
         return vandMængde;
     }
