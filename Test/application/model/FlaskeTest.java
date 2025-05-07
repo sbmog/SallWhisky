@@ -28,7 +28,7 @@ class FlaskeTest {
 
 
 
-        fad = new Fad(1,
+        fad = new Fad(
                 50.0,
                 "Eg",
                 "Spanien",

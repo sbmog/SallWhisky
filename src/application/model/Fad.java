@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Fad {
-    private int fadID;
+    private int fadID = 1;
     private double fadILiter;
     private String materiale;
     private String leverandør;
-    private int antalGangeBrugt = 0;
+    private int antalGangeBrugt;
     private static final int maksAntalGangeBrugt = 3;
     private double nuværendeIndhold = 0;
     private Tapning tapning;
@@ -17,22 +17,19 @@ public class Fad {
     private FadType fadType;
     private Påfyldning påfyldning;
 
-    //todo giver mening at der skal være en påfyldning i constructeren. skal vi bruge setPåfyldning istedet
-    public Fad(int fadID, double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
-         if (fadILiter > maxFadStørrelse) {
-             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
-            }  else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
-                throw new IllegalArgumentException("Leverandør og/eller Materiale kan ikke være null eller tom.");
-         } else if (antalGangeBrugt < 0) {
-             throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
-         } else if (fadID <= 0) {
-             throw new IllegalArgumentException("Fad ID kan ikke være negativ eller 0.");
-         }  else if (fadType == null) {
-             throw new NullPointerException("FadType og/eller Påfyldning kan ikke være null.");
-           //  Fadtype og påfyldning er nødt til at være null i starten, da de først bliver tilføjet senere i systemet.
 
-         }
-        this.fadID = fadID;
+    public Fad(double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
+        if (fadILiter > maxFadStørrelse) {
+            throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
+        } else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
+            throw new IllegalArgumentException("Leverandør og/eller Materiale kan ikke være null eller tom.");
+        } else if (antalGangeBrugt < 0) {
+            throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
+        } else if (fadType == null) {
+            throw new NullPointerException("FadType kan ikke være null.");
+        }
+
+        this.fadID = fadID++; // Tildel det næste ID og øg værdien
         this.fadILiter = fadILiter;
         this.materiale = materiale;
         this.leverandør = leverandør;
