@@ -35,8 +35,7 @@ class TapningTest {
                 "Eg",
                 "Spanien",
                 1,
-                new FadType("Sherry"),
-                null);
+                new FadType("Sherry"));
 
         påfyldning = new Påfyldning("SNIPE",
                 50.0,

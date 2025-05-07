@@ -36,8 +36,8 @@ class FadTest {
                 "Eg",
                 "Spanien",
                 1,
-                new FadType("Sherry"),
-                null); // Midlertidigt sæt påfyldning til null
+                new FadType("Sherry"));
+
 
         påfyldning = new Påfyldning("SNIPE",
                 50.0,
@@ -74,7 +74,7 @@ class FadTest {
     @Test
     void fadConstructorThrowsIllegalArgumentException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Fad(1, 600.0, "Eg", "Spanien", 1, new FadType("Sherry"), null);
+            new Fad(1, 600.0, "Eg", "Spanien", 1, new FadType("Sherry"));
         });
         assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception.getMessage());
     }
@@ -117,6 +117,7 @@ class FadTest {
     void beregnAntalFlasker() {
         int antalFlasker = fad.beregnAntalFlasker(0.7);
         assertEquals(71, antalFlasker); // 50.0 / 0.7 ≈ 71 flasker
+        //Denne test viste en fejl i metoden:'beregnAntalFlasker', som blev rettet.
     }
 
     @Test

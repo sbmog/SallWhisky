@@ -32,7 +32,7 @@ class StorageTest {
         malt = maltBatch.getMalt().getFirst();
         destillat = new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 60.0, false, 50.0, maltBatch);
         fadType = new FadType("Sherry");
-        fad = new Fad(1, 50.0, "Eg", "Spanien", 1, fadType, null);
+        fad = new Fad(1, 50.0, "Eg", "Spanien", 1, fadType);
         påfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.of(2025, 5, 4), fad, destillat);
         fad.setPåfyldning(påfyldning);
         tapning = new Tapning(LocalDate.of(2028, 5, 5), "SNIPE", 50.0, fad);

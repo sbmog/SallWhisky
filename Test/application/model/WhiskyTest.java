@@ -14,7 +14,7 @@ class WhiskyTest {
         MaltBatch maltBatch = new MaltBatch("MB001", LocalDate.of(2017, 12, 1), 300.0, maltListe);
         Destillat destillat = new Destillat("D123", LocalDate.of(2018, 1, 1), LocalDate.of(2018, 2, 1), 50.0, 61.0, true, 200.0, maltBatch);
         FadType fadType = new FadType("Bourbon");
-        Fad fad = new Fad(1, 300.0, "Eg", "Leverandør A", 0, fadType, null);
+        Fad fad = new Fad(1, 300.0, "Eg", "Leverandør A", 0, fadType);
         Påfyldning påfyldning = new Påfyldning("AB", 100.0, LocalDate.of(2019, 1, 1), fad, destillat);
         fad.setPåfyldning(påfyldning);
 
@@ -85,7 +85,7 @@ class WhiskyTest {
             Destillat destillat = new Destillat("D123", LocalDate.of(2018, 1, 1), LocalDate.of(2018, 2, 1), 50.0, 61.0, true, 200.0, maltBatch);
 
             FadType fadType = new FadType("Bourbon");
-            Fad fad = new Fad(1, 300.0, "Eg", "Leverandør A", 0, fadType, null);
+            Fad fad = new Fad(1, 300.0, "Eg", "Leverandør A", 0, fadType);
             Påfyldning påfyldning = new Påfyldning("AB", 100.0, LocalDate.of(2019, 1, 1), fad, destillat);
             fad.setPåfyldning(påfyldning);
 

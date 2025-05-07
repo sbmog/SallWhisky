@@ -17,9 +17,10 @@ public class MaltBatch {
             throw new IllegalArgumentException("Dato kan ikke være null.");
         } else if (mængdeIKg <= 0) {
             throw new IllegalArgumentException("Mængde skal være et tal over 0.");
-        } else if (malt == null || malt.isEmpty()) {
-            throw new IllegalArgumentException("Malt kan ikke være null eller tom.");
-        }
+//        } else if (malt == null || malt.isEmpty()) {
+//            throw new IllegalArgumentException("Malt kan ikke være null eller tom.");
+            //Vores Malt ArrayList er nødt til at starte med at være null eller tom, da vi i vores system pt, creater Malt igennem Maltbatch.
+       }
         this.batchNummer = batchNummer;
         this.dato = dato;
         this.mængde = mængdeIKg;
