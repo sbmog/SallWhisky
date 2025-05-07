@@ -33,6 +33,50 @@ class WhiskyTest {
         whisky = new Whisky(1, "TestWhisky", 45.0, 10.0, tapninger, WhiskyType.SINGLE_MALT);
     }
 
+
+    @Test
+    public void constructorInitialisereKorrekt() {
+        assertEquals(1, whisky.getWhiskyID());
+        assertEquals("TestWhisky", whisky.getNavn());
+        assertEquals(45.0, whisky.getAlkoholProcent());
+        assertEquals(10.0, whisky.getVandMængde());
+        assertEquals(tapninger, whisky.getTapninger());
+        assertEquals(WhiskyType.SINGLE_MALT, whisky.getWhiskyType());
+        assertNotNull(whisky.getFlasker());
+        assertTrue(whisky.getFlasker().isEmpty());
+    }
+
+    @Test
+    void constructorThrowsExceptionInvalidInput() {
+        Exception exception1 = assertThrows(IllegalArgumentException.class, () ->
+                new Whisky(0, "TestWhisky", 45.0, 10.0, tapninger, WhiskyType.SINGLE_MALT));
+        assertEquals("WhiskyID skal være et tal over 0.", exception1.getMessage());
+
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () ->
+                new Whisky(1, null, 45.0, 10.0, tapninger, WhiskyType.SINGLE_MALT));
+        assertEquals("Navn kan ikke være null eller tom.", exception2.getMessage());
+
+        Exception exception3 = assertThrows(IllegalArgumentException.class, () ->
+                new Whisky(1, "TestWhisky", 39.0, 10.0, tapninger, WhiskyType.SINGLE_MALT));
+        assertEquals("Alkoholprocent skal være over 40 procent", exception3.getMessage());
+
+        Exception exception4 = assertThrows(IllegalArgumentException.class, () ->
+                new Whisky(1, "TestWhisky", 45.0, -1.0, tapninger, WhiskyType.SINGLE_MALT));
+        assertEquals("Vandmængde skal være et tal over 0.", exception4.getMessage());
+
+        Exception exception5 = assertThrows(IllegalArgumentException.class, () ->
+                new Whisky(1, "TestWhisky", 45.0, 10.0, null, WhiskyType.SINGLE_MALT));
+        assertEquals("Tapninger kan ikke være null eller tom.", exception5.getMessage());
+
+        Exception exception6 = assertThrows(IllegalArgumentException.class, () ->
+                new Whisky(1, "TestWhisky", 45.0, 10.0, new ArrayList<>(), WhiskyType.SINGLE_MALT));
+        assertEquals("Tapninger kan ikke være null eller tom.", exception6.getMessage());
+
+        Exception exception7 = assertThrows(IllegalArgumentException.class, () ->
+                new Whisky(1, "TestWhisky", 45.0, 10.0, tapninger, null));
+        assertEquals("WhiskyType kan ikke være null.", exception7.getMessage());
+    }
+
     @Test
     public void testGetHistorik() {
         String historik = whisky.getHistorik();

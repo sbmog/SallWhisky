@@ -27,17 +27,14 @@ public class TestData {
         HyldePlads hyldePlads2 = reol.createHyldePlads(); // Hylde 2
         Storage.addHylde(hyldePlads2);
 
-        //malt
-        ArrayList<Malt> maltList = new ArrayList<>();
-        maltList.add(MaltBatch.createMalt1("Byg","Mark 1", 20.0));
-
-
-        //maltbatch
-        MaltBatch maltBatch = new MaltBatch("MB001", LocalDate.of(2020, 1, 1), 300.0, maltList);
+        //maltbatch & malt
+        MaltBatch maltBatch = new MaltBatch("MB001", LocalDate.of(2020, 1, 1), 300.0, new ArrayList<>());
         Storage.addMaltBatch(maltBatch);
+        maltBatch.createMalt("Byg", "Mark 1", 20.0);
+
 
         // Destillat
-        Destillat destillat = new Destillat("SNIPER", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 100.0, 60.0, false, 50.0, new MaltBatch("SNIPER", LocalDate.of(2020, 1, 1), 100.0,maltList));
+        Destillat destillat = new Destillat("SNIPER", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 100.0, 60.0, false, 50.0, new MaltBatch("SNIPER", LocalDate.of(2020, 1, 1), 100.0, new ArrayList<>()));
         Storage.addDestillat(destillat);
 
         // Fad
