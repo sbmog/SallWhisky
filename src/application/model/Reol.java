@@ -1,6 +1,6 @@
 package application.model;
 
-import com.sun.javafx.scene.traversal.Hueristic2D;
+
 
 import java.util.ArrayList;
 

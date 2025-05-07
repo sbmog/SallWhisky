@@ -27,10 +27,6 @@ public class MaltBatch {
         this.malt = malt;
     }
 
-    //todo, createMalt1 skal nok slettes. men den var nødvendig for at lave testdata. Dette er dummy til at teste men skal rettes
-    public static Malt createMalt1(String kornSort, String markNavn, double mængde) {
-        return new Malt(kornSort, markNavn, mængde);
-    }
 
     public void createMalt(String kornsort, String markNavn, double maengde) {
         malt.add(new Malt(kornsort, markNavn, maengde));
