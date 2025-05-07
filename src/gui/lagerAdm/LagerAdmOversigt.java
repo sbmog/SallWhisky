@@ -18,6 +18,32 @@ import javafx.stage.Stage;
 import storage.Storage;
 
 public class LagerAdmOversigt extends Stage {
+
+    LagerTreeViewPane treeViewPane = new LagerTreeViewPane();
+
+    public LagerAdmOversigt() {
+
+        SplitPane splitPane = new SplitPane();
+
+        LagerInformationPane infoPane = new LagerInformationPane();
+        LagerAdministrationPane adminPane = new LagerAdministrationPane(treeViewPane);
+
+        treeViewPane.setOnSelectionChanged(obj -> {
+            infoPane.updateInfo(obj);
+            adminPane.opdaterKnapper(obj);
+        });
+
+        VBox højreSide = new VBox(infoPane, adminPane);
+        splitPane.getItems().addAll(treeViewPane, højreSide);
+
+        Scene scene = new Scene(splitPane, 900, 600);
+        this.setScene(scene);
+        this.setTitle("Lageradministration");
+        this.show();
+
+    }
+
+
     //  Venstresplit
     private final LabeledTreeViewInput<Object> treeViewInput = new LabeledTreeViewInput<>("Lageroversigt");
 

@@ -68,4 +68,12 @@ public class Controller {
     public static ArrayList<Destillat> getDestillater() {
         return Storage.getDestillater();
     }
+
+    public static ArrayList<Lager> getLagre() {
+        return Storage.getLagre();
+    }
+
+    public static void removeLager(Lager lager) {
+        Storage.removeLager(lager);
+    }
 }
