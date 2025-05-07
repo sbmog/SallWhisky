@@ -17,6 +17,9 @@ class ControllerTest {
     private FadType fadType;
     private Fad fad;
     private Påfyldning påfyldning;
+    private Tapning tapning;
+    private Whisky whisky;
+    private Lager lager;
 
     @BeforeEach
     void setUp() {
@@ -31,6 +34,15 @@ class ControllerTest {
 
         påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, destillat);
         fad.setPåfyldning(påfyldning);
+
+        ArrayList<Tapning> tapninger = new ArrayList<>();
+        tapning = Controller.createTapning(LocalDate.of(2025, 1, 1), "Snipe", 30, fad);
+        tapninger.add(tapning);
+
+        whisky = Controller.createWhisky(1, "TestWhisky", 45.0, false, 10.0, tapninger, WhiskyType.SINGLE_MALT);
+
+        lager = Controller.createLager("Lager1", "Baghave", "Baghavevej 1", 10);
+        lager.createReol();
     }
 
     @Test
@@ -101,5 +113,34 @@ class ControllerTest {
         assertEquals(LocalDate.of(2020, 1, 4), påfyldning.getDatoForPåfyldning());
         assertEquals(fad, påfyldning.getFad());
         assertEquals(destillat, påfyldning.getDestillat());
+    }
+
+    @Test
+    void createTapning() {
+    }
+
+    @Test
+    void createWhisky() {
+        assertNotNull(whisky);
+        assertEquals(1, whisky.getWhiskyID());
+        assertEquals("TestWhisky", whisky.getNavn());
+        assertEquals(45.0, whisky.getAlkoholProcent());
+        assertEquals(10.0, whisky.getVandMængde());
+        assertEquals(WhiskyType.SINGLE_MALT, whisky.getWhiskyType());
+        assertEquals(1, whisky.getTapninger().size());
+        assertEquals(tapning, whisky.getTapninger().get(0));
+    }
+
+    @Test
+    void createLager() {
+        assertNotNull(lager);
+        assertEquals("Lager1", lager.getLagerID());
+        assertEquals("Baghave", lager.getNavn());
+        assertEquals("Baghavevej 1", lager.getAdresse());
+        assertEquals(10, lager.getMaxAntalReoler());
+    }
+
+    @Test
+    void createFadType() {
     }
 }

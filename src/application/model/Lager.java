@@ -73,4 +73,8 @@ public class Lager {
     public void setReoler(ArrayList<Reol> reoler) {
         this.reoler = reoler;
     }
+
+    public int getMaxAntalReoler() {
+        return maxAntalReoler;
+    }
 }
