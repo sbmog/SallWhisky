@@ -18,7 +18,7 @@ public class Fad {
     private Påfyldning påfyldning;
 
     //todo giver mening at der skal være en påfyldning i constructeren. skal vi bruge setPåfyldning istedet
-    public Fad(int fadID, double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
+    public Fad(int fadID, double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
          if (fadILiter > maxFadStørrelse) {
              throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
             }  else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
@@ -27,8 +27,9 @@ public class Fad {
              throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
          } else if (fadID <= 0) {
              throw new IllegalArgumentException("Fad ID kan ikke være negativ eller 0.");
-         }  else if (fadType == null || påfyldning == null) {
-             throw new IllegalArgumentException("FadType og/eller Påfyldning kan ikke være null.");
+         }  else if (fadType == null) {
+             throw new NullPointerException("FadType og/eller Påfyldning kan ikke være null.");
+           //  Fadtype og påfyldning er nødt til at være null i starten, da de først bliver tilføjet senere i systemet.
 
          }
         this.fadID = fadID;
@@ -80,7 +81,7 @@ public class Fad {
         LocalDate whiskyDato = startDato.plusYears(3);
         if (startDato == null) {
             throw new IllegalStateException("Startdato kan ikke være null.");
-        } else if (startDato.isBefore(LocalDate.now())){
+        } else if (startDato.isAfter(LocalDate.now())){
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
         if(LocalDate.now().isBefore(whiskyDato)) {

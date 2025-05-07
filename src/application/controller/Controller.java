@@ -14,8 +14,8 @@ public class Controller {
         return newDestillat;
     }
 
-    public static Fad createFad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadPlacering fadPlacering, FadType fadType, Påfyldning påfyldning) {
-        Fad newFad = new Fad(fadID, fadStørrelse, materiale, leverandør, antalGangeBrugt, fadType, påfyldning);
+    public static Fad createFad(int fadID, double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadPlacering fadPlacering, FadType fadType) {
+        Fad newFad = new Fad(fadID, fadStørrelse, materiale, leverandør, antalGangeBrugt, fadType);
         Storage.addFad(newFad);
         return newFad;
     }

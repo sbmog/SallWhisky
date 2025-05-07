@@ -5,7 +5,7 @@ public class Malt {
     private String markNavn;
     private double mængde;
 
-    protected Malt(String kornSort, String markNavn, double mængdeIKg) {
+    public Malt(String kornSort, String markNavn, double mængdeIKg) {
         if (kornSort == null || kornSort.isEmpty()) {
             throw new IllegalArgumentException("Kornsort kan ikke være null eller tom.");
         } else if (markNavn == null || markNavn.isEmpty()) {
