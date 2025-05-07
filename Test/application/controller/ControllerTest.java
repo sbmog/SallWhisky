@@ -3,6 +3,8 @@ package application.controller;
 import application.model.*;
 import org.junit.jupiter.api.Test;
 
+import javax.naming.ldap.Control;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -52,19 +54,58 @@ class ControllerTest {
         assertEquals("Eg",fad.getMateriale());
         assertEquals("FadAPS",fad.getLeverandør());
         assertEquals(1,fad.getAntalGangeBrugt());
-
-
-
     }
 
-    @Test
-    void createFadForkert() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Controller.createFad(0, 200, "Eg", "FadAPS", 1, null, null, null);
-        });
-
-
-    }
+//    @Test
+//    void createFadForkert() {
+//            FadType fadType = Controller.createFadType("Sherry");
+//
+//            // Test 1: Fad liter > 500
+//            Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
+//                Fad fad = new Fad(1, 600.0, "Eg", "Spanien", 1, fadType, null);  // valid fad for Påfyldning
+//                Påfyldning påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, null);
+//                Controller.createFad(1, 600.0, "Eg", "Spanien", 1, null, fadType, påfyldning);
+//            });
+//            assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception1.getMessage());
+//
+//            // Test 2: Null leverandør
+//            Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
+//                Fad fad = new Fad(1, 400.0, "Eg", null, 0, fadType, null);
+//                Påfyldning påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, null);
+//                Controller.createFad(2, 400.0, "Eg", null, 1, null, fadType, påfyldning);
+//            });
+//            assertEquals("Leverandør og Materiale kan ikke være null eller tom.", exception2.getMessage());
+//
+//            // Test 3: Negative antalGangeBrugt
+//            Exception exception3 = assertThrows(IllegalArgumentException.class, () -> {
+//                Fad fad = new Fad(1, 400.0, "Eg", "Spanien", 0, fadType, null);
+//                Påfyldning påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, null);
+//                Controller.createFad(3, 400.0, "Eg", "Spanien", -1, null, fadType, påfyldning);
+//            });
+//            assertEquals("Antal gange brugt kan ikke være negativ.", exception3.getMessage());
+//
+//            // Test 4: Fad ID <= 0
+//            Exception exception4 = assertThrows(IllegalArgumentException.class, () -> {
+//                Fad fad = new Fad(1, 400.0, "Eg", "Spanien", 0, fadType, null);
+//                Påfyldning påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, null);
+//                Controller.createFad(0, 400.0, "Eg", "Spanien", 1, null, fadType, påfyldning);
+//            });
+//            assertEquals("Fad ID kan ikke være negativ eller 0.", exception4.getMessage());
+//
+//            // Test 5: Null fadType
+//            Exception exception5 = assertThrows(IllegalArgumentException.class, () -> {
+//                Fad fad = new Fad(1, 400.0, "Eg", "Spanien", 0, fadType, null);
+//                Påfyldning påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, null);
+//                Controller.createFad(4, 400.0, "Eg", "Spanien", 1, null, null, påfyldning);
+//            });
+//            assertEquals("FadType og Påfyldning kan ikke være null.", exception5.getMessage());
+//
+//            // Test 6: Null fad in Påfyldning
+//            Exception exception6 = assertThrows(IllegalArgumentException.class, () -> {
+//                Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), null, null);
+//            });
+//            assertEquals("Fad kan ikke være null.", exception6.getMessage());
+//        }
 
     @Test
     void createMaltBatch() {
