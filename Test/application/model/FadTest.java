@@ -31,7 +31,7 @@ class FadTest {
 
 
 
-        fad = new Fad(1,
+        fad = new Fad(
                 50.0,
                 "Eg",
                 "Spanien",
@@ -74,7 +74,7 @@ class FadTest {
     @Test
     void fadConstructorThrowsIllegalArgumentException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Fad(1, 600.0, "Eg", "Spanien", 1, new FadType("Sherry"));
+            new Fad(600.0, "Eg", "Spanien", 1, new FadType("Sherry"));
         });
         assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception.getMessage());
     }
