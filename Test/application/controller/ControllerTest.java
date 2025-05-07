@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
@@ -17,6 +16,7 @@ class ControllerTest {
     private FadType fadType;
     private Fad fad;
     private Påfyldning påfyldning;
+    private ArrayList<Tapning> tapninger;
 
     @BeforeEach
     void setUp() {
@@ -31,6 +31,10 @@ class ControllerTest {
 
         påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, destillat);
         fad.setPåfyldning(påfyldning);
+
+        tapninger = new ArrayList<>();
+        Tapning tapning = Controller.createTapning(LocalDate.of(2025,1,1),"SNIPE",30,fad);
+        tapninger.add(tapning);
     }
 
     @Test
@@ -67,6 +71,7 @@ class ControllerTest {
         });
         assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception1.getMessage());
 
+        // Test 2: Null leverandør
         Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
             Controller.createFad(400.0, "Eg", null, 1, null, fadType);
         });
@@ -101,5 +106,32 @@ class ControllerTest {
         assertEquals(LocalDate.of(2020, 1, 4), påfyldning.getDatoForPåfyldning());
         assertEquals(fad, påfyldning.getFad());
         assertEquals(destillat, påfyldning.getDestillat());
+    }
+
+    @Test
+    void createTapning() {
+        assertNotNull(tapninger);
+        assertEquals(1,tapninger.size());
+        Tapning tapning = tapninger.get(0);
+        assertEquals("SNIPE", tapning.getInitialerForMedarbejder());
+        assertEquals(30.0,tapning.getAntalLiterFraFad());
+        assertEquals(fad,tapning.getFad());
+
+    }
+
+    @Test
+    void createWhisky() {
+    }
+
+    @Test
+    void createLager() {
+
+    }
+
+    @Test
+    void createFadType() {
+        assertNotNull(fadType);
+        assertEquals("Sherry", fadType.getNavn());
+
     }
 }
