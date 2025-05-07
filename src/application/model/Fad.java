@@ -8,7 +8,7 @@ public class Fad {
     private double fadILiter;
     private String materiale;
     private String leverandør;
-    private int antalGangeBrugt;
+    private int antalGangeBrugt = 0;
     private static final int maksAntalGangeBrugt = 3;
     private double nuværendeIndhold = 0;
     private Tapning tapning;

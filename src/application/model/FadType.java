@@ -12,6 +12,7 @@ public class FadType {
 
     public String getNavn() {
         return navn;
+
     }
 
     public void setNavn(String navn) {
