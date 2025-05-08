@@ -1,5 +1,6 @@
 package application.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -8,12 +9,21 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DestillatTest {
+
+    private Malt malt;
+    private ArrayList<Malt> maltList;
+    private MaltBatch maltBatch;
+
+    @BeforeEach
+    void setUp() {
+        malt = new Malt("byg", "Mark 1", 20.0);
+        maltList = new ArrayList<>();
+        maltList.add(malt);
+        maltBatch = new MaltBatch("1", LocalDate.of(2025, 5, 1), 50.0, maltList);
+    }
+
     @Test
     void testDestillatAlkoholprocent60() {
-        Malt malt = new Malt("byg", "Mark 1", 20.0);
-        ArrayList<Malt> maltList = new ArrayList<>();
-        maltList.add(malt);
-        MaltBatch maltBatch = new MaltBatch("1", LocalDate.of(2025, 5, 1), 50.0, maltList);
         Destillat destillat = new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 60.0, false, 50.0, maltBatch);
 
         double result = destillat.getAlkoholProcent();
@@ -22,10 +32,6 @@ class DestillatTest {
 
     @Test
     void testDestillatAlkoholprocent62() {
-        Malt malt = new Malt("byg", "Mark 1", 20.0);
-        ArrayList<Malt> maltList = new ArrayList<>();
-        maltList.add(malt);
-        MaltBatch maltBatch = new MaltBatch("1", LocalDate.of(2025, 5, 1), 50.0, maltList);
         Destillat destillat = new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 62.0, false, 50.0, maltBatch);
 
         double result = destillat.getAlkoholProcent();
@@ -34,10 +40,6 @@ class DestillatTest {
 
     @Test
     void testDestillatAlkoholprocent63() {
-        Malt malt = new Malt("byg", "Mark 1", 20.0);
-        ArrayList<Malt> maltList = new ArrayList<>();
-        maltList.add(malt);
-        MaltBatch maltBatch = new MaltBatch("1", LocalDate.of(2025, 5, 1), 50.0, maltList);
         Destillat destillat = new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 63.0, false, 50.0, maltBatch);
 
         double result = destillat.getAlkoholProcent();
@@ -46,11 +48,6 @@ class DestillatTest {
 
     @Test
     void testDestillatAlkoholprocentUnder() {
-        Malt malt = new Malt("byg", "Mark 1", 20.0);
-        ArrayList<Malt> maltList = new ArrayList<>();
-        maltList.add(malt);
-        MaltBatch maltBatch = new MaltBatch("1", LocalDate.of(2025, 5, 1), 50.0, maltList);
-
         assertThrows(IllegalArgumentException.class, () -> {
             new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 59.0, false, 50.0, maltBatch);
         });
@@ -58,13 +55,36 @@ class DestillatTest {
 
     @Test
     void testDestillatAlkoholprocentOver() {
-        Malt malt = new Malt("byg", "Mark 1", 20.0);
-        ArrayList<Malt> maltList = new ArrayList<>();
-        maltList.add(malt);
-        MaltBatch maltBatch = new MaltBatch("1", LocalDate.of(2025, 5, 1), 50.0, maltList);
-
         assertThrows(IllegalArgumentException.class, () -> {
             new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 64.0, false, 50.0, maltBatch);
+        });
+    }
+
+    @Test
+    void testDestillatStartDatoAfterSlutDato() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Destillat("1", LocalDate.of(2025, 5, 6), LocalDate.of(2025, 5, 5), 100.0, 60.0, false, 50.0, maltBatch);
+        });
+    }
+
+    @Test
+    void testDestillatLiterVandNegative() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), -100.0, 60.0, false, 50.0, maltBatch);
+        });
+    }
+
+    @Test
+    void testDestillatLiterVand0() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 0.0, 60.0, false, 50.0, maltBatch);
+        });
+    }
+
+    @Test
+    void testDestillatMaltBatchNull() {
+        assertThrows(NullPointerException.class, () -> {
+            new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 60.0, false, 50.0, null);
         });
     }
 }

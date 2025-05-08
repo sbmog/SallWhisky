@@ -64,10 +64,9 @@ public class Fad {
 
     public int BeregnLagringstid() {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
+        //startDato behøver ikke nullpointer, da den allerede findes i påfyldning
         LocalDate nu = LocalDate.now();
-        if (startDato == null) {
-            throw new IllegalStateException("Startdato kan ikke være null.");
-        } else if (startDato.isAfter(nu)){
+        if (startDato.isAfter(nu)){
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
         return (int) ChronoUnit.YEARS.between(startDato,nu);
@@ -75,10 +74,9 @@ public class Fad {
 
     public int beregnTidTilWhisky() {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
+        //startDato behøver ikke nullpointer, da den allerede findes i påfyldning
         LocalDate whiskyDato = startDato.plusYears(3);
-        if (startDato == null) {
-            throw new IllegalStateException("Startdato kan ikke være null.");
-        } else if (startDato.isAfter(LocalDate.now())){
+        if (startDato.isAfter(LocalDate.now())){
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
         if(LocalDate.now().isBefore(whiskyDato)) {
@@ -120,7 +118,7 @@ public class Fad {
     }
 
     public void setFadILiter(double fadILiter) {
-        if (fadILiter < maxFadStørrelse) {
+        if (fadILiter > maxFadStørrelse) {
             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
         }
         this.fadILiter = fadILiter;

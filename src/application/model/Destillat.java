@@ -20,7 +20,7 @@ public class Destillat {
         } else if (literVand <= 0) {
             throw new IllegalArgumentException("Liter vand kan ikke være negativ eller 0");
         } else if (maltBatch == null) {
-            throw new IllegalArgumentException("MaltBatch kan ikke være null");
+            throw new NullPointerException("MaltBatch kan ikke være null");
         }
         this.destillatID = destillatID;
         this.startDato = startDato;
