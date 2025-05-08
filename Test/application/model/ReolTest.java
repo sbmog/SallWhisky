@@ -1,10 +1,54 @@
 package application.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReolTest {
+
+    private Destillat destillat;
+    private Påfyldning påfyldning;
+    private Fad fad;
+    private Tapning tapning;
+
+    @BeforeEach
+    void setUp() {
+        MaltBatch maltBatch = new MaltBatch("B1", LocalDate.of(2020, 1, 1), 40.0, new ArrayList<>());
+
+        destillat = new Destillat("NJ1",
+                LocalDate.of(2020, 1, 1),
+                LocalDate.of(2020, 1, 2),
+                70.0,
+                60.0,
+                false,
+                50.0,
+                maltBatch);
+
+        fad = new Fad(
+                50.0,
+                "Eg",
+                "Spanien",
+                1,
+                new FadType("Sherry"));
+
+        påfyldning = new Påfyldning("SNIPE",
+                50.0,
+                LocalDate.of(2020, 1, 4),
+                fad,
+                destillat);
+
+        fad.setPåfyldning(påfyldning);
+
+        tapning = new Tapning(LocalDate.of(2023, 1, 5),
+                "NJ",
+                50.0,
+                fad);
+        fad.setTapning(tapning);
+    }
 
     @Test
     void constructorThrowsExceptionIkkeGyldigInformation() {
@@ -53,6 +97,7 @@ class ReolTest {
 
         HyldePlads hyldePlads1 = reol.createHyldePlads();
         HyldePlads hyldePlads2 = reol.createHyldePlads();
+        FadPlacering fadPlacering = new FadPlacering(LocalDate.of(2025, 5,5), fad, hyldePlads2);
 
         // hyldePlads 1 er fri.
         hyldePlads1.setPladsFri(true);
