@@ -4,6 +4,8 @@ import gui.component.HeaderLabel;
 import gui.component.LabeledButton;
 import gui.lagerAdm.LagerAdmOversigt;
 import gui.opretDestillat.OpretDestillatPane;
+import gui.opretFad.OpretFadPane;
+import gui.opretMaltBatch.OpretMaltBatchPane;
 import gui.opretPåfyldning.OpretPåfyldningPane;
 import gui.opretTapning.OpretTapningPane;
 import gui.produktionsAdm.ProduktionsAdmOversigt;
@@ -28,12 +30,12 @@ public class StartWindow extends Application {
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
 
-        Scene scene = new Scene(pane, 500, 300);
+        Scene scene = new Scene(pane, 700, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
 
         HeaderLabel headLabel = new HeaderLabel("Sall Whisky Distillery");
-        pane.add(headLabel, 0, 0, 2, 1);
+        pane.add(headLabel, 0, 0, 3, 1);
 
         VBox opretObjekter = new VBox(5);
         opretObjekter.setPadding(new Insets(0, 5, 10, 10));
@@ -53,6 +55,20 @@ public class StartWindow extends Application {
         opretObjekter.getChildren().addAll(produktionsHeader, opretDestillat, opretPåfyldning, opretTapning);
         pane.add(opretObjekter, 0, 1);
 
+        VBox registrerRåVarer = new VBox(5);
+        registrerRåVarer.setPadding(new Insets(0, 5, 10, 10));
+        registrerRåVarer.setAlignment(Pos.TOP_CENTER);
+
+        HeaderLabel registrerHeader = new HeaderLabel("Registrer varer fra Leverandør");
+
+        LabeledButton opretFad = new LabeledButton("Registrer nyt fad", "Start");
+        opretFad.getButton().setOnAction(e -> opretFadButton());
+
+        LabeledButton opretMaltBatch = new LabeledButton("Registrer ny maltbatch", "Start");
+        opretMaltBatch.getButton().setOnAction(e -> opretMaltBatchButton());
+
+        registrerRåVarer.getChildren().addAll(registrerHeader, opretFad, opretMaltBatch);
+        pane.add(registrerRåVarer, 1, 1);
 
         VBox administrationsOversigt = new VBox(5);
         administrationsOversigt.setPadding(new Insets(0, 5, 10, 10));
@@ -67,7 +83,17 @@ public class StartWindow extends Application {
         lagerAdm.getButton().setOnAction(e -> lagerAdmButton());
 
         administrationsOversigt.getChildren().addAll(oversigter, produktionsAdm, lagerAdm);
-        pane.add(administrationsOversigt, 1, 1);
+        pane.add(administrationsOversigt, 2, 1);
+    }
+
+    private void opretMaltBatchButton() {
+        OpretMaltBatchPane opretMaltBatchPane = new OpretMaltBatchPane();
+        if (!opretMaltBatchPane.isShowing()) opretMaltBatchPane.showAndWait();
+    }
+
+    private void opretFadButton() {
+        OpretFadPane opretFadPane = new OpretFadPane();
+        if (!opretFadPane.isShowing()) opretFadPane.showAndWait();
     }
 
     private void lagerAdmButton() {
@@ -87,7 +113,7 @@ public class StartWindow extends Application {
 
     private void opretPåfyldningButton() {
         OpretPåfyldningPane opretPåfyldningPane = new OpretPåfyldningPane();
-        if (!opretPåfyldningPane.isShowing())opretPåfyldningPane.showAndWait();
+        if (!opretPåfyldningPane.isShowing()) opretPåfyldningPane.showAndWait();
     }
 
     private void opretDestillatButton() {
