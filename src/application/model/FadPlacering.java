@@ -61,4 +61,8 @@ public class FadPlacering {
         Lager lager = reol.getLager();
         return lager.getNavn() + " - " + reol.getReolID() + " - " + hyldePlads.getHyldePladsID();
     }
+
+    public String toString() {
+        return "Fad: #" + fad.getFadID() + " er placeret på " + hyldePlads + hyldePlads.getReol() + hyldePlads.getReol().getLager();
+    }
 }

@@ -13,7 +13,7 @@ public class Destillat {
     private MaltBatch maltBatch;
 
     public Destillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {
-        if (alkoholProcent < 60.0 || alkoholProcent > 63.0){
+        if (alkoholProcent < 60.0 || alkoholProcent > 63.0) {
             throw new IllegalArgumentException("Alkoholprocenten skal være mellem 60 og 63 procent");
         } else if (startDato.isAfter(slutDato)) {
             throw new IllegalArgumentException("Startdato kan ikke være efter slutdato");
@@ -96,5 +96,8 @@ public class Destillat {
         this.maltBatch = maltBatch;
     }
 
-
+    @Override
+    public String toString() {
+        return "Destillat: #" + destillatID;
+    }
 }

@@ -63,4 +63,8 @@ public class MaltBatch {
     public void setMalt(ArrayList<Malt> malt) {
         this.malt = malt;
     }
+
+    public String toString() {
+        return "Maltbatch: #" + batchNummer;
+    }
 }

@@ -1,7 +1,6 @@
 package application.model;
 
 
-
 import java.util.ArrayList;
 
 public class Reol {
@@ -22,14 +21,14 @@ public class Reol {
     }
 
     public HyldePlads createHyldePlads() {
-        HyldePlads hyldePlads = new HyldePlads(hyldePladser.size() +1,this);
+        HyldePlads hyldePlads = new HyldePlads(hyldePladser.size() + 1, this);
         hyldePladser.add(hyldePlads);
         return hyldePlads;
     }
 
-//todo bør det være delete? i så fald, hvordan deleter vi. Må vi kalde storageklasse her? eller er den bare slettet ved at fjerne
-    public void removeHyldePlads(HyldePlads hyldePlads){
-        if (hyldePlads.isPladsFri()){
+    //todo bør det være delete? i så fald, hvordan deleter vi. Må vi kalde storageklasse her? eller er den bare slettet ved at fjerne
+    public void removeHyldePlads(HyldePlads hyldePlads) {
+        if (hyldePlads.isPladsFri()) {
             hyldePladser.remove(hyldePlads);
         }
     }
@@ -56,5 +55,9 @@ public class Reol {
 
     public void setLager(Lager lager) {
         this.lager = lager;
+    }
+
+    public String toString() {
+        return "Reol #" + reolID;
     }
 }

@@ -78,4 +78,8 @@ public class Tapning {
     public void setFortyndinger(ArrayList<Fortynding> fortyndinger) {
         this.fortyndinger = fortyndinger;
     }
+
+    public String toString() {
+        return "Tapning fra " + fad;
+    }
 }

@@ -30,4 +30,8 @@ public class Flaske {
     public void setWhisky(Whisky whisky) {
         this.whisky = whisky;
     }
+
+    public String toString() {
+        return "Flaske: #" + flaskeID;
+    }
 }

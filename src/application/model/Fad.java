@@ -168,4 +168,8 @@ public class Fad {
     public Påfyldning getPåfyldning() {
         return påfyldning;
     }
+
+    public String toString() {
+        return "Fad: #" + fadID;
+    }
 }

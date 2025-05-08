@@ -41,4 +41,8 @@ public class Malt {
     public void setMængde(double mængde) {
         this.mængde = mængde;
     }
+
+    public String toString() {
+        return "Malt af kornsorten: " + kornSort + " på mark: " + markNavn;
+    }
 }

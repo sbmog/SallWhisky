@@ -90,4 +90,8 @@ public class Lager {
     public int getMaxAntalReoler() {
         return maxAntalReoler;
     }
+
+    public String toString() {
+        return "Lager: " + navn;
+    }
 }
