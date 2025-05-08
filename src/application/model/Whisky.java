@@ -137,4 +137,8 @@ public class Whisky {
     public void setWhiskyID(double whiskyID) {
         this.whiskyID = whiskyID;
     }
+
+    public String toString() {
+        return "Whisky: " + navn + " med ID: " + whiskyID;
+    }
 }

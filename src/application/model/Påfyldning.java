@@ -69,4 +69,8 @@ public class Påfyldning {
     public void setDestillat(Destillat destillat) {
         this.destillat = destillat;
     }
+
+    public String toString() {
+        return destillat + " påfyldt " + antalLiterPåfyldt + " liter på " + fad;
+    }
 }

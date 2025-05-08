@@ -18,4 +18,8 @@ public class FadType {
     public void setNavn(String navn) {
         this.navn = navn;
     }
+
+    public String toString() {
+        return "Fadtype: " + navn;
+    }
 }

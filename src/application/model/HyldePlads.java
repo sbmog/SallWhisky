@@ -50,4 +50,8 @@ public class HyldePlads {
     public void setReol(Reol reol) {
         this.reol = reol;
     }
+
+    public String toString() {
+        return "Hyldeplads #" + hyldePladsID;
+    }
 }
