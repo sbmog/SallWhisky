@@ -74,6 +74,19 @@ public class Lager {
         this.reoler = reoler;
     }
 
+    public int getTotalAntalFadePåLager() {
+        int total = 0;
+        for (Reol reol : reoler) {
+            for (HyldePlads hyldePlads : reol.getHyldePladser()) {
+                if (!hyldePlads.isPladsFri()) {
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
+
+
     public int getMaxAntalReoler() {
         return maxAntalReoler;
     }

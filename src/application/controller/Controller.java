@@ -5,6 +5,7 @@ import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
 
@@ -66,5 +67,38 @@ public class Controller {
 
     public static ArrayList<Destillat> getDestillater() {
         return Storage.getDestillater();
+    }
+
+    public static ArrayList<Lager> getLagre() {
+        return Storage.getLagre();
+    }
+
+    public static void removeLager(Lager lager) {
+        Storage.removeLager(lager);
+    }
+
+    public static List<HyldePlads> getAlleFrieHyldePladser() {
+        List<HyldePlads> friePladser = new ArrayList<>();
+        for (Lager lager : Storage.getLagre()) {
+            for (Reol reol : lager.getReoler()) {
+                for (HyldePlads hyldePlads : reol.getHyldePladser()) {
+                    if (hyldePlads.isPladsFri()) friePladser.add(hyldePlads);
+                }
+            }
+        }
+        return friePladser;
+    }
+
+    public static void flytFadTilNyHylde(Fad fad, HyldePlads nyHyldePlads) {
+        if (!nyHyldePlads.isPladsFri()) {
+            throw new IllegalArgumentException("Den nye hyldePlads er allerede optaget.");
+        }
+
+        FadPlacering nuværendePlacering = fad.getFadPlacering();
+        if (nuværendePlacering != null) {
+            nuværendePlacering.getHyldePlads().setPladsFri(true);
+        }
+
+        fad.placerPåHylde(nyHyldePlads, LocalDate.now());
     }
 }
