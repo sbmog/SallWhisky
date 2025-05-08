@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,26 +24,25 @@ public class OpretLagerInputPane extends Stage {
     public OpretLagerInputPane() {
         this.setTitle("Opret lager");
 
-        GridPane pane = new GridPane();
-        pane.setAlignment(Pos.TOP_CENTER);
-        pane.setPadding(new Insets(10));
-        pane.setVgap(2);
-        pane.setHgap(2);
+        VBox root = new VBox();
+        root.setPadding(new Insets(0, 5, 10, 10));
+        root.setSpacing(10);
 
-        Scene scene = new Scene(pane, 500, 660);
+        Scene scene = new Scene(root, 430, 350);
         this.setScene(scene);
 
         VBox info = new VBox(10);
         info.setAlignment(Pos.TOP_CENTER);
-        info.setPadding(new Insets(10));
-        pane.add(info, 0, 0);
         info.getChildren().addAll(lagerID, lagerNavn, lagerAdresse, maxAntalReoler);
 
+        VBox.setVgrow(info, Priority.ALWAYS);
+
         HBox buttonBox = new HBox(10);
-        buttonBox.setAlignment(Pos.BASELINE_CENTER);
-        buttonBox.setPadding(new Insets(10));
-        pane.add(buttonBox, 1, 0);
+        buttonBox.setAlignment(Pos.BOTTOM_CENTER);
+
         buttonBox.getChildren().addAll(annullerButton, opretButton);
+
+        root.getChildren().addAll(info, buttonBox);
 
         opretButton.getButton().setOnAction(event -> {
             if (validerOprettelse()) {

@@ -21,6 +21,7 @@ public class LagerInformationPane extends VBox {
     private final AttributeDisplay fadIndhold = new AttributeDisplay("Fadets indhold", "");
 
     public LagerInformationPane() {
+        this.setMaxWidth(Double.MAX_VALUE);
         this.setSpacing(10);
         this.getChildren().addAll(
                 information,
