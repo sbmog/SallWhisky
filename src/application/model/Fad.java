@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Fad {
-    private int fadID;
+    private int fadID = 1;
     private double fadILiter;
     private String materiale;
     private String leverandør;
@@ -18,24 +18,22 @@ public class Fad {
     private Påfyldning påfyldning;
 
 
-    public Fad(int fadID, double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType, Påfyldning påfyldning) {
-         if (fadILiter > maxFadStørrelse) {
-             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
-            }  else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
-                throw new IllegalArgumentException("Leverandør og/eller Materiale kan ikke være null eller tom.");
-         } else if (antalGangeBrugt < 0) {
-             throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
-         } else if (fadID <= 0) {
-             throw new IllegalArgumentException("Fad ID kan ikke være negativ eller 0.");
-         }  else if (fadType == null || påfyldning == null) {
-             throw new IllegalArgumentException("FadType og/eller Påfyldning kan ikke være null.");
+    public Fad(double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
+        if (fadILiter > maxFadStørrelse) {
+            throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
+        } else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
+            throw new IllegalArgumentException("Leverandør og/eller Materiale kan ikke være null eller tom.");
+        } else if (antalGangeBrugt < 0) {
+            throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
+        } else if (fadType == null) {
+            throw new NullPointerException("FadType kan ikke være null.");
+        }
 
-         }
-        this.fadID = fadID;
+        this.fadID = fadID++; // Tildel det næste ID og øg værdien
         this.fadILiter = fadILiter;
         this.materiale = materiale;
         this.leverandør = leverandør;
-        this.antalGangeBrugt = 0;
+        this.antalGangeBrugt = antalGangeBrugt;
         this.fadType = fadType;
         this.påfyldning = påfyldning;
     }
@@ -55,6 +53,9 @@ public class Fad {
     }
 //TODO hvor får vi flaskestørrelse fra? ift. brugen i GUI
     public int beregnAntalFlasker(double flaskeStørrelse) {
+        if (tapning == null) {
+            throw new IllegalStateException("Der er endnu ikke foretaget en tapning på dette fad");
+        }
         if ( flaskeStørrelse <= 0) {
             throw new IllegalArgumentException("Flaske størrelse skal være større end 0.");
         }
@@ -66,7 +67,7 @@ public class Fad {
         LocalDate nu = LocalDate.now();
         if (startDato == null) {
             throw new IllegalStateException("Startdato kan ikke være null.");
-        } else if (startDato.isBefore(nu)){
+        } else if (startDato.isAfter(nu)){
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
         return (int) ChronoUnit.YEARS.between(startDato,nu);
@@ -77,7 +78,7 @@ public class Fad {
         LocalDate whiskyDato = startDato.plusYears(3);
         if (startDato == null) {
             throw new IllegalStateException("Startdato kan ikke være null.");
-        } else if (startDato.isBefore(LocalDate.now())){
+        } else if (startDato.isAfter(LocalDate.now())){
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
         if(LocalDate.now().isBefore(whiskyDato)) {

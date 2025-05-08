@@ -30,13 +30,12 @@ class TapningTest {
                 50.0,
                 maltBatch);
 
-        fad = new Fad(1,
+        fad = new Fad(
                 50.0,
                 "Eg",
                 "Spanien",
                 1,
-                new FadType("Sherry"),
-                null);
+                new FadType("Sherry"));
 
         påfyldning = new Påfyldning("SNIPE",
                 50.0,

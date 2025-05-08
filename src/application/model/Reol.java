@@ -1,5 +1,7 @@
 package application.model;
 
+
+
 import java.util.ArrayList;
 
 public class Reol {
@@ -19,8 +21,10 @@ public class Reol {
         this.hyldePladser = new ArrayList<>();
     }
 
-    public void createHyldePlads() {
-            hyldePladser.add(new HyldePlads(hyldePladser.size() + 1, this));
+    public HyldePlads createHyldePlads() {
+        HyldePlads hyldePlads = new HyldePlads(hyldePladser.size() +1,this);
+        hyldePladser.add(hyldePlads);
+        return hyldePlads;
     }
 
 //todo bør det være delete? i så fald, hvordan deleter vi. Må vi kalde storageklasse her? eller er den bare slettet ved at fjerne

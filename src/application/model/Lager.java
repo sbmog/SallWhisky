@@ -26,12 +26,14 @@ public class Lager {
         this.reoler = new ArrayList<>();
         this.maxAntalReoler = maxAnantalReoler;
     }
-
-    public void createReol() {
+ //todo har ændret den væk fra void, så man kan retunere reol og bruge den i gui
+    public Reol createReol() {
         if (reoler.size() >= maxAntalReoler) {
-            System.out.println("Lageret har nået det maksimale antal reoler.");
+            throw new IllegalArgumentException("Lageret har nået det maksimale antal reoler.");
         }
-        reoler.add(new Reol(this, reoler.size() + 1));
+        Reol reol = new Reol(this, reoler.size() + 1);
+        reoler.add(reol);
+        return reol;
     }
 
     public void removeReol(Reol reol) {
@@ -83,6 +85,7 @@ public class Lager {
         }
         return total;
     }
+
 
     public int getMaxAntalReoler() {
         return maxAntalReoler;

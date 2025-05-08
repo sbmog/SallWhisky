@@ -32,11 +32,13 @@ class StorageTest {
         malt = maltBatch.getMalt().getFirst();
         destillat = new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 60.0, false, 50.0, maltBatch);
         fadType = new FadType("Sherry");
-        fad = new Fad(1, 50.0, "Eg", "Spanien", 1, fadType, null);
+        fad = new Fad(50.0, "Eg", "Spanien", 1, fadType);
         påfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.of(2025, 5, 4), fad, destillat);
         fad.setPåfyldning(påfyldning);
         tapning = new Tapning(LocalDate.of(2028, 5, 5), "SNIPE", 50.0, fad);
-        whisky = new Whisky(1, "Test Whisky", 43.0, 10.0, new ArrayList<>(), WhiskyType.SINGLE_MALT);
+        ArrayList<Tapning> tapninger = new ArrayList<Tapning>();
+        tapninger.add(tapning);
+        whisky = new Whisky(1, "Test Whisky", 43.0, 10.0, tapninger, WhiskyType.SINGLE_MALT);
         lager = new Lager("1", "Lager1", "Adressevej 1", 50);
         lager.createReol();
         reol = lager.getReoler().getFirst();
