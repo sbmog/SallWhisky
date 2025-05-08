@@ -15,7 +15,7 @@ public class Controller {
         return newDestillat;
     }
 
-    public static Fad createFad( double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadPlacering fadPlacering, FadType fadType) {
+    public static Fad createFad(double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
         Fad newFad = new Fad(fadStørrelse, materiale, leverandør, antalGangeBrugt, fadType);
         Storage.addFad(newFad);
         return newFad;
@@ -26,6 +26,7 @@ public class Controller {
         Storage.addMaltBatch(newMaltBatch);
         return newMaltBatch;
     }
+
     public static Påfyldning createPåfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat) {
         Påfyldning newPåfyldning = new Påfyldning(initialerForMedarbejder, antalLiterPåfyldt, datoForPåfyldning, fad, destillat);
         Storage.addPåfyldning(newPåfyldning);
@@ -100,5 +101,13 @@ public class Controller {
         }
 
         fad.placerPåHylde(nyHyldePlads, LocalDate.now());
+    }
+
+    public static ArrayList<FadType> getFadTyper() {
+        return Storage.getFadTyper();
+    }
+
+    public static int getNæsteFadID() {
+        return Storage.getFade().size() + 1;
     }
 }
