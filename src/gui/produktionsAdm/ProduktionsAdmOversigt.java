@@ -17,7 +17,7 @@ public class ProduktionsAdmOversigt extends Stage {
         tabPane.getTabs().add(new Tab("Fad", new FadTab()));
         tabPane.getTabs().add(new Tab("Whisky", new WhiskyTab()));
 
-        Scene scene = new Scene(tabPane, 600, 650);
+        Scene scene = new Scene(tabPane, 600, 700);
         this.setScene(scene);
         this.setTitle("Lager administrationsoversigt");
     }

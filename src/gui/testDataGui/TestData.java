@@ -1,6 +1,5 @@
 package gui.testDataGui;
 
-import application.controller.Controller;
 import application.model.*;
 import storage.Storage;
 
@@ -11,7 +10,7 @@ public class TestData {
 
     public static void initTestData() {
         // Lager
-        Lager lager = new Lager("Lager 1", "Cental lager", "Lagervej 1", 100);
+        Lager lager = new Lager("Lager 1", "Central lager", "Lagervej 1", 100);
         Storage.addLager(lager);
 
         // Reol
