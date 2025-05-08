@@ -3,22 +3,12 @@ package gui.produktionsAdm.tabPanes;
 import application.controller.Controller;
 import application.model.Destillat;
 import gui.component.AttributeDisplay;
-import gui.component.LabeledListViewInput;
-import gui.component.LabeledTextInput;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-public class DestillatTab extends GridPane {
-    //    Venstre
-    private final LabeledTextInput søgDestillat = new LabeledTextInput("Søg destillat");
-    private final LabeledListViewInput<Destillat> destillatListView = new LabeledListViewInput<>("Destillater");
-
-    //    Højre
+public class DestillatTab extends BaseTab<Destillat> {
+//    AttributeDisplays
     private final AttributeDisplay destillatID = new AttributeDisplay("Destillat ID", "");
     private final AttributeDisplay startDato = new AttributeDisplay("Startdato", "");
     private final AttributeDisplay slutDato = new AttributeDisplay("Slutdato", "");
@@ -29,24 +19,13 @@ public class DestillatTab extends GridPane {
     private final AttributeDisplay maltBatch = new AttributeDisplay("Malt batch", "");
 
     public DestillatTab() {
-        this.setPadding(new Insets(5));
-        this.setAlignment(Pos.CENTER);
+        super("Søg destillat","Destillater");
 
-        destillatListView.getListView().getItems().setAll(Controller.getDestillater());
-        destillatListView.getListView().setMinWidth(300);
-        destillatListView.getListView().setPrefHeight(500);
+        liste.getListView().getItems().addAll(Controller.getDestillater());
 
-        VBox venstreBox = new VBox(5);
-        venstreBox.setPadding(new Insets(0, 5, 10, 10));
-        venstreBox.getChildren().addAll(søgDestillat, destillatListView);
-        this.add(venstreBox, 0, 0);
+        attributVisning.getChildren().addAll(destillatID, startDato, slutDato, literVand, væskeMængde, alkoholProcent, røget, maltBatch);
 
-        VBox højreBox = new VBox(5);
-        højreBox.setPadding(new Insets(0, 5, 10, 10));
-        højreBox.getChildren().addAll(destillatID, startDato, slutDato, literVand, væskeMængde, alkoholProcent, røget, maltBatch);
-        this.add(højreBox, 1, 0);
-
-        destillatListView.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 destillatID.setValue(newValue.getDestillatID());
 
@@ -64,7 +43,7 @@ public class DestillatTab extends GridPane {
                 maltBatch.setValue(String.valueOf(newValue.getMaltBatch()));
             }
         });
-        søgDestillat.getTextField().setOnAction(event -> søgning());
+        søgeFelt.getTextField().setOnAction(event -> søgning());
     }
 
     //TODO tilføj søgningsmetode til controller

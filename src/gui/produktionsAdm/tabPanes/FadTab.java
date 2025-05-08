@@ -10,12 +10,8 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class FadTab extends GridPane {
-//    Venstre
-    private final LabeledTextInput søgFad = new LabeledTextInput("Søg fad");
-    private final LabeledListViewInput<Fad> fadeListview = new LabeledListViewInput<>("Fade");
-
-//    Højre
+public class FadTab extends BaseTab<Fad> {
+//    AttributeDisplays
     private final AttributeDisplay fadID = new AttributeDisplay("Fad ID", "");
     private final AttributeDisplay fadStørrelse = new AttributeDisplay("Fad størrelse", "");
     private final AttributeDisplay materiale = new AttributeDisplay("Materiale", "");
@@ -31,24 +27,13 @@ public class FadTab extends GridPane {
 
 
     public FadTab() {
-        this.setPadding(new Insets(5));
-        this.setAlignment(Pos.CENTER);
+        super("Søg fad", "Fade");
 
-        fadeListview.getListView().getItems().setAll(Controller.getFade());
-        fadeListview.getListView().setMinWidth(300);
-        fadeListview.getListView().setPrefHeight(500);
+        liste.getListView().getItems().setAll(Controller.getFade());
 
-        VBox venstreBox = new VBox(5);
-        venstreBox.setPadding(new Insets(0, 5, 10, 10));
-        venstreBox.getChildren().addAll(søgFad, fadeListview);
-        this.add(venstreBox, 0, 0);
+        attributVisning.getChildren().addAll(fadID, fadStørrelse, materiale, leverandør, fadType, antalGangeBrugt, nuværendeIndhold, fadPlacering, påfyldning, dagePåFad, dageTilTapning, estimeretAntalFlasker);
 
-        VBox højreBox = new VBox(5);
-        højreBox.setPadding(new Insets(0, 5, 10, 10));
-        højreBox.getChildren().addAll(fadID, fadStørrelse, materiale, leverandør, fadType, antalGangeBrugt, nuværendeIndhold, fadPlacering, påfyldning, dagePåFad, dageTilTapning, estimeretAntalFlasker);
-        this.add(højreBox, 1, 0);
-
-        fadeListview.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 fadID.setValue(String.valueOf(newValue.getFadID()));
                 fadStørrelse.setValue(String.valueOf(newValue.getFadILiter()));
@@ -79,7 +64,7 @@ public class FadTab extends GridPane {
             }
         });
 
-        søgFad.getTextField().setOnAction(event -> søgning());
+        søgeFelt.getTextField().setOnAction(event -> søgning());
     }
 
     //TODO tilføj søgningsmetode til controller

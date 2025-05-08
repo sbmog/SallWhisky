@@ -11,12 +11,8 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class WhiskyTab extends GridPane {
-    //    Venstre
-    private final LabeledTextInput søgWhisky = new LabeledTextInput("Søg whisky");
-    private final LabeledListViewInput<Whisky> whiskyListview = new LabeledListViewInput<>("Whiskyer");
-
-    //    Højre
+public class WhiskyTab extends BaseTab<Whisky> {
+    //    AttributeDisplays
     private final AttributeDisplay whiskyID = new AttributeDisplay("Whisky ID", "");
     private final AttributeDisplay whiskyNavn = new AttributeDisplay("Navn", "");
     private final AttributeDisplay alkoholProcent = new AttributeDisplay("Alkohol procent", "");
@@ -27,24 +23,13 @@ public class WhiskyTab extends GridPane {
     private final AttributeDisplay whiskyType = new AttributeDisplay("Whisky type", "");
 
     public WhiskyTab() {
-        this.setPadding(new Insets(5));
-        this.setAlignment(Pos.CENTER);
+        super("Søg whisky", "Whiskyer");
 
-        whiskyListview.getListView().getItems().setAll(Controller.getWhiskyer());
-        whiskyListview.getListView().setMinWidth(300);
-        whiskyListview.getListView().setPrefHeight(500);
+        liste.getListView().getItems().setAll(Controller.getWhiskyer());
 
-        VBox venstreBox = new VBox(5);
-        venstreBox.setPadding(new Insets(0, 5, 10, 10));
-        venstreBox.getChildren().addAll(søgWhisky, whiskyListview);
-        this.add(venstreBox, 0, 0);
+        attributVisning.getChildren().addAll(whiskyID, whiskyNavn, whiskyType, alkoholProcent, fortyndet, vandmængde, antalFlasker, tapninger);
 
-        VBox højreBox = new VBox(5);
-        højreBox.setPadding(new Insets(0, 5, 10, 10));
-        højreBox.getChildren().addAll(whiskyID, whiskyNavn, whiskyType, alkoholProcent, fortyndet, vandmængde, antalFlasker, tapninger);
-        this.add(højreBox, 1, 0);
-
-        whiskyListview.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 whiskyID.setValue(String.valueOf(newValue.getWhiskyID()));
                 whiskyNavn.setValue(newValue.getNavn());
@@ -62,7 +47,7 @@ public class WhiskyTab extends GridPane {
             }
         });
 
-        søgWhisky.getTextField().setOnAction(event -> søgning());
+        søgeFelt.getTextField().setOnAction(event -> søgning());
     }
 
     //TODO tilføj søgningsmetode til controller

@@ -10,21 +10,21 @@ public class Lager {
 
     private ArrayList<Reol> reoler;
 
-    public Lager(String lagerID, String navn, String adresse, int maxAnantalReoler) {
+    public Lager(String lagerID, String navn, String adresse, int maxAntalReoler) {
         if (lagerID == null || lagerID.isEmpty()) {
             throw new IllegalArgumentException("LagerID kan ikke være null eller tom.");
         } else if (navn == null || navn.isEmpty()) {
             throw new IllegalArgumentException("Navn kan ikke være null eller tom.");
         } else if (adresse == null || adresse.isEmpty()) {
             throw new IllegalArgumentException("Adresse kan ikke være null eller tom.");
-        } else if (maxAnantalReoler <= 0) {
+        } else if (maxAntalReoler <= 0) {
             throw new IllegalArgumentException("Maksimalt antal reoler skal være et tal over 0.");
         }
         this.lagerID = lagerID;
         this.navn = navn;
         this.adresse = adresse;
         this.reoler = new ArrayList<>();
-        this.maxAntalReoler = maxAnantalReoler;
+        this.maxAntalReoler = maxAntalReoler;
     }
  //todo har ændret den væk fra void, så man kan retunere reol og bruge den i gui
     public Reol createReol() {
