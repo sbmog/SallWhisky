@@ -36,15 +36,15 @@ public class LagerTreeViewPane extends VBox {
             rootItem.getChildren().add(lagerItem);
 
             for (Reol reol : lager.getReoler()) {
-                TreeItem<Object> reolItem = new TreeItem<>("Reol " + reol);
+                TreeItem<Object> reolItem = new TreeItem<>(reol);
                 lagerItem.getChildren().add(reolItem);
 
                 for (HyldePlads hylde : reol.getHyldePladser()) {
-                    TreeItem<Object> hyldeItem = new TreeItem<>("Hylde " + hylde);
+                    TreeItem<Object> hyldeItem = new TreeItem<>(hylde);
                     reolItem.getChildren().add(hyldeItem);
 
                     if (!hylde.isPladsFri()) {
-                        TreeItem<Object> fadItem = new TreeItem<>("Fad #" + hylde.getFadPlaceret().getFad());
+                        TreeItem<Object> fadItem = new TreeItem<>(hylde.getFadPlaceret().getFad());
                         hyldeItem.getChildren().add(fadItem);
                     }
                 }
