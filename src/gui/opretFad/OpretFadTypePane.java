@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class OpretFadTypePane extends Stage {
+    private final LabeledTextInput navnInput = new LabeledTextInput("Indtast navn");
+
     public OpretFadTypePane() {
         this.setTitle("Registrér ny fadtype");
 
@@ -21,22 +23,24 @@ public class OpretFadTypePane extends Stage {
         Scene scene = new Scene(root, 200, 150);
         this.setScene(scene);
 
-        LabeledTextInput navnInput = new LabeledTextInput("Indtast navn");
         LabeledButton opretButton = new LabeledButton("Opret ny fadtype", "Opret");
 
         root.getChildren().addAll(navnInput, opretButton);
 
-        opretButton.getButton().setOnAction(e -> {
-            try {
-                Controller.createFadType(navnInput.getInputValue());
-                this.close();
-            } catch (Exception exception) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Fejl ved oprettelse");
-                alert.setHeaderText("Kunne ikke oprette ny fadtype");
-                alert.setContentText(exception.getMessage());
-                alert.showAndWait();
-            }
-        });
+        opretButton.getButton().setOnAction(e -> opretFadType());
+        navnInput.getTextField().setOnAction(e -> opretFadType());
+    }
+
+    private void opretFadType() {
+        try {
+            Controller.createFadType(navnInput.getInputValue());
+            this.close();
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fejl ved oprettelse");
+            alert.setHeaderText("Kunne ikke oprette ny fadtype");
+            alert.setContentText(exception.getMessage());
+            alert.showAndWait();
+        }
     }
 }
