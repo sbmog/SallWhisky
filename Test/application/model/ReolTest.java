@@ -66,4 +66,26 @@ class ReolTest {
         assertEquals(1, reol.getHyldePladser().size());
         assertTrue(reol.getHyldePladser().contains(hyldePlads2));
     }
+    @Test
+    void hyldePladsIDUnderOrEqualToZeroThrowsException() {
+        Reol reol = new Reol(new Lager("Lager 1", "Central lager", "Lagervej 1", 10), 1);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new HyldePlads(0, reol);
+        });
+        assertEquals("HyldePladsID skal være et tal over 0.", exception.getMessage());
+
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            new HyldePlads(-1, reol);
+        });
+        assertEquals("HyldePladsID skal være et tal over 0.", exception.getMessage());
+    }
+
+    @Test
+    void reolNullThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new HyldePlads(1, null);
+        });
+        assertEquals("Reol kan ikke være null.", exception.getMessage());
+    }
 }

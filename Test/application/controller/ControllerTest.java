@@ -30,13 +30,14 @@ class ControllerTest {
         destillat = Controller.createDestillat("Destillat1", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 50.0, 60.0, false, 200.0, maltBatch);
 
         fadType = Controller.createFadType("Sherry");
-        fad = Controller.createFad(200, "Eg", "FadAPS", 0, null, fadType);
+        fad = Controller.createFad( 200, "Eg", "FadAPS", 0, null, fadType);
 
         påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, destillat);
         fad.setPåfyldning(påfyldning);
 
         tapninger = new ArrayList<>();
         Tapning tapning = Controller.createTapning(LocalDate.of(2025, 1, 1), "SNIPE", 30, fad);
+        this.tapning = tapning;
         tapninger.add(tapning);
 
         whisky = Controller.createWhisky(1, "TestWhisky", 45.0, false, 10.0, tapninger, WhiskyType.SINGLE_MALT);
@@ -44,31 +45,32 @@ class ControllerTest {
         lager = Controller.createLager("Lager1", "Baghave", "Baghavevej 1", 10);
         lager.createReol();
     }
-    @Test
-    void createDestillat() {
-        assertNotNull(destillat);
-        assertEquals("Destillat1", destillat.getDestillatID());
-        assertEquals(60, destillat.getAlkoholProcent());
-        assertEquals(1, maltBatch.getMalt().size());
-        assertEquals("Byg", maltBatch.getMalt().get(0).getKornSort());
-    }
 
-    @Test
-    void createDestillatForkert() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Controller.createDestillat("ForkertDestillat", LocalDate.of(2020, 2, 1), LocalDate.of(2020, 2, 2), 50, 59.0, false, 200, maltBatch);
-        });
-    }
+        @Test
+        void createDestillat () {
+            assertNotNull(destillat);
+            assertEquals("Destillat1", destillat.getDestillatID());
+            assertEquals(60, destillat.getAlkoholProcent());
+            assertEquals(1, maltBatch.getMalt().size());
+            assertEquals("Byg", maltBatch.getMalt().get(0).getKornSort());
+        }
 
-    @Test
-    void createFad() {
-        assertNotNull(fad);
-        assertEquals(1, fad.getFadID());
-        assertEquals(200, fad.getFadILiter());
-        assertEquals("Eg", fad.getMateriale());
-        assertEquals("FadAPS", fad.getLeverandør());
-        assertEquals(1, fad.getAntalGangeBrugt());
-    }
+        @Test
+        void createDestillatForkert () {
+            assertThrows(IllegalArgumentException.class, () -> {
+                Controller.createDestillat("ForkertDestillat", LocalDate.of(2020, 2, 1), LocalDate.of(2020, 2, 2), 50, 59.0, false, 200, maltBatch);
+            });
+        }
+
+        @Test
+        void createFad () {
+            assertNotNull(fad);
+            assertEquals(1, fad.getFadID());
+            assertEquals(200, fad.getFadILiter());
+            assertEquals("Eg", fad.getMateriale());
+            assertEquals("FadAPS", fad.getLeverandør());
+            assertEquals(1, fad.getAntalGangeBrugt());
+        }
 
     @Test
     void createFadForkert() {
@@ -123,7 +125,6 @@ class ControllerTest {
         assertEquals("SNIPE", tapning.getInitialerForMedarbejder());
         assertEquals(30.0,tapning.getAntalLiterFraFad());
         assertEquals(fad,tapning.getFad());
-
     }
 
     @Test
@@ -151,6 +152,5 @@ class ControllerTest {
     void createFadType() {
         assertNotNull(fadType);
         assertEquals("Sherry", fadType.getNavn());
-
     }
 }

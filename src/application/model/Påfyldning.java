@@ -16,13 +16,11 @@ public class Påfyldning {
         } else if (antalLiterPåfyldt <= 0) {
             throw new IllegalArgumentException("Antal liter påfyldt skal være større end 0.");
         } else if (initialerForMedarbejder == null || initialerForMedarbejder.isEmpty()) {
-            throw new IllegalArgumentException("Initialer for medarbejder kan ikke være null eller tom.");
+            throw new NullPointerException("Initialer for medarbejder kan ikke være null eller tom.");
         } else if (datoForPåfyldning == null) {
-            throw new IllegalArgumentException("Dato for påfyldning kan ikke være null.");
-        } else if (fad == null) {
-            throw new IllegalArgumentException("Fad kan ikke være null.");
+            throw new NullPointerException("Dato for påfyldning kan ikke være null.");
         } else if (destillat == null) {
-            throw new IllegalArgumentException("Destillat kan ikke være null.");
+            throw new NullPointerException("Destillat kan ikke være null.");
         }
 
         this.initialerForMedarbejder = initialerForMedarbejder;

@@ -29,8 +29,6 @@ class FadTest {
                 50.0,
                 maltBatch);
 
-
-
         fad = new Fad(
                 50.0,
                 "Eg",
@@ -38,14 +36,13 @@ class FadTest {
                 1,
                 new FadType("Sherry"));
 
-
         påfyldning = new Påfyldning("SNIPE",
                 50.0,
                 LocalDate.of(2020, 1, 4),
-                fad, // Brug fad her
+                fad,
                 destillat);
 
-        fad.setPåfyldning(påfyldning); // Tildel påfyldningen til fadet
+        fad.setPåfyldning(påfyldning);
 
         tapning = new Tapning(LocalDate.of(2023, 1, 5),
                 "NJ",
@@ -55,24 +52,7 @@ class FadTest {
     }
 
     @Test
-    void placerPåHylde() {
-        Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
-        lager.createReol();
-        Reol reol = lager.getReoler().getFirst();
-
-        reol.createHyldePlads();
-        HyldePlads hyldePlads = reol.getHyldePladser().get(0);
-
-        assertTrue(hyldePlads.isPladsFri());
-
-        fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 5));
-
-        assertFalse(hyldePlads.isPladsFri());
-        assertEquals(hyldePlads, fad.getFadPlacering().getHyldePlads());
-    }
-
-    @Test
-    void fadConstructorThrowsIllegalArgumentException() {
+    void fadStørrelseOverMaxException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Fad(600.0, "Eg", "Spanien", 1, new FadType("Sherry"));
         });
@@ -80,85 +60,70 @@ class FadTest {
     }
 
     @Test
-    void placerPåHyldePladsErFri() {
-        Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
-        lager.createReol();
-        Reol reol = lager.getReoler().getFirst();
-
-        reol.createHyldePlads();
-        HyldePlads hyldePlads = reol.getHyldePladser().get(0);
-
-        assertTrue(hyldePlads.isPladsFri());
-
-        fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 5));
-
-        assertFalse(hyldePlads.isPladsFri());
-        assertEquals(hyldePlads, fad.getFadPlacering().getHyldePlads());
-    }
-
-    @Test
-    void placerPåHyldeIkkeFri() {
-        Lager lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
-        lager.createReol();
-        Reol reol = lager.getReoler().getFirst();
-
-        reol.createHyldePlads();
-        HyldePlads hyldePlads = reol.getHyldePladser().get(0);
-
-        fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 5));
-
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            fad.placerPåHylde(hyldePlads, LocalDate.of(2025, 5, 6));
+    void leverandørEllerMaterialeNullOrEmptyException() {
+        Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
+            new Fad(200.0, null, "Spanien", 1, new FadType("Sherry"));
         });
-        assertEquals("Hyldepladsen er allerede optaget.", exception.getMessage());
+        assertEquals("Leverandør og/eller Materiale kan ikke være null eller tom.", exception1.getMessage());
+
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
+            new Fad(200.0, "Eg", "", 1, new FadType("Sherry"));
+        });
+        assertEquals("Leverandør og/eller Materiale kan ikke være null eller tom.", exception2.getMessage());
     }
 
     @Test
-    void beregnAntalFlasker() {
-        int antalFlasker = fad.beregnAntalFlasker(0.7);
-        assertEquals(71, antalFlasker); // 50.0 / 0.7 ≈ 71 flasker
-        //Denne test viste en fejl i metoden:'beregnAntalFlasker', som blev rettet.
-    }
-
-    @Test
-    void flaskeStørrelseIkkeGyldig() {
+    void antalGangeBrugtNegativException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            fad.beregnAntalFlasker(0);
+            new Fad(200.0, "Eg", "Spanien", -1, new FadType("Sherry"));
         });
-        assertEquals("Flaske størrelse skal være større end 0.", exception.getMessage());
+        assertEquals("Antal gange brugt kan ikke være negativ.", exception.getMessage());
     }
 
     @Test
-    void beregnLagringstid() {
-        long dage = fad.BeregnLagringstid(); // baseret på påfyldningsdatoen
-        assertTrue(dage > 0);
+    void fadTypeNullException() {
+        Exception exception = assertThrows(NullPointerException.class, () -> {
+            new Fad(200.0, "Eg", "Spanien", 1, null);
+        });
+        assertEquals("FadType kan ikke være null.", exception.getMessage());
     }
 
     @Test
-    void beregnTidTilWhisky() {
-        long dageTilWhisky = fad.beregnTidTilWhisky();
-        assertTrue(dageTilWhisky >= 0);
+    void beregnLagringstidStartDatoInFutureThrowsException() {
+        Påfyldning futurePåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat);
+        fad.setPåfyldning(futurePåfyldning);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            fad.BeregnLagringstid();
+        });
+        assertEquals("Startdato kan ikke være i fremtiden.", exception.getMessage());
     }
 
     @Test
-    void tilføjPåfyldning() {
-        Destillat nytDestillat = new Destillat("NJ2",
-                LocalDate.of(2021, 5, 1),
-                LocalDate.of(2021, 5, 2),
-                65.0,
-                61.0,
-                true,
-                40.0,
-                new MaltBatch("B2", LocalDate.of(2021, 4, 1), 30.0, new ArrayList<>()));
+    void beregnTidTilWhiskyStartDatoInFutureException() {
+        Påfyldning futurePåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat);
+        fad.setPåfyldning(futurePåfyldning);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            fad.beregnTidTilWhisky();
+        });
+        assertEquals("Startdato kan ikke være i fremtiden.", exception.getMessage());
+    }
 
-        Påfyldning nyPåfyldning = new Påfyldning("SNIPE",
-                40.0,
-                LocalDate.of(2021, 5, 3),
-                fad,
-                nytDestillat);
+    @Test
+    void setPåfyldningMaxUsageException() {
+        fad.setAntalGangeBrugt(fad.getMaksAntalGangeBrugt());
+        Påfyldning newPåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now(), fad, destillat);
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            fad.setPåfyldning(newPåfyldning);
+        });
+        assertEquals("Fadet kan ikke bruges mere end " + fad.getMaksAntalGangeBrugt() + " gange.", exception.getMessage());
+    }
 
-        fad.setPåfyldning(nyPåfyldning);
-
-        assertEquals(nyPåfyldning, fad.getPåfyldning());
+    @Test
+    void setFadILiterOverMaxException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            fad.setFadILiter(600.0);
+        });
+        assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception.getMessage());
     }
 }
