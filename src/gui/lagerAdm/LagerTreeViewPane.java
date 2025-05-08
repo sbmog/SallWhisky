@@ -18,6 +18,7 @@ public class LagerTreeViewPane extends VBox {
 
     public LagerTreeViewPane() {
         this.getChildren().add(treeViewInput);
+        this.setSpacing(5);
         opbygTreeView();
 
         treeViewInput.getTreeView().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {

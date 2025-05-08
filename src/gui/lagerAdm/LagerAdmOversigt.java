@@ -20,13 +20,10 @@ public class LagerAdmOversigt extends Stage {
         LagerInformationPane infoPane = new LagerInformationPane();
         LagerAdministrationPane adminPane = new LagerAdministrationPane(treeViewPane);
 
-        treeViewPane.setOnSelectionChanged(obj -> {
-            infoPane.updateInfo(obj);
-        });
+        treeViewPane.setOnSelectionChanged(obj -> infoPane.updateInfo(obj));
 
-        HBox højreSide = new HBox(infoPane, adminPane);
-        højreSide.setSpacing(10);
-        højreSide.setPadding(new Insets(0,5,10,10));
+        HBox højreSide = new HBox(5, infoPane, adminPane);
+        højreSide.setPadding(new Insets(0, 5, 10, 10));
         højreSide.setAlignment(Pos.TOP_CENTER);
 
         HBox.setHgrow(infoPane, javafx.scene.layout.Priority.ALWAYS);

@@ -31,11 +31,11 @@ public abstract class BaseTab<T> extends GridPane {
 
         liste = new LabeledListViewInput<>(listeTekst);
 
-        VBox venstreBoks = new VBox(10,søgeFelt,liste);
+        VBox venstreBoks = new VBox(5,søgeFelt,liste);
         VBox.setVgrow(liste, Priority.ALWAYS);
         add(venstreBoks,0,0);
 
-        attributVisning = new VBox(10);
+        attributVisning = new VBox(5);
         add(attributVisning,1,0);
 
         GridPane.setHgrow(venstreBoks, Priority.ALWAYS);

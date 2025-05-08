@@ -22,7 +22,7 @@ public class LagerInformationPane extends VBox {
 
     public LagerInformationPane() {
         this.setMaxWidth(Double.MAX_VALUE);
-        this.setSpacing(10);
+        this.setSpacing(5);
         this.getChildren().addAll(
                 information,
                 lagerNavn, lagerAdresse, antalFadPåLager,

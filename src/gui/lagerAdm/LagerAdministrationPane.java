@@ -35,7 +35,7 @@ public class LagerAdministrationPane extends VBox {
         this.setMaxWidth(Double.MAX_VALUE);
         this.setPadding(new Insets(0, 5, 10, 10));
         this.setAlignment(Pos.TOP_CENTER);
-        this.setSpacing(10);
+        this.setSpacing(5);
         this.getChildren().addAll(administrer, opretLager, sletLager, opretReol, sletReol, opretHylde, sletHylde, flytFad);
 
         opretLager.getButton().setOnAction(e -> håndterOpretLager());
