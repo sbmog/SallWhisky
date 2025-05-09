@@ -8,6 +8,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import storage.Storage;
@@ -32,17 +34,24 @@ public class OpretDestillatPane extends Stage {
     public OpretDestillatPane() {
         this.setTitle("Registrér ny destillation");
 
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
-        VBox vbox = new VBox();
+        VBox vbox = new VBox(5);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
-        vbox.getChildren().addAll(opretDestiliat, indtastDestillatID, indtastDestillatStartDato, indtastDestillatSlutDato, indtastDestillatLiterVand, indtastDestillatAlkoholprocent, indtastMæskningsMængde, checkRøget, vælgBatch, opretDestillatButton);
+        vbox.getChildren().addAll(opretDestiliat, indtastDestillatID, indtastDestillatStartDato,
+                indtastDestillatSlutDato, indtastDestillatLiterVand, indtastDestillatAlkoholprocent,
+                indtastMæskningsMængde, checkRøget, vælgBatch,spacer, opretDestillatButton);
 
 
-        Scene scene = new Scene(vbox, 300, 450);
+        Scene scene = new Scene(vbox, 300, 650);
         vbox.setPadding(new Insets(0, 5, 10, 10));
         this.setScene(scene);
         this.show();
+
+
+        VBox.setVgrow(vbox, Priority.ALWAYS);
 
         vælgBatch.addItems(Controller.getMaltBatch());
 
@@ -64,11 +73,11 @@ public class OpretDestillatPane extends Stage {
 
             Controller.createDestillat(navn, startDato, slutDato, literVand, alkoholProcent, røget, væskemængde, batch);
 
-            AlertTypes.visBekræftDialog("Destillat oprettet", "Destillat er oprettet med ID: " + navn);
+            AlertTypes.visDialog(Alert.AlertType.CONFIRMATION, "Destillat er oprettet med ID: " + navn," destillat er nu oprettet");
             this.close();
 
         } catch (NumberFormatException e) {
-            AlertTypes.visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
+            AlertTypes.visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Ugyldigt input i et eller flere felter");
         } catch (IllegalArgumentException | NullPointerException e) {
             AlertTypes.visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
         }
