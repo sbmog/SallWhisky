@@ -86,6 +86,8 @@ public class Fad {
         }
     }
 
+
+
     public void setPåfyldning(Påfyldning nyPåfyldning) {
         if (antalGangeBrugt >= maksAntalGangeBrugt) {
             throw new IllegalStateException("Fadet kan ikke bruges mere end " + maksAntalGangeBrugt + " gange.");
