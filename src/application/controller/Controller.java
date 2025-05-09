@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Controller {
 
-    public static Destillat createDestillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {
-        Destillat newDestillat = new Destillat(destillatID, startDato, slutDato, literVand, alkoholProcent, røget, væskemængde, maltBatch);
+    public static Destillat createDestillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double mæskningsMængde, MaltBatch maltBatch) {
+        Destillat newDestillat = new Destillat(destillatID, startDato, slutDato, literVand, alkoholProcent, røget, mæskningsMængde, maltBatch);
         Storage.addDestillat(newDestillat);
         return newDestillat;
     }
@@ -78,6 +78,10 @@ public class Controller {
         Storage.removeLager(lager);
     }
 
+    public static ArrayList<MaltBatch> getAlleMalte() {
+        return Storage.getMaltBatches();
+    }
+
     public static List<HyldePlads> getAlleFrieHyldePladser() {
         List<HyldePlads> friePladser = new ArrayList<>();
         for (Lager lager : Storage.getLagre()) {
@@ -89,6 +93,7 @@ public class Controller {
         }
         return friePladser;
     }
+
 
     public static void flytFadTilNyHylde(Fad fad, HyldePlads nyHyldePlads) {
         if (!nyHyldePlads.isPladsFri()) {
@@ -109,5 +114,9 @@ public class Controller {
 
     public static int getNæsteFadID() {
         return Storage.getFade().size() + 1;
+    }
+
+    public static ArrayList<MaltBatch> getMaltBatch() {
+        return Storage.getMaltBatches();
     }
 }
