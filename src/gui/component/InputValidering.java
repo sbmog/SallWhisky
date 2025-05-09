@@ -2,6 +2,7 @@ package gui.component;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 
 import java.util.Optional;
 
@@ -12,6 +13,14 @@ public class InputValidering {
 
     public boolean isValid() {
         return valid;
+    }
+
+    public InputValidering validateListViewSelection(ListView<?> listView, String errorMessage) {
+        if (listView.getSelectionModel().getSelectedItem() == null) {
+            visDialog(Alert.AlertType.ERROR, "Fejl", errorMessage);
+            valid = false;
+        }
+        return this;
     }
 
     public InputValidering validateNotEmpty(LabeledTextInput input, String errorMessage) {

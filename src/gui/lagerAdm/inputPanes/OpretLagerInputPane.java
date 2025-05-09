@@ -71,7 +71,7 @@ public class OpretLagerInputPane extends Stage {
         validering
                 .validateNotEmpty(lagerID, "Lager ID må ikke være tomt.")
                 .validateNotEmpty(lagerNavn, "Lagernavn må ikke være tomt.")
-                .validateNotEmpty(lagerAdresse, "Adresse må ikke være tom.")
+                .validateNotEmpty(lagerAdresse, "Adresse må ikke være tomt.")
                 .validateNotEmpty(maxAntalReoler, "Max antal reoler skal udfyldes.")
                 .validateInteger(maxAntalReoler, "Max antal reoler skal være et heltal.");
         return validering.isValid();
