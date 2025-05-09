@@ -28,8 +28,10 @@ public class MaltBatch {
     }
 
 
-    public void createMalt(String kornsort, String markNavn, double maengde) {
-        malt.add(new Malt(kornsort, markNavn, maengde));
+    public Malt createMalt(String kornsort, String markNavn, double maengde) {
+        Malt maltObjekt = new Malt(kornsort, markNavn, maengde);
+        malt.add(maltObjekt);
+        return maltObjekt;
     }
 
     public String getBatchNummer() {
