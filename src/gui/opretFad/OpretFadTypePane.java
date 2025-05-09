@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import static gui.component.AlertTypes.visDialog;
+
 public class OpretFadTypePane extends Stage {
     private final LabeledTextInput navnInput = new LabeledTextInput("Indtast navn");
 
@@ -34,13 +36,15 @@ public class OpretFadTypePane extends Stage {
     private void opretFadType() {
         try {
             Controller.createFadType(navnInput.getInputValue());
+            visDialog(Alert.AlertType.CONFIRMATION,
+                    "Fadtype oprettet",
+                    Controller.getFadTyper().getLast()+" er nu oprettet");
             this.close();
         } catch (Exception exception) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fejl ved oprettelse");
-            alert.setHeaderText("Kunne ikke oprette ny fadtype");
-            alert.setContentText(exception.getMessage());
-            alert.showAndWait();
+            visDialog(
+                    Alert.AlertType.ERROR,
+                    "Fejl ved oprettelse",
+                    "Kunne ikke oprette ny fadtype" + exception.getMessage());
         }
     }
 }
