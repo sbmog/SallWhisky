@@ -12,10 +12,10 @@ import gui.lagerAdm.inputPanes.OpretLagerInputPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 
-import java.util.Optional;
+import static gui.component.AlertTypes.visBekræftDialog;
+import static gui.component.AlertTypes.visDialog;
 
 public class LagerAdministrationPane extends VBox {
     private final HeaderLabel administrer = new HeaderLabel("Administrer");
@@ -58,7 +58,10 @@ public class LagerAdministrationPane extends VBox {
             flytFadInputPane.setOnHidden(e -> treeViewPane.opbygTreeView());
             flytFadInputPane.show();
         } else {
-            visDialog(Alert.AlertType.WARNING, "Forkert valg", "Vælg et fad du vil flytte.");
+            visDialog(
+                    Alert.AlertType.WARNING,
+                    "Forkert valg",
+                    "Vælg et fad du vil flytte.");
         }
     }
 
@@ -74,14 +77,22 @@ public class LagerAdministrationPane extends VBox {
             for (Reol reol : valgtLager.getReoler()) {
                 for (HyldePlads hylde : reol.getHyldePladser()) {
                     if (!hylde.isPladsFri()) {
-                        visDialog(Alert.AlertType.ERROR, "Kan ikke slette", "Lageret indeholder mindst én hylde med fad og kan derfor ikke slettes.");
+                        visDialog(
+                                Alert.AlertType.ERROR,
+                                "Kan ikke slette",
+                                "Lageret indeholder mindst én hylde med fad og kan derfor ikke slettes.");
                         return;
                     }
                 }
             }
-            if (visBekræftDialog("Bekræft sletning", "Er du sikker på, at du vil slette lageret '" + valgtLager.getNavn() + "'?")) {
+            if (visBekræftDialog(
+                    "Bekræft sletning",
+                    "Er du sikker på, at du vil slette lageret '" + valgtLager.getNavn() + "'?")) {
                 Controller.removeLager(valgtLager);
-                visDialog(Alert.AlertType.INFORMATION, "Lager slettet", "Lageret blev slettet.");
+                visDialog(
+                        Alert.AlertType.CONFIRMATION,
+                        "Lager slettet",
+                        "Lageret blev slettet.");
                 treeViewPane.opbygTreeView();
             }
         } else {
@@ -93,16 +104,25 @@ public class LagerAdministrationPane extends VBox {
         Object valgt = treeViewPane.getValgtObjekt();
         if (valgt instanceof Lager valgtLager) {
             if (valgtLager.getReoler().size() >= valgtLager.getMaxAntalReoler()) {
-                visDialog(Alert.AlertType.ERROR, "Fejl", "Der er ikke plads til flere reoler på dette lager.");
+                visDialog(
+                        Alert.AlertType.ERROR,
+                        "Fejl",
+                        "Der er ikke plads til flere reoler på dette lager.");
                 return;
             }
 
             valgtLager.createReol();
-            visDialog(Alert.AlertType.INFORMATION, "Reol oprettet", "Reolen blev oprettet som reol nr." + valgtLager.getReoler().size());
+            visDialog(
+                    Alert.AlertType.CONFIRMATION,
+                    "Reol oprettet",
+                    "Reolen blev oprettet som reol nr." + valgtLager.getReoler().size());
 
             treeViewPane.opbygTreeView();
         } else {
-            visDialog(Alert.AlertType.WARNING, "Forkert valg", "Vælg et lager for at oprette en reol.");
+            visDialog(
+                    Alert.AlertType.WARNING,
+                    "Forkert valg",
+                    "Vælg et lager for at oprette en reol.");
         }
     }
 
@@ -111,18 +131,29 @@ public class LagerAdministrationPane extends VBox {
         if (valgt instanceof Reol reol) {
             for (HyldePlads hyldePlads : reol.getHyldePladser()) {
                 if (!hyldePlads.isPladsFri()) {
-                    visDialog(Alert.AlertType.ERROR, "Kan ikke slette", "Reolen indeholder mindst én hylde med fad, og kan derfor ikke slettes.");
+                    visDialog(
+                            Alert.AlertType.ERROR,
+                            "Kan ikke slette",
+                            "Reolen indeholder mindst én hylde med fad, og kan derfor ikke slettes.");
                     return;
                 }
             }
             Lager lager = reol.getLager();
-            if (lager != null && visBekræftDialog("Bekræft sletning", "Er du sikker på, at du vil slette reolen?")) {
+            if (lager != null && visBekræftDialog(
+                    "Bekræft sletning",
+                    "Er du sikker på, at du vil slette reolen?")) {
                 lager.removeReol(reol);
-                visDialog(Alert.AlertType.INFORMATION, "Reol slettet", "Reolen blev slettet.");
+                visDialog(
+                        Alert.AlertType.CONFIRMATION,
+                        "Reol slettet",
+                        "Reolen blev slettet.");
                 treeViewPane.opbygTreeView();
             }
         } else {
-            visDialog(Alert.AlertType.WARNING, "Forkert valg", "Vælg en reol for at slette den.");
+            visDialog(
+                    Alert.AlertType.WARNING,
+                    "Forkert valg",
+                    "Vælg en reol for at slette den.");
         }
     }
 
@@ -130,11 +161,15 @@ public class LagerAdministrationPane extends VBox {
         Object valgt = treeViewPane.getValgtObjekt();
         if (valgt instanceof Reol valgtReol) {
             valgtReol.createHyldePlads();
-            visDialog(Alert.AlertType.INFORMATION, "Hyldeplads oprettet",
+            visDialog(
+                    Alert.AlertType.CONFIRMATION,
+                    "Hyldeplads oprettet",
                     "Hyldeplads blev oprettet som nr. " + valgtReol.getHyldePladser().size());
             treeViewPane.opbygTreeView();
         } else {
-            visDialog(Alert.AlertType.WARNING, "Forkert valg",
+            visDialog(
+                    Alert.AlertType.WARNING,
+                    "Forkert valg",
                     "Vælg en reol for at oprette en hyldeplads.");
         }
     }
@@ -143,36 +178,29 @@ public class LagerAdministrationPane extends VBox {
         Object valgt = treeViewPane.getValgtObjekt();
         if (valgt instanceof HyldePlads hylde) {
             if (!hylde.isPladsFri()) {
-                visDialog(Alert.AlertType.ERROR, "Kan ikke slette", "Hyldepladsen indeholder stadig fad og kan derfor ikke slettes.");
+                visDialog(
+                        Alert.AlertType.ERROR,
+                        "Kan ikke slette",
+                        "Hyldepladsen indeholder stadig fad og kan derfor ikke slettes.");
                 return;
             }
 
             Reol reol = hylde.getReol();
-            if (reol != null && visBekræftDialog("Bekræft sletning", "Er du sikker på, at du vil slette hyldepladsen?")) {
+            if (reol != null && visBekræftDialog(
+                    "Bekræft sletning",
+                    "Er du sikker på, at du vil slette hyldepladsen?")) {
                 reol.removeHyldePlads(hylde);
-                visDialog(Alert.AlertType.INFORMATION, "Hylde slettet", "Hyldepladsen blev slettet.");
+                visDialog(
+                        Alert.AlertType.CONFIRMATION,
+                        "Hylde slettet",
+                        "Hyldepladsen blev slettet.");
                 treeViewPane.opbygTreeView();
             }
         } else {
-            visDialog(Alert.AlertType.WARNING, "Forkert valg", "Vælg en hyldeplads for at slette den.");
+            visDialog(
+                    Alert.AlertType.WARNING,
+                    "Forkert valg",
+                    "Vælg en hyldeplads for at slette den.");
         }
-    }
-
-    private void visDialog(Alert.AlertType type, String titel, String besked) {
-        Alert alert = new Alert(type);
-        alert.setTitle(titel);
-        alert.setHeaderText(null);
-        alert.setContentText(besked);
-        alert.showAndWait();
-    }
-
-    private boolean visBekræftDialog(String titel, String besked) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(titel);
-        alert.setHeaderText(null);
-        alert.setContentText(besked);
-
-        Optional<ButtonType> resultat = alert.showAndWait();
-        return resultat.isPresent() && resultat.get() == ButtonType.OK;
     }
 }

@@ -1,16 +1,19 @@
 package gui.lagerAdm.inputPanes;
 
 import application.controller.Controller;
+import gui.component.InputValidering;
 import gui.component.LabeledButton;
 import gui.component.LabeledTextInput;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import static gui.component.AlertTypes.visDialog;
 
 public class OpretLagerInputPane extends Stage {
     private final LabeledTextInput lagerID = new LabeledTextInput("Indtast lager ID");
@@ -51,6 +54,10 @@ public class OpretLagerInputPane extends Stage {
                         lagerNavn.getInputValue(),
                         lagerAdresse.getInputValue(),
                         Integer.parseInt(maxAntalReoler.getInputValue()));
+                visDialog(
+                        Alert.AlertType.CONFIRMATION,
+                        "Lager oprettet",
+                        lagerNavn + " er nu oprettet");
                 this.close();
             }
         });
@@ -67,7 +74,6 @@ public class OpretLagerInputPane extends Stage {
                 .validateNotEmpty(lagerAdresse, "Adresse må ikke være tom.")
                 .validateNotEmpty(maxAntalReoler, "Max antal reoler skal udfyldes.")
                 .validateInteger(maxAntalReoler, "Max antal reoler skal være et heltal.");
-
         return validering.isValid();
     }
 }

@@ -1,8 +1,8 @@
-package gui.lagerAdm.inputPanes;
+package gui.component;
 
-import gui.component.LabeledDateInput;
-import gui.component.LabeledTextInput;
 import javafx.scene.control.Alert;
+
+import static gui.component.AlertTypes.visDialog;
 
 public class InputValidering {
 
@@ -30,13 +30,13 @@ public class InputValidering {
         return this;
     }
 
-//    public InputValidering validateSelected(ComboBox<?> comboBox, String errorMessage) {
-//        if (comboBox.getValue() == null) {
-//            showAlert("Fejl", errorMessage);
-//            valid = false;
-//        }
-//        return this;
-//    }
+    public InputValidering validateSelected(LabeledComboBoxInput<?> comboBox, String errorMessage) {
+        if (comboBox.getComboBox().getSelectionModel() == null) {
+            visDialog(Alert.AlertType.ERROR, "Fejl", errorMessage);
+            valid = false;
+        }
+        return this;
+    }
 
     public InputValidering validateDateOrder(LabeledDateInput start, LabeledDateInput end, String errorMessage) {
         if (start.getInputValue() == null || end.getInputValue() == null || end.getInputValue().isBefore(start.getInputValue())) {
@@ -46,12 +46,12 @@ public class InputValidering {
         return this;
     }
 
-//    public InputValidering validateIfSelected(CheckBox checkBox, Runnable validationLogic) {
-//        if (checkBox.isSelected()) {
-//            validationLogic.run(); // her kaldes andre valideringer
-//        }
-//        return this;
-//    }
+    public InputValidering validateIfSelected(LabeledCheckBoxInput<?> checkBox, Runnable validationLogic) {
+        if (checkBox.getCheckBox().isSelected()) {
+            validationLogic.run();
+        }
+        return this;
+    }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

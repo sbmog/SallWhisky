@@ -2,6 +2,7 @@ package gui.opretFad;
 
 import application.controller.Controller;
 import application.model.FadType;
+import gui.component.InputValidering;
 import gui.component.LabeledButton;
 import gui.component.LabeledComboBoxInput;
 import gui.component.LabeledTextInput;
@@ -13,9 +14,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import static gui.component.AlertTypes.visDialog;
+
 public class OpretFadPane extends Stage {
 
-    LabeledTextInput literInput = new LabeledTextInput("Fadets størrelse i liter");
+    LabeledTextInput literInput = new LabeledTextInput("Fadets størrelse i Liter");
     LabeledTextInput materialInput = new LabeledTextInput("Materiale");
     LabeledTextInput leverandørInput = new LabeledTextInput("Leverandør");
     LabeledTextInput antalGangeBrugtInput = new LabeledTextInput("Antal gange brugt");
@@ -46,25 +49,34 @@ public class OpretFadPane extends Stage {
         opretFadTypeButton.getButton().setOnAction(e -> opretFadType());
 
         opretButton.getButton().setOnAction(e -> {
-            try {
+            if (validerOprettelse()) {
                 double liter = Double.parseDouble(literInput.getInputValue());
                 String materiale = materialInput.getInputValue();
                 String leverandør = leverandørInput.getInputValue();
                 int antalGangeBrugt = Integer.parseInt(antalGangeBrugtInput.getInputValue());
                 FadType valgtFadType = fadtypeInput.getComboBox().getValue();
-
                 Controller.createFad(liter, materiale, leverandør, antalGangeBrugt, valgtFadType);
+                visDialog(
+                        Alert.AlertType.CONFIRMATION,
+                        "Fadet er oprettet",
+                        "Fad #" + Controller.getFade().size() + " er nu oprettet");
 
                 this.close();
-            } catch (Exception exception) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Fejl ved oprettelse");
-                alert.setHeaderText("Kunne ikke oprette fad");
-                alert.setContentText(exception.getMessage());
-                alert.showAndWait();
             }
         });
+    }
 
+    public boolean validerOprettelse() {
+        InputValidering validering = new InputValidering();
+        validering
+                .validateNotEmpty(literInput, "Fadets størrelse i Liter må ikke være tomt.")
+                .validateInteger(literInput, "Fadets størrelse i Liter skal være et heltal")
+                .validateNotEmpty(materialInput, "Materiale må ikke være tomt.")
+                .validateNotEmpty(leverandørInput, "Leverandør må ikke være tom.")
+                .validateNotEmpty(antalGangeBrugtInput, "Antal gange brugt må ikke være tom.")
+                .validateInteger(antalGangeBrugtInput, "Antal gange brugt skal være et heltal.")
+                .validateSelected(fadtypeInput, "Der skal vælges en fadtype.");
+        return validering.isValid();
     }
 
     private void opretFadType() {

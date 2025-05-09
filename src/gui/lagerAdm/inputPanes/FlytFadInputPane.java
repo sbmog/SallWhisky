@@ -3,14 +3,18 @@ package gui.lagerAdm.inputPanes;
 import application.controller.Controller;
 import application.model.Fad;
 import application.model.HyldePlads;
+import gui.component.InputValidering;
 import gui.component.LabeledButton;
 import gui.component.LabeledComboBoxInput;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import static gui.component.AlertTypes.visDialog;
 
 public class FlytFadInputPane extends Stage {
 
@@ -29,19 +33,29 @@ public class FlytFadInputPane extends Stage {
         root.setAlignment(Pos.CENTER);
 
         hyldePladsComboBox.addItems(Controller.getAlleFrieHyldePladser());
-        HBox buttonBox = new HBox(10,annullerButton,flytButton);
+        HBox buttonBox = new HBox(10, annullerButton, flytButton);
 
-        root.getChildren().addAll(hyldePladsComboBox,buttonBox);
-        this.setScene(new Scene(root,400,150));
+        root.getChildren().addAll(hyldePladsComboBox, buttonBox);
+        this.setScene(new Scene(root, 400, 150));
 
-        flytButton.getButton().setOnAction(e->{
+        flytButton.getButton().setOnAction(e -> {
             HyldePlads valgtHyldePlads = hyldePladsComboBox.getSelectedValue();
-            if (valgtHyldePlads!=null){
-                Controller.flytFadTilNyHylde(fad,valgtHyldePlads);
+            if (validerOprettelse()) {
+                Controller.flytFadTilNyHylde(fad, valgtHyldePlads);
+                visDialog(
+                        Alert.AlertType.CONFIRMATION,
+                        "Flad flytter",
+                        fadDerSkalFlyttes + " er blevet flyttet til " + valgtHyldePlads);
                 this.close();
             }
         });
 
-        annullerButton.getButton().setOnAction(e-> this.close());
+        annullerButton.getButton().setOnAction(e -> this.close());
+    }
+
+    private boolean validerOprettelse() {
+        InputValidering validering = new InputValidering();
+        validering.validateSelected(hyldePladsComboBox, "Der skal vælges en ny hyldeplads");
+        return validering.isValid();
     }
 }
