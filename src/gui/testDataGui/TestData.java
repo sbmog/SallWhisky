@@ -33,7 +33,7 @@ public class TestData {
 
 
         // Destillat
-        Destillat destillat = new Destillat("NJ1", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 100.0, 60.0, false, 50.0, new MaltBatch("SNIPER", LocalDate.of(2020, 1, 1), 100.0, new ArrayList<>()));
+        Destillat destillat = new Destillat("DS1", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 100.0, 60.0, false, 50.0, maltBatch);
         Storage.addDestillat(destillat);
 
         // Fad
