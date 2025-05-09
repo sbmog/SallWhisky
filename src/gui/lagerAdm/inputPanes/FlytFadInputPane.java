@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import static gui.component.AlertTypes.visDialog;
+import static gui.component.InputValidering.visDialog;
 
 public class FlytFadInputPane extends Stage {
 

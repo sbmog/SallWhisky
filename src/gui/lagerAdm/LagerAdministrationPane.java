@@ -14,8 +14,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 
-import static gui.component.AlertTypes.visBekræftDialog;
-import static gui.component.AlertTypes.visDialog;
+import static gui.component.InputValidering.visBekræftDialog;
+import static gui.component.InputValidering.visDialog;
 
 public class LagerAdministrationPane extends VBox {
     private final HeaderLabel administrer = new HeaderLabel("Administrer");

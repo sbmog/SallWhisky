@@ -1,8 +1,10 @@
 package gui.component;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
-import static gui.component.AlertTypes.visDialog;
+import java.util.Optional;
+
 
 public class InputValidering {
 
@@ -14,7 +16,7 @@ public class InputValidering {
 
     public InputValidering validateNotEmpty(LabeledTextInput input, String errorMessage) {
         if (input.getInputValue().isEmpty()) {
-            showAlert("Fejl", errorMessage);
+            visDialog(Alert.AlertType.ERROR,"Fejl", errorMessage);
             valid = false;
         }
         return this;
@@ -24,7 +26,7 @@ public class InputValidering {
         try {
             Integer.parseInt(input.getInputValue());
         } catch (NumberFormatException e) {
-            showAlert("Fejl", fejlbesked);
+            visDialog(Alert.AlertType.ERROR,"Fejl", fejlbesked);
             valid = false;
         }
         return this;
@@ -40,7 +42,7 @@ public class InputValidering {
 
     public InputValidering validateDateOrder(LabeledDateInput start, LabeledDateInput end, String errorMessage) {
         if (start.getInputValue() == null || end.getInputValue() == null || end.getInputValue().isBefore(start.getInputValue())) {
-            showAlert("Fejl", errorMessage);
+            visDialog(Alert.AlertType.ERROR,"Fejl", errorMessage);
             valid = false;
         }
         return this;
@@ -53,10 +55,21 @@ public class InputValidering {
         return this;
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(message);
+    public static void visDialog(Alert.AlertType type, String titel, String besked) {
+        Alert alert = new Alert(type);
+        alert.setTitle(titel);
+        alert.setHeaderText(null);
+        alert.setContentText(besked);
         alert.showAndWait();
+    }
+
+    public static boolean visBekræftDialog(String titel, String besked) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(titel);
+        alert.setHeaderText(null);
+        alert.setContentText(besked);
+
+        Optional<ButtonType> resultat = alert.showAndWait();
+        return resultat.isPresent() && resultat.get() == ButtonType.OK;
     }
 }

@@ -12,9 +12,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import storage.Storage;
 
 import java.time.LocalDate;
+
+import static gui.component.InputValidering.visDialog;
 
 public class OpretDestillatPane extends Stage {
 
@@ -73,13 +74,22 @@ public class OpretDestillatPane extends Stage {
 
             Controller.createDestillat(navn, startDato, slutDato, literVand, alkoholProcent, røget, væskemængde, batch);
 
-            AlertTypes.visDialog(Alert.AlertType.CONFIRMATION, "Destillat er oprettet med ID: " + navn," destillat er nu oprettet");
+            visDialog(
+                    Alert.AlertType.CONFIRMATION,
+                    "Destillat er oprettet med ID: " + navn,
+                    " destillat er nu oprettet");
             this.close();
 
         } catch (NumberFormatException e) {
-            AlertTypes.visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Ugyldigt input i et eller flere felter");
+            visDialog(
+                    Alert.AlertType.ERROR,
+                    "Ugyldigt input",
+                    "Ugyldigt input i et eller flere felter");
         } catch (IllegalArgumentException | NullPointerException e) {
-            AlertTypes.visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
+            visDialog(
+                    Alert.AlertType.ERROR,
+                    "Fejl ved oprettelse",
+                    e.getMessage());
         }
     }
 }

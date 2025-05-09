@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import static gui.component.AlertTypes.visDialog;
+import static gui.component.InputValidering.visDialog;
 
 public class OpretFadTypePane extends Stage {
     private final LabeledTextInput navnInput = new LabeledTextInput("Indtast navn");

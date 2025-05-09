@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
+import static gui.component.InputValidering.visDialog;
+
 public class OpretTapningPane extends Stage {
     private final HeaderLabel opretTapning = new HeaderLabel("Opret tapning");
     private final LabeledDateInput tapningsDatoInput = new LabeledDateInput("Indsæt tapningsdato");
@@ -67,13 +69,22 @@ public class OpretTapningPane extends Stage {
             Controller.createTapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, fad);
             this.close();
 
-            AlertTypes.visBekræftDialog("Destillat oprettet", "Destillat er oprettet med ID: " + fad.getFadID() + " og tapningsdato: " + tapningsDato);
+            visDialog(
+                    Alert.AlertType.CONFIRMATION,
+                    "Destillat oprettet",
+                    "Destillat er oprettet med ID: " + fad.getFadID() + " og tapningsdato: " + tapningsDato);
             this.close();
 
         } catch (NumberFormatException e) {
-            AlertTypes.visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
+            visDialog(
+                    Alert.AlertType.ERROR,
+                    "Ugyldigt input",
+                    "Vand, alkoholprocent og væskemængde skal være tal.");
         } catch (IllegalArgumentException | NullPointerException e) {
-            AlertTypes.visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
+            visDialog(
+                    Alert.AlertType.ERROR,
+                    "Fejl ved oprettelse",
+                    e.getMessage());
         }
     }
 }

@@ -13,7 +13,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import static gui.component.AlertTypes.visDialog;
+import static gui.component.InputValidering.visDialog;
 
 public class OpretLagerInputPane extends Stage {
     private final LabeledTextInput lagerID = new LabeledTextInput("Indtast lager ID");
