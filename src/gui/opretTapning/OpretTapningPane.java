@@ -2,12 +2,12 @@ package gui.opretTapning;
 
 import application.controller.Controller;
 import application.model.Fad;
+import application.model.Tapning;
 import gui.component.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -44,10 +44,10 @@ public class OpretTapningPane extends Stage {
         VBox vbox = new VBox(5);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
-        vbox.getChildren().addAll(tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, fad,fortyndningCheckBox,fortyndningInput, spacer, opretDestillatButton);
+        vbox.getChildren().addAll(opretTapning,fad,tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput,fortyndningCheckBox,fortyndningInput, spacer, opretDestillatButton);
 
 
-        Scene scene = new Scene(vbox, 300, 400);
+        Scene scene = new Scene(vbox, 300, 500);
         this.setScene(scene);
         this.show();
 
@@ -64,27 +64,40 @@ public class OpretTapningPane extends Stage {
             LocalDate tapningsDato = tapningsDatoInput.getInputValue();
             String initialerForMedarbejder = initialerForMedarbejderInput.getInputValue();
             int antalLiterFraFad = Integer.parseInt(antalLiterFraFadInput.getInputValue());
-            Fad fad = (Fad) this.fad.getComboBox().getValue();
+            Fad selectedFad = (Fad) this.fad.getComboBox().getValue();
 
-            Controller.createTapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, fad);
+            if(selectedFad == null) {
+                throw new IllegalArgumentException("Fad skal vælges");
+            }
+
+            Tapning tapning = new Tapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
+
+            if (fortyndningCheckBox.isSelected()) {
+                double fortyndingLiter = Double.parseDouble(fortyndningInput.getInputValue());
+                tapning.createFortynding(fortyndingLiter);
+
+            }
+
+            Controller.createTapning(tapningsDato,initialerForMedarbejder,antalLiterFraFad,selectedFad);
             this.close();
 
-            visDialog(
-                    Alert.AlertType.CONFIRMATION,
-                    "Destillat oprettet",
-                    "Destillat er oprettet med ID: " + fad.getFadID() + " og tapningsdato: " + tapningsDato);
+            selectedFad.opdaterNuværendeInhold(antalLiterFraFad);
+            selectedFad.fjernFraHyldeHvisTom();
+
+            if(selectedFad.getNuværendeIndhold() == 0) {
+                selectedFad.fjernFraHyldeHvisTom();
+                visDialog(Alert.AlertType.INFORMATION,"Fad fjerners fra hylde","Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
+            }
+
+
+            visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet","Fad #" + selectedFad.getFadID() + " er nu tappet med " + antalLiterFraFad + " liter.");
             this.close();
 
         } catch (NumberFormatException e) {
             visDialog(
-                    Alert.AlertType.ERROR,
-                    "Ugyldigt input",
-                    "Vand, alkoholprocent og væskemængde skal være tal.");
+                    Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
         } catch (IllegalArgumentException | NullPointerException e) {
-            visDialog(
-                    Alert.AlertType.ERROR,
-                    "Fejl ved oprettelse",
-                    e.getMessage());
+            visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
         }
     }
 }
