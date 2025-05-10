@@ -21,7 +21,6 @@ public class OpretFadPane extends Stage {
     LabeledTextInput literInput = new LabeledTextInput("Fadets størrelse i Liter");
     LabeledTextInput materialInput = new LabeledTextInput("Materiale");
     LabeledTextInput leverandørInput = new LabeledTextInput("Leverandør");
-    LabeledTextInput antalGangeBrugtInput = new LabeledTextInput("Antal gange brugt");
     LabeledComboBoxInput<FadType> fadtypeInput = new LabeledComboBoxInput<>("Fadtype:");
     LabeledButton opretFadTypeButton = new LabeledButton("Opret ny fadtype", "Opret");
 
@@ -44,7 +43,7 @@ public class OpretFadPane extends Stage {
 
         fadtypeInput.getComboBox().getItems().addAll(Controller.getFadTyper());
 
-        root.getChildren().addAll(literInput, materialInput, leverandørInput, antalGangeBrugtInput, fadtypeInput, opretFadTypeButton, spacer, opretButton);
+        root.getChildren().addAll(literInput, materialInput, leverandørInput, fadtypeInput, opretFadTypeButton, spacer, opretButton);
 
         opretFadTypeButton.getButton().setOnAction(e -> opretFadType());
 
@@ -53,9 +52,8 @@ public class OpretFadPane extends Stage {
                 double liter = Double.parseDouble(literInput.getInputValue());
                 String materiale = materialInput.getInputValue();
                 String leverandør = leverandørInput.getInputValue();
-                int antalGangeBrugt = Integer.parseInt(antalGangeBrugtInput.getInputValue());
                 FadType valgtFadType = fadtypeInput.getComboBox().getValue();
-                Controller.createFad(liter, materiale, leverandør, antalGangeBrugt, valgtFadType);
+                Controller.createFad(liter, materiale, leverandør, 0, valgtFadType);
                 visDialog(
                         Alert.AlertType.CONFIRMATION,
                         "Fadet er oprettet",
@@ -73,8 +71,6 @@ public class OpretFadPane extends Stage {
                 .validateInteger(literInput, "Fadets størrelse i Liter skal være et heltal")
                 .validateNotEmpty(materialInput, "Materiale må ikke være tomt.")
                 .validateNotEmpty(leverandørInput, "Leverandør må ikke være tom.")
-                .validateNotEmpty(antalGangeBrugtInput, "Antal gange brugt må ikke være tom.")
-                .validateInteger(antalGangeBrugtInput, "Antal gange brugt skal være et heltal.")
                 .validateSelected(fadtypeInput, "Der skal vælges en fadtype.");
         return validering.isValid();
     }

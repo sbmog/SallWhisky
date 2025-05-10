@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Fad {
-    private int fadID = 1;
+    private int fadID;
+    private static int idCounter = 0;
     private double fadILiter;
     private String materiale;
     private String leverandør;
@@ -16,6 +17,7 @@ public class Fad {
     private FadPlacering fadPlacering;
     private FadType fadType;
     private Påfyldning påfyldning;
+    private double antalLiterPåFyldt;
 
 
     public Fad(double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
@@ -23,19 +25,16 @@ public class Fad {
             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
         } else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
             throw new IllegalArgumentException("Leverandør og/eller Materiale kan ikke være null eller tom.");
-        } else if (antalGangeBrugt < 0) {
-            throw new IllegalArgumentException("Antal gange brugt kan ikke være negativ.");
         } else if (fadType == null) {
             throw new NullPointerException("FadType kan ikke være null.");
         }
 
-        this.fadID = fadID++; // Tildel det næste ID og øg værdien
+        this.fadID = ++idCounter;
         this.fadILiter = fadILiter;
         this.materiale = materiale;
         this.leverandør = leverandør;
-        this.antalGangeBrugt = antalGangeBrugt;
+        this.antalGangeBrugt = 0;
         this.fadType = fadType;
-        this.påfyldning = påfyldning;
     }
 
     public Tapning getTapning() {
@@ -85,6 +84,19 @@ public class Fad {
             return 0;
         }
     }
+    public void fjernFraHyldeHvisTom() {
+        if (nuværendeIndhold == 0 & fadPlacering != null) {
+            fadPlacering.getHyldePlads().setPladsFri(true);
+            fadPlacering = null;
+        }
+    }
+
+    public void opdaterNuværendeInhold(double antalLiterFraFad) {
+        if (antalLiterFraFad > nuværendeIndhold) {
+            throw new IllegalArgumentException("Der er ikke nok indhold i fadet til at foretage tapningen.");
+        }
+        this.nuværendeIndhold -= antalLiterFraFad;
+    }
 
 
 
@@ -92,15 +104,22 @@ public class Fad {
         if (antalGangeBrugt >= maksAntalGangeBrugt) {
             throw new IllegalStateException("Fadet kan ikke bruges mere end " + maksAntalGangeBrugt + " gange.");
         }
+        if (nyPåfyldning == null) {
+            throw new IllegalArgumentException("Påfyldning kan ikke være null.");
+        }
+        if (nuværendeIndhold + nyPåfyldning.getAntalLiterPåfyldt() > fadILiter) {
+            throw new IllegalArgumentException("Påfyldning overstiger fadets kapacitet.");
+        }
+        
         this.påfyldning = nyPåfyldning;
+        this.nuværendeIndhold += nyPåfyldning.getAntalLiterPåfyldt();
+        this.antalLiterPåFyldt += nyPåfyldning.getAntalLiterPåfyldt();
         antalGangeBrugt++;
     }
 
     public int getMaksAntalGangeBrugt() {
         return maksAntalGangeBrugt;
     }
-
-
 
     public double getNuværendeIndhold() {
         return nuværendeIndhold;
