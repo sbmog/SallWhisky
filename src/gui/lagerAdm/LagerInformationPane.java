@@ -59,7 +59,7 @@ public class LagerInformationPane extends VBox {
             antalFadPåLager.setValue(String.valueOf(hylde.getReol().getLager().getTotalAntalFadePåLager()));
             reolID.setValue(String.valueOf(hylde.getReol().getReolID()));
             hyldeID.setValue(String.valueOf(hylde.getHyldePladsID()));
-            if (!hylde.isPladsFri() && hylde.getFadPlaceret() != null) {
+            if (!hylde.isPladsFri()) {
                 Fad fad = hylde.getFadPlaceret().getFad();
                 fadID.setValue(String.valueOf(fad.getFadID()));
                 fadIndhold.setValue(String.valueOf(fad.getPåfyldning().getDestillat()));

@@ -50,6 +50,7 @@ public class Fad {
             this.fadPlacering = new FadPlacering(dato, this, hyldePlads);
         } else throw new IllegalStateException("Hyldepladsen er allerede optaget.");
     }
+
 //TODO hvor får vi flaskestørrelse fra? ift. brugen i GUI
     public int beregnAntalFlasker(double flaskeStørrelse) {
         if (tapning == null) {

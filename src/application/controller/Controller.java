@@ -27,8 +27,8 @@ public class Controller {
         return newMaltBatch;
     }
 
-    public static Påfyldning createPåfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat) {
-        Påfyldning newPåfyldning = new Påfyldning(initialerForMedarbejder, antalLiterPåfyldt, datoForPåfyldning, fad, destillat);
+    public static Påfyldning createPåfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat, HyldePlads hyldePlads) {
+        Påfyldning newPåfyldning = new Påfyldning(initialerForMedarbejder, antalLiterPåfyldt, datoForPåfyldning, fad, destillat, hyldePlads);
         Storage.addPåfyldning(newPåfyldning);
         return newPåfyldning;
     }
@@ -118,5 +118,15 @@ public class Controller {
 
     public static ArrayList<MaltBatch> getMaltBatch() {
         return Storage.getMaltBatches();
+    }
+
+    public static ArrayList<Fad> getLedigeFade() {
+        ArrayList<Fad> ledigeFade = new ArrayList<>();
+        for (Fad fad : getFade()) {
+            if (fad.getFadPlacering() == null) {
+                ledigeFade.add(fad);
+            }
+        }
+        return ledigeFade;
     }
 }

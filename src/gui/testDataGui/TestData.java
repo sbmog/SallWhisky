@@ -14,37 +14,44 @@ public class TestData {
         Storage.addLager(lager);
 
         // Reol
-        lager.createReol(); // Reol 1
-        Reol reol = lager.getReoler().get(0);
-        Storage.addReol(reol);
-
+        Reol reol = lager.createReol(); // Reol 1
 
         // Hyldeplads
         HyldePlads hyldePlads1 = reol.createHyldePlads(); // Hylde 1
-        Storage.addHylde(hyldePlads1);
 
         HyldePlads hyldePlads2 = reol.createHyldePlads(); // Hylde 2
-        Storage.addHylde(hyldePlads2);
 
         //maltbatch & malt
         MaltBatch maltBatch = new MaltBatch("MB001", LocalDate.of(2020, 1, 1), 300.0, new ArrayList<>());
         Storage.addMaltBatch(maltBatch);
         maltBatch.createMalt("Byg", "Mark 1", 20.0);
 
-
         // Destillat
         Destillat destillat = new Destillat("DS1", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 100.0, 60.0, false, 50.0, maltBatch);
         Storage.addDestillat(destillat);
 
+        // Fadtype
+        FadType nyFadType = new FadType("Ny");
+        FadType bourbonFadType = new FadType(" Ex-Bourbonfad");
+        FadType olorosoFadType = new FadType("Ex-Oloroso Sherryfad");
+        FadType pxSherryFadType = new FadType("Ex-Pedro Ximénez SherryFad");
+        FadType laphroaigFadType = new FadType("Ex-Laphroaig Bourbonfad");
+        FadType manzanillaFadType = new FadType("Ex-Manzanilla Sherryfad");
+        Storage.addFadType(nyFadType);
+        Storage.addFadType(bourbonFadType);
+        Storage.addFadType(olorosoFadType);
+        Storage.addFadType(pxSherryFadType);
+        Storage.addFadType(laphroaigFadType);
+        Storage.addFadType(manzanillaFadType);
+
         // Fad
-        Fad fad1 = new Fad(500, "Eg","FAD APS", new FadType("Sherry"));
+        Fad fad1 = new Fad(500, "Amerikansk Eg", "FAD APS", olorosoFadType);
         Storage.addFad(fad1);
 
         // Påfyldning
-        Påfyldning påfyldning = new Påfyldning("SNIPER",100, LocalDate.of(2020, 1, 1), fad1, destillat);
+        Påfyldning påfyldning = new Påfyldning("SNIPER", 100, LocalDate.of(2020, 1, 1), fad1, destillat, hyldePlads1);
         fad1.setPåfyldning(påfyldning);
         Storage.addPåfyldning(påfyldning);
-
 
         // Tapning (efter 3 år)
         Tapning tapning = new Tapning(LocalDate.of(2023, 3, 1), "MK", 100, fad1);
