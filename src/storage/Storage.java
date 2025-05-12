@@ -171,43 +171,4 @@ public class Storage {
     public static ArrayList<Lager> getLagre() {
         return new ArrayList<>(lagre);
     }
-
-
-    //Hylde
-    public static void addHylde(HyldePlads hylde){
-
-        if (!hyldePladser.contains(hylde)){
-            hyldePladser.add(hylde);
-        }
-    }
-
-    public static void removeHylde(HyldePlads hylde){
-
-
-        if (hyldePladser.contains(hylde)){
-            hyldePladser.remove(hylde);
-        }
-    }
-
-    public static ArrayList<HyldePlads> getHylder() {
- 
-        return new ArrayList<>(hyldePladser);
-    }
-
-    //Reol
-    public static void addReol(Reol reol){
-        if (!reoler.contains(reol)){
-            reoler.add(reol);
-        }
-    }
-
-    public static void removeReol(Reol reol){
-        if (reoler.contains(reol)){
-            reoler.remove(reol);
-        }
-    }
-
-    public static ArrayList<Reol> getReoler() {
-        return new ArrayList<>(reoler);
-    }
 }
