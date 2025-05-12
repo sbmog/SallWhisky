@@ -27,6 +27,7 @@ public class WhiskyTab extends BaseTab<Whisky> {
 
         liste.getListView().getItems().setAll(Controller.getWhiskyer());
 
+        tapninger.getListView().setPrefHeight(150);
         attributVisning.getChildren().addAll(whiskyID, whiskyNavn, whiskyType, alkoholProcent, fortyndet, vandmængde, antalFlasker, tapninger);
 
         liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

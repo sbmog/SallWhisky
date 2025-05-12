@@ -3,6 +3,7 @@ package gui.component;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class LabeledListViewInput<T> extends VBox {
@@ -14,6 +15,7 @@ public class LabeledListViewInput<T> extends VBox {
         this.setMinWidth(200);
         Label label = new Label(labelText);
         label.setStyle("-fx-font-weight: bold;");
+        VBox.setVgrow(listView, Priority.ALWAYS);
         this.getChildren().addAll(label,listView);
     }
 
