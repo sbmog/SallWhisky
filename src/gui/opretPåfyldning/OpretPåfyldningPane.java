@@ -24,7 +24,7 @@ public class OpretPåfyldningPane extends Stage {
 
     private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillatet der fyldes på", "Søg destillat");
 
-    private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg fade der skal fyldes på", "Søg fad");
+    private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg ledige fade der skal fyldes på", "Søg fad");
 
     private final TextInputWithListViewInput<HyldePlads> hyldePladser = new TextInputWithListViewInput<>("Vælg en fri hylde at placere fadet på", "Søg Hylde plads");
 
@@ -45,7 +45,7 @@ public class OpretPåfyldningPane extends Stage {
         this.show();
 
         destillater.getListView().getItems().setAll(Controller.getDestillater());
-        fade.getListView().getItems().setAll(Controller.getFade());
+        fade.getListView().getItems().setAll(Controller.getLedigeFade());
         hyldePladser.getListView().getItems().setAll(Controller.getAlleFrieHyldePladser());
 
         destillater.getTextField().setOnAction(e -> søgDestillat());

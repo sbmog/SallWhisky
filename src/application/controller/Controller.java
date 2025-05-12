@@ -119,4 +119,14 @@ public class Controller {
     public static ArrayList<MaltBatch> getMaltBatch() {
         return Storage.getMaltBatches();
     }
+
+    public static ArrayList<Fad> getLedigeFade() {
+        ArrayList<Fad> ledigeFade = new ArrayList<>();
+        for (Fad fad : getFade()) {
+            if (fad.getFadPlacering() == null) {
+                ledigeFade.add(fad);
+            }
+        }
+        return ledigeFade;
+    }
 }
