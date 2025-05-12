@@ -30,7 +30,7 @@ public class StartWindow extends Application {
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
 
-        Scene scene = new Scene(pane, 700, 300);
+        Scene scene = new Scene(pane, 800, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
 
