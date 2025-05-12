@@ -16,10 +16,22 @@ class TapningTest {
     private Destillat destillat;
     private Påfyldning påfyldning;
     private Fad fad;
+    private Lager lager;
+    private Reol reol;
+    private HyldePlads hyldePlads;
 
     @BeforeEach
     void setUp() {
         MaltBatch maltBatch = new MaltBatch("B1", LocalDate.of(2020, 1, 1), 40.0, new ArrayList<>());
+
+        lager = new Lager("Lager1",
+                "Baghaven",
+                "Baghavevej 1",
+                10);
+
+        reol = new Reol(lager, 1);
+
+        hyldePlads = new HyldePlads(1, reol);
 
         destillat = new Destillat("NJ1",
                 LocalDate.of(2020, 1, 1),
@@ -40,7 +52,9 @@ class TapningTest {
                 50.0,
                 LocalDate.of(2020, 1, 4),
                 fad, // Brug fad her
-                destillat);
+                destillat,
+                hyldePlads
+                );
 
         fad.setPåfyldning(påfyldning);
 

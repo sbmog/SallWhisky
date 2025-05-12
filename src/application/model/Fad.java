@@ -1,5 +1,7 @@
 package application.model;
 
+import application.controller.Controller;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -69,7 +71,7 @@ public class Fad {
         if (startDato.isAfter(nu)){
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
-        return (int) ChronoUnit.YEARS.between(startDato,nu);
+        return (int) ChronoUnit.DAYS.between(startDato,nu);
     }
 
     public int beregnTidTilWhisky() {
@@ -115,7 +117,10 @@ public class Fad {
         this.påfyldning = nyPåfyldning;
         this.nuværendeIndhold += nyPåfyldning.getAntalLiterPåfyldt();
         this.antalLiterPåFyldt += nyPåfyldning.getAntalLiterPåfyldt();
+        nyPåfyldning.setFad(this);
         antalGangeBrugt++;
+
+
     }
 
     public int getMaksAntalGangeBrugt() {

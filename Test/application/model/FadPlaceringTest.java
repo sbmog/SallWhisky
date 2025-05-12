@@ -14,6 +14,7 @@ class FadPlaceringTest {
     private HyldePlads hyldePlads;
     private FadType fadType;
     private Fad fad;
+    private FadPlacering fadPlacering;
 
 
     @BeforeEach
@@ -21,7 +22,7 @@ class FadPlaceringTest {
         lager = Controller.createLager("1", "Lager1", "Adressevej 1", 50);
         lager.createReol();
         reol = lager.getReoler().getFirst();
-        hyldePlads = new HyldePlads(3, reol);
+        hyldePlads = new HyldePlads(1, reol);
         fadType = Controller.createFadType("Blended");
         fad = Controller.createFad(500, "Eg", "Leverandør A", 1, fadType);
     }
@@ -52,7 +53,7 @@ class FadPlaceringTest {
     @Test
     void constructorThrowsExceptionNårHyldePladsIkkeErFri() {
         HyldePlads hyldePlads = new HyldePlads(1, reol);
-        hyldePlads.setPladsFri(false);
+        hyldePlads.setFadPlaceret(new FadPlacering(LocalDate.now(), fad, hyldePlads));
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new FadPlacering(LocalDate.now(), fad, hyldePlads);
         });
@@ -65,7 +66,7 @@ class FadPlaceringTest {
         fad.setFadPlacering(fadPlacering);
 
         String result = fadPlacering.getFullFadPlacering();
-        assertEquals("Lager1 - 1 - 3", result);
+        assertEquals("Lager1 - 1 - 1", result);
 
     }
 

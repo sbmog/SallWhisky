@@ -49,12 +49,12 @@ public class TestData {
         Storage.addFad(fad1);
 
         // Påfyldning
-        Påfyldning påfyldning = new Påfyldning("SNIPER", 100, LocalDate.of(2020, 1, 1), fad1, destillat, hyldePlads1);
+        Påfyldning påfyldning = new Påfyldning("SNIPER", 100, LocalDate.now().minusYears(2), fad1, destillat, hyldePlads1);
         fad1.setPåfyldning(påfyldning);
         Storage.addPåfyldning(påfyldning);
 
         // Tapning (efter 3 år)
-        Tapning tapning = new Tapning(LocalDate.of(2023, 3, 1), "MK", 100, fad1);
+        Tapning tapning = new Tapning(påfyldning.getDatoForPåfyldning().plusYears(3), "MK", 100, fad1);
         tapning.createFortynding(10.0);
         Storage.addTapning(tapning);
 
