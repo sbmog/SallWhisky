@@ -23,7 +23,7 @@ class FadPlaceringTest {
         reol = lager.getReoler().getFirst();
         hyldePlads = new HyldePlads(3, reol);
         fadType = Controller.createFadType("Blended");
-        fad = Controller.createFad(500, "Eg", "Leverandør A", 1, null, fadType);
+        fad = Controller.createFad(500, "Eg", "Leverandør A", 1, fadType);
     }
 
     @Test

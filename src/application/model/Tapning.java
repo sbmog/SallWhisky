@@ -75,11 +75,20 @@ public class Tapning {
         return fortyndinger;
     }
 
-    public void setFortyndinger(ArrayList<Fortynding> fortyndinger) {
-        this.fortyndinger = fortyndinger;
+    public void addFortyndinger(Fortynding fortynding) {
+        if (!fortyndinger.contains(fortynding)){
+            this.fortyndinger.add(fortynding);
+        }
     }
 
     public String toString() {
         return "Tapning fra " + fad;
+    }
+
+    public double angelShareiProcent(){
+        double påfyldt = fad.getPåfyldning().getAntalLiterPåfyldt();
+        double nuværendeIndhold = this.antalLiterFraFad;
+        double angelShare = (påfyldt - nuværendeIndhold) / påfyldt * 100;
+        return angelShare;
     }
 }

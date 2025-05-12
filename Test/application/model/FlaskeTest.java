@@ -31,7 +31,6 @@ class FlaskeTest {
                 50.0,
                 "Eg",
                 "Spanien",
-                1,
                 new FadType("Sherry"));
 
         påfyldning = new Påfyldning("SNIPE",

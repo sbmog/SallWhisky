@@ -16,7 +16,7 @@ public class Controller {
     }
 
     public static Fad createFad(double fadStørrelse, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
-        Fad newFad = new Fad(fadStørrelse, materiale, leverandør, antalGangeBrugt, fadType);
+        Fad newFad = new Fad(fadStørrelse, materiale, leverandør, fadType);
         Storage.addFad(newFad);
         return newFad;
     }

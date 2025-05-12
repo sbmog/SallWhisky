@@ -20,7 +20,7 @@ public class Fad {
     private double antalLiterPåFyldt;
 
 
-    public Fad(double fadILiter, String materiale, String leverandør, int antalGangeBrugt, FadType fadType) {
+    public Fad(double fadILiter, String materiale, String leverandør, FadType fadType) {
         if (fadILiter > maxFadStørrelse) {
             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
         } else if (leverandør == null || leverandør.isEmpty() || materiale == null || materiale.isEmpty()) {
@@ -193,5 +193,9 @@ public class Fad {
 
     public String toString() {
         return "Fad: #" + fadID;
+    }
+
+    public static void resetIDCounter() {
+        idCounter = 0;
     }
 }

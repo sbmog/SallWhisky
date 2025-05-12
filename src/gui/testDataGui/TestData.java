@@ -45,7 +45,7 @@ public class TestData {
         Storage.addFadType(manzanillaFadType);
 
         // Fad
-        Fad fad1 = new Fad(500, "Amerikansk Eg", "FAD APS", 1, olorosoFadType);
+        Fad fad1 = new Fad(500, "Amerikansk Eg", "FAD APS", olorosoFadType);
         Storage.addFad(fad1);
 
         // Påfyldning

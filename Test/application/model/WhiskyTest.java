@@ -19,12 +19,17 @@ class WhiskyTest {
     private Whisky whisky;
 
     @BeforeEach
+    void resetFadIdCounter() {
+        Fad.resetIDCounter();
+    }
+
+    @BeforeEach
     void setUp() {
         maltListe = new ArrayList<>();
         maltBatch = new MaltBatch("MB001", LocalDate.of(2017, 12, 1), 300.0, maltListe);
         destillat = new Destillat("D123", LocalDate.of(2018, 1, 1), LocalDate.of(2018, 2, 1), 50.0, 61.0, true, 200.0, maltBatch);
         fadType = new FadType("Bourbon");
-        fad = new Fad(300.0, "Eg", "Leverandør A", 0, fadType);
+        fad = new Fad(300.0, "Eg", "Leverandør A", fadType);
         påfyldning = new Påfyldning("AB", 100.0, LocalDate.of(2019, 1, 1), fad, destillat);
         fad.setPåfyldning(påfyldning);
         tapning = new Tapning(LocalDate.of(2022, 1, 2), "CD", 80.0, fad);
@@ -79,6 +84,7 @@ class WhiskyTest {
 
     @Test
     public void testGetHistorik() {
+        fad = new Fad(300.0, "Eg", "Leverandør A", fadType);
         String historik = whisky.getHistorik();
 
         assertTrue(historik.contains("Historik for whisky: TestWhisky"));
