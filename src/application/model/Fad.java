@@ -1,5 +1,7 @@
 package application.model;
 
+import application.controller.Controller;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -115,7 +117,10 @@ public class Fad {
         this.påfyldning = nyPåfyldning;
         this.nuværendeIndhold += nyPåfyldning.getAntalLiterPåfyldt();
         this.antalLiterPåFyldt += nyPåfyldning.getAntalLiterPåfyldt();
+        nyPåfyldning.setFad(this);
         antalGangeBrugt++;
+
+
     }
 
     public int getMaksAntalGangeBrugt() {
