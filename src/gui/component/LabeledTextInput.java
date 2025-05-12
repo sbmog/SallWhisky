@@ -21,6 +21,10 @@ public class LabeledTextInput extends VBox {
         return textField.getText().trim();
     }
 
+    public void setInputValue(String value) {
+        textField.setText(value);
+    }
+
     public TextField getTextField() {
         return textField;
     }
