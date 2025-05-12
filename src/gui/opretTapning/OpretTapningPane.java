@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static gui.component.InputValidering.visDialog;
 
@@ -47,20 +49,28 @@ public class OpretTapningPane extends Stage {
         VBox vbox = new VBox(5);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
+
+        vbox.getChildren().addAll(opretTapning, fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput, fortyndningCheckBox, fortyndningInput, whiskyMængdeInput, spacer, opretDestillatButton);
+
+
         vbox.setPadding(new Insets(0, 5, 10, 10));
         vbox.getChildren().addAll(opretTapning, fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput, fortyndingCheckBox, fortyndingInput, whiskyMængdeInput, spacer, opretDestillatButton);
-        // Gør angelShareInput skrivebeskyttet
+        
+      
+
         angelShareInput.getTextField().setEditable(false);
+        whiskyMængdeInput.getTextField().setEditable(false);
 
         Scene scene = new Scene(vbox, 300, 650);
         this.setScene(scene);
         this.show();
 
-        fad.addItems(Controller.getFade());
+        List<Fad> alleFade = Controller.getFade().stream().filter(f -> f.getNuværendeIndhold() > 0).collect(Collectors.toList());
+        fad.addItems(alleFade);
 
         VBox.setVgrow(vbox, Priority.ALWAYS);
 
-        // Lyt til ændringer i antalLiterFraFadInput
+
         antalLiterFraFadInput.getTextField().textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 Fad selectedFad = (Fad) fad.getComboBox().getValue();
@@ -74,7 +84,9 @@ public class OpretTapningPane extends Stage {
         });
         setupWhiskyMængdeUpdater();
 
-        opretDestillatButton.getButton().setOnAction(event -> HåndterOpretDestillat());
+
+        opretDestillatButton.getButton().setOnAction(event -> HåndterOpretTapning());
+
 
         fortyndingInput.getTextField().setDisable(true);
 
@@ -117,7 +129,7 @@ public class OpretTapningPane extends Stage {
         }
     }
 
-    private void HåndterOpretDestillat() {
+    private void HåndterOpretTapning() {
         try {
             LocalDate tapningsDato = tapningsDatoInput.getInputValue();
             String initialerForMedarbejder = initialerForMedarbejderInput.getInputValue();
@@ -128,31 +140,43 @@ public class OpretTapningPane extends Stage {
                 throw new IllegalArgumentException("Fad skal vælges");
             }
 
+
+            Tapning newTapning = Controller.createTapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
+            double fortydningLiter = 0;
+            if (fortyndningCheckBox.isSelected()) {
+                fortydningLiter = Double.parseDouble(fortyndningInput.getInputValue());
+                newTapning.createFortynding(fortydningLiter);
+
             Tapning tapning = new Tapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
 
             if (fortyndingCheckBox.isSelected()) {
                 double fortyndingLiter = Double.parseDouble(fortyndingInput.getInputValue());
                 tapning.createFortynding(fortyndingLiter);
+
             }
 
-            Controller.createTapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
-            this.close();
+        selectedFad.opdaterNuværendeInhold(antalLiterFraFad);
 
-            selectedFad.opdaterNuværendeInhold(antalLiterFraFad);
+        if (selectedFad.getNuværendeIndhold() == 0) {
             selectedFad.fjernFraHyldeHvisTom();
-
-            if (selectedFad.getNuværendeIndhold() == 0) {
-                selectedFad.fjernFraHyldeHvisTom();
-                visDialog(Alert.AlertType.INFORMATION, "Fad fjerners fra hylde", "Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
-            }
-
-            visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + antalLiterFraFad + " liter.");
-            this.close();
-        } catch (NumberFormatException e) {
-            visDialog(
-                    Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
-        } catch (IllegalArgumentException | NullPointerException e) {
-            visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
+            visDialog(Alert.AlertType.INFORMATION, "Fad fjerners fra hylde", "Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
         }
+
+        double totalMængde = antalLiterFraFad + fortydningLiter;
+        new RegistrerWhiskyPane(selectedFad,totalMængde,fortydningLiter,newTapning);
+
+
+        visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
+
+        this.close();
+
+    } catch(
+    NumberFormatException e) {
+        visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
+    } catch(IllegalArgumentException | NullPointerException e) {
+        visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
+
+            
     }
+}
 }
