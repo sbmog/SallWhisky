@@ -57,7 +57,7 @@ public class InputValidering {
         return this;
     }
 
-    public InputValidering validateIfSelected(LabeledCheckBoxInput<?> checkBox, Runnable validationLogic) {
+    public InputValidering validateIfSelected(LabeledCheckBoxInput checkBox, Runnable validationLogic) {
         if (checkBox.getCheckBox().isSelected()) {
             validationLogic.run();
         }

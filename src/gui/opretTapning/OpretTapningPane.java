@@ -25,9 +25,9 @@ public class OpretTapningPane extends Stage {
     private final LabeledTextInput initialerForMedarbejderInput = new LabeledTextInput("Indtast initialer for medarbejder");
     private final LabeledTextInput antalLiterFraFadInput = new LabeledTextInput("Indtast antal liter fra fad");
     private final LabeledTextInput angelShareInput = new LabeledTextInput("Angel share i procent");
-    private final LabeledComboBoxInput fad = new LabeledComboBoxInput("Vælg fad");
-    private final LabeledCheckBoxInput fortyndningCheckBox = new LabeledCheckBoxInput("Tilføj fortyndning", "Ja");
-    private final LabeledTextInput fortyndningInput = new LabeledTextInput("Indtast fortyndning i liter");
+    private final LabeledComboBoxInput<Fad> fad = new LabeledComboBoxInput<>("Vælg fad");
+    private final LabeledCheckBoxInput fortyndingCheckBox = new LabeledCheckBoxInput("Tilføj fortyndning", "Ja");
+    private final LabeledTextInput fortyndingInput = new LabeledTextInput("Indtast fortyndning i liter");
     private final LabeledTextInput whiskyMængdeInput = new LabeledTextInput("Total mængde whisky i liter");
     private final LabeledButton opretDestillatButton = new LabeledButton("Opret tapning", "Opret");
 
@@ -47,11 +47,12 @@ public class OpretTapningPane extends Stage {
         VBox vbox = new VBox(5);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
-        vbox.getChildren().addAll(opretTapning, fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput, fortyndningCheckBox, fortyndningInput, whiskyMængdeInput, spacer, opretDestillatButton);
+        vbox.setPadding(new Insets(0, 5, 10, 10));
+        vbox.getChildren().addAll(opretTapning, fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput, fortyndingCheckBox, fortyndingInput, whiskyMængdeInput, spacer, opretDestillatButton);
         // Gør angelShareInput skrivebeskyttet
         angelShareInput.getTextField().setEditable(false);
 
-        Scene scene = new Scene(vbox, 300, 600);
+        Scene scene = new Scene(vbox, 300, 650);
         this.setScene(scene);
         this.show();
 
@@ -74,6 +75,15 @@ public class OpretTapningPane extends Stage {
         setupWhiskyMængdeUpdater();
 
         opretDestillatButton.getButton().setOnAction(event -> HåndterOpretDestillat());
+
+        fortyndingInput.getTextField().setDisable(true);
+
+        fortyndingCheckBox.getCheckBox().selectedProperty().addListener((observable, oldValue, newValue) -> {
+            fortyndingInput.getTextField().setDisable(!newValue);
+            if (!newValue) {
+                fortyndingInput.getTextField().clear();
+            }
+        });
     }
 
     private void angelShareUpdate(Tapning tapning, TextField angelShareInput) {
@@ -87,7 +97,7 @@ public class OpretTapningPane extends Stage {
 
     private void setupWhiskyMængdeUpdater() {
         antalLiterFraFadInput.getTextField().textProperty().addListener((observable, oldValue, newValue) -> updateWhiskyMængde());
-        fortyndningInput.getTextField().textProperty().addListener((observable, oldValue, newValue) -> updateWhiskyMængde());
+        fortyndingInput.getTextField().textProperty().addListener((observable, oldValue, newValue) -> updateWhiskyMængde());
     }
 
     private void updateWhiskyMængde() {
@@ -95,13 +105,12 @@ public class OpretTapningPane extends Stage {
             double antalLiter = Double.parseDouble(antalLiterFraFadInput.getInputValue());
 
             double totalMængde;
-            if (!fortyndningCheckBox.isSelected()) {
+            if (!fortyndingCheckBox.isSelected()) {
                 totalMængde = antalLiter;
             } else {
-                double fortynding = Double.parseDouble(fortyndningInput.getInputValue());
+                double fortynding = Double.parseDouble(fortyndingInput.getInputValue());
                 totalMængde = antalLiter + fortynding;
             }
-
             whiskyMængdeInput.getTextField().setText(String.format("%.2f", totalMængde));
         } catch (NumberFormatException e) {
             whiskyMængdeInput.getTextField().setText("Ugyldigt input");
@@ -121,10 +130,9 @@ public class OpretTapningPane extends Stage {
 
             Tapning tapning = new Tapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
 
-            if (fortyndningCheckBox.isSelected()) {
-                double fortyndingLiter = Double.parseDouble(fortyndningInput.getInputValue());
+            if (fortyndingCheckBox.isSelected()) {
+                double fortyndingLiter = Double.parseDouble(fortyndingInput.getInputValue());
                 tapning.createFortynding(fortyndingLiter);
-
             }
 
             Controller.createTapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
@@ -138,10 +146,8 @@ public class OpretTapningPane extends Stage {
                 visDialog(Alert.AlertType.INFORMATION, "Fad fjerners fra hylde", "Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
             }
 
-
             visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + antalLiterFraFad + " liter.");
             this.close();
-
         } catch (NumberFormatException e) {
             visDialog(
                     Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");

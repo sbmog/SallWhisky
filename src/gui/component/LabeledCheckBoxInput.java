@@ -5,7 +5,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class LabeledCheckBoxInput<T> extends VBox {
+public class LabeledCheckBoxInput extends VBox {
     private final CheckBox checkBox = new CheckBox();
 
     public LabeledCheckBoxInput(String labelText, String checkBoxText) {
