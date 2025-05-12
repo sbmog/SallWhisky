@@ -27,8 +27,8 @@ public class Controller {
         return newMaltBatch;
     }
 
-    public static Påfyldning createPåfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat) {
-        Påfyldning newPåfyldning = new Påfyldning(initialerForMedarbejder, antalLiterPåfyldt, datoForPåfyldning, fad, destillat);
+    public static Påfyldning createPåfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat, HyldePlads hyldePlads) {
+        Påfyldning newPåfyldning = new Påfyldning(initialerForMedarbejder, antalLiterPåfyldt, datoForPåfyldning, fad, destillat, hyldePlads);
         Storage.addPåfyldning(newPåfyldning);
         return newPåfyldning;
     }

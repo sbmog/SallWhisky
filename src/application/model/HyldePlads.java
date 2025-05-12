@@ -2,7 +2,6 @@ package application.model;
 
 public class HyldePlads {
     private int hyldePladsID;
-    private boolean pladsFri = true;
     private Reol reol;
     private FadPlacering fadPlaceret;
 
@@ -21,10 +20,7 @@ public class HyldePlads {
     }
 
     public void setFadPlaceret(FadPlacering fadPlaceret) {
-        if (!this.fadPlaceret.equals(fadPlaceret)) {
             this.fadPlaceret = fadPlaceret;
-            fadPlaceret.setHyldePlads(this);
-        }
     }
 
     public int getHyldePladsID() {
@@ -36,11 +32,11 @@ public class HyldePlads {
     }
 
     public boolean isPladsFri() {
-        return pladsFri;
+        return fadPlaceret == null;
     }
 
     public void setPladsFri(boolean pladsFri) {
-        this.pladsFri = pladsFri;
+        this.fadPlaceret = null;
     }
 
     public Reol getReol() {

@@ -21,7 +21,10 @@ public class FadPlacering {
         this.datoPlaceret = datoPlaceret;
         this.fad = fad;
         this.hyldePlads = hyldePlads;
-        hyldePlads.setPladsFri(false);
+        if (hyldePlads.getFadPlaceret() != this) {
+            fad.setFadPlacering(this);
+            hyldePlads.setFadPlaceret(this);
+        }
     }
 
     public LocalDate getDatoPlaceret() {
@@ -46,13 +49,11 @@ public class FadPlacering {
 
     public void setHyldePlads(HyldePlads hyldePlads) {
         if (this.hyldePlads != null) {
-            HyldePlads oldHyldePlads = this.hyldePlads;
-            oldHyldePlads.setPladsFri(true);
+            this.hyldePlads.setPladsFri(true);
         }
-        if (!this.hyldePlads.equals(hyldePlads)) {
-            this.hyldePlads = hyldePlads;
+        this.hyldePlads = hyldePlads;
+        if (hyldePlads != null) {
             this.hyldePlads.setFadPlaceret(this);
-            hyldePlads.setPladsFri(false);
         }
     }
 
