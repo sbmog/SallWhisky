@@ -2,6 +2,7 @@ package gui.produktionsAdm;
 
 import gui.produktionsAdm.tabPanes.DestillatTab;
 import gui.produktionsAdm.tabPanes.FadTab;
+import gui.produktionsAdm.tabPanes.MaltBatchTab;
 import gui.produktionsAdm.tabPanes.WhiskyTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -13,11 +14,12 @@ public class ProduktionsAdmOversigt extends Stage {
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
+        tabPane.getTabs().add(new Tab("MaltBatch", new MaltBatchTab()));
         tabPane.getTabs().add(new Tab("Destillat", new DestillatTab()));
         tabPane.getTabs().add(new Tab("Fad", new FadTab()));
         tabPane.getTabs().add(new Tab("Whisky", new WhiskyTab()));
 
-        Scene scene = new Scene(tabPane, 600, 700);
+        Scene scene = new Scene(tabPane, 600, 655);
         this.setScene(scene);
         this.setTitle("Lager administrationsoversigt");
     }
