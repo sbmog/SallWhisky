@@ -37,7 +37,7 @@ public class TestData {
         Storage.addDestillat(destillat);
 
         // Fad
-        Fad fad1 = new Fad(500, "Eg","FAD APS",1,new FadType("Sherry"));
+        Fad fad1 = new Fad(500, "Eg","FAD APS", new FadType("Sherry"));
         Storage.addFad(fad1);
 
         // Påfyldning

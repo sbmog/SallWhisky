@@ -23,7 +23,7 @@ class PåfyldningTest {
         maltList = new ArrayList<>();
         maltList.add(malt);
         maltBatch = new MaltBatch("1", LocalDate.of(2025, 5, 1), 50.0, maltList);
-        fad = new Fad(100.0, "Eg", "Spanien", 1, new FadType("Sherry"));
+        fad = new Fad(100.0, "Eg", "Spanien", new FadType("Sherry"));
         destillat = new Destillat("D1", LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 2), 50.0, 60.0, false, 40.0, maltBatch);
     }
 

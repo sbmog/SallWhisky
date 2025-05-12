@@ -30,10 +30,9 @@ class FadTest {
                 maltBatch);
 
         fad = new Fad(
-                50.0,
+                500.0,
                 "Eg",
                 "Spanien",
-                1,
                 new FadType("Sherry"));
 
         påfyldning = new Påfyldning("SNIPE",
@@ -54,7 +53,7 @@ class FadTest {
     @Test
     void fadStørrelseOverMaxException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Fad(600.0, "Eg", "Spanien", 1, new FadType("Sherry"));
+            new Fad(600.0, "Eg", "Spanien", new FadType("Sherry"));
         });
         assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception.getMessage());
     }
@@ -62,28 +61,28 @@ class FadTest {
     @Test
     void leverandørEllerMaterialeNullOrEmptyException() {
         Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
-            new Fad(200.0, null, "Spanien", 1, new FadType("Sherry"));
+            new Fad(200.0, null, "Spanien", new FadType("Sherry"));
         });
         assertEquals("Leverandør og/eller Materiale kan ikke være null eller tom.", exception1.getMessage());
 
         Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
-            new Fad(200.0, "Eg", "", 1, new FadType("Sherry"));
+            new Fad(200.0, "Eg", "", new FadType("Sherry"));
         });
         assertEquals("Leverandør og/eller Materiale kan ikke være null eller tom.", exception2.getMessage());
     }
 
-    @Test
-    void antalGangeBrugtNegativException() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Fad(200.0, "Eg", "Spanien", -1, new FadType("Sherry"));
-        });
-        assertEquals("Antal gange brugt kan ikke være negativ.", exception.getMessage());
-    }
+//    @Test
+//    void antalGangeBrugtNegativException() {
+//        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+//            new Fad(200.0, "Eg", "Spanien", -1, new FadType("Sherry"));
+//        });
+//        assertEquals("Antal gange brugt kan ikke være negativ.", exception.getMessage());
+//    }
 
     @Test
     void fadTypeNullException() {
         Exception exception = assertThrows(NullPointerException.class, () -> {
-            new Fad(200.0, "Eg", "Spanien", 1, null);
+            new Fad(200.0, "Eg", "Spanien", null);
         });
         assertEquals("FadType kan ikke være null.", exception.getMessage());
     }

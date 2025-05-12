@@ -22,6 +22,10 @@ class ControllerTest {
     private ArrayList<Tapning> tapninger;
 
     @BeforeEach
+    void resetFadIdCounter() {
+        Fad.resetIDCounter();
+    }
+    @BeforeEach
     void setUp() {
         maltList = new ArrayList<>();
         maltBatch = Controller.createMaltBatch("MB001", LocalDate.of(2020, 1, 1), 300, maltList);
@@ -30,7 +34,7 @@ class ControllerTest {
         destillat = Controller.createDestillat("Destillat1", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 50.0, 60.0, false, 200.0, maltBatch);
 
         fadType = Controller.createFadType("Sherry");
-        fad = Controller.createFad( 200, "Eg", "FadAPS", 0, null, fadType);
+        fad = Controller.createFad( 200, "Eg", "FadAPS", 0, fadType);
 
         påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, destillat);
         fad.setPåfyldning(påfyldning);
@@ -76,24 +80,19 @@ class ControllerTest {
     void createFadForkert() {
         // Test cases for invalid Fad creation
         Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
-            Controller.createFad(600.0, "Eg", "Spanien", 1, null, fadType);
+            Controller.createFad(600.0, "Eg", "Spanien", 1, fadType);
         });
         assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception1.getMessage());
 
         // Test 2: Null leverandør
         Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
-            Controller.createFad(400.0, "Eg", null, 1, null, fadType);
+            Controller.createFad(400.0, "Eg", null, 1, fadType);
         });
         assertEquals("Leverandør og/eller Materiale kan ikke være null eller tom.", exception2.getMessage());
 
-        Exception exception3 = assertThrows(IllegalArgumentException.class, () -> {
-            Controller.createFad(400.0, "Eg", "Spanien", -1, null, fadType);
-        });
-        assertEquals("Antal gange brugt kan ikke være negativ.", exception3.getMessage());
-
-
+        // Test 3: Null fadtype
         Exception exception5 = assertThrows(NullPointerException.class, () -> {
-            Controller.createFad(400.0, "Eg", "Spanien", 1, null, null);
+            Controller.createFad(400.0, "Eg", "Spanien", 1, null);
         });
         assertEquals("FadType kan ikke være null.", exception5.getMessage());
     }
