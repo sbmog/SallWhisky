@@ -8,6 +8,9 @@ import gui.component.AttributeDisplay;
 import gui.component.HeaderLabel;
 import javafx.scene.layout.VBox;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 public class LagerInformationPane extends VBox {
     private final HeaderLabel information = new HeaderLabel("Information");
 
@@ -19,6 +22,8 @@ public class LagerInformationPane extends VBox {
     private final AttributeDisplay hyldeID = new AttributeDisplay("Hylde plads ID", "");
     private final AttributeDisplay fadID = new AttributeDisplay("Fad ID", "");
     private final AttributeDisplay fadIndhold = new AttributeDisplay("Fadets indhold", "");
+    private final AttributeDisplay antalDagePåLager = new AttributeDisplay("Antal dage på lager", "");
+    private final AttributeDisplay dageTilTapning = new AttributeDisplay("Antal dage til fadet skal tappes", "");
 
     public LagerInformationPane() {
         this.setMaxWidth(Double.MAX_VALUE);
@@ -27,7 +32,7 @@ public class LagerInformationPane extends VBox {
                 information,
                 lagerNavn, lagerAdresse, antalFadPåLager,
                 reolID, hyldeID,
-                fadID, fadIndhold
+                fadID, fadIndhold, antalDagePåLager, dageTilTapning
         );
     }
 
@@ -39,6 +44,8 @@ public class LagerInformationPane extends VBox {
         hyldeID.setValue("");
         fadID.setValue("");
         fadIndhold.setValue("");
+        antalDagePåLager.setValue("");
+        dageTilTapning.setValue("");
     }
 
     public void updateInfo(Object selectedObject) {
@@ -63,6 +70,8 @@ public class LagerInformationPane extends VBox {
                 Fad fad = hylde.getFadPlaceret().getFad();
                 fadID.setValue(String.valueOf(fad.getFadID()));
                 fadIndhold.setValue(String.valueOf(fad.getPåfyldning().getDestillat()));
+                antalDagePåLager.setValue(String.valueOf(fad.BeregnLagringstid()));
+                dageTilTapning.setValue(String.valueOf(fad.beregnTidTilWhisky()));
             }
         } else if (selectedObject instanceof Fad fad) {
             HyldePlads hyldePlads = fad.getFadPlacering().getHyldePlads();
@@ -73,6 +82,8 @@ public class LagerInformationPane extends VBox {
             hyldeID.setValue(String.valueOf(hyldePlads.getHyldePladsID()));
             fadID.setValue(String.valueOf(fad.getFadID()));
             fadIndhold.setValue(String.valueOf(fad.getPåfyldning().getDestillat()));
+            antalDagePåLager.setValue(String.valueOf(fad.BeregnLagringstid()));
+            dageTilTapning.setValue(String.valueOf(fad.beregnTidTilWhisky()));
         }
     }
 }
