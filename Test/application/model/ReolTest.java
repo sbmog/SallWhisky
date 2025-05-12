@@ -14,10 +14,22 @@ class ReolTest {
     private Påfyldning påfyldning;
     private Fad fad;
     private Tapning tapning;
+    private Lager lager;
+    private Reol reol;
+    private HyldePlads hyldePlads;
 
     @BeforeEach
     void setUp() {
         MaltBatch maltBatch = new MaltBatch("B1", LocalDate.of(2020, 1, 1), 40.0, new ArrayList<>());
+
+        lager = new Lager("Lager1",
+                "Baghaven",
+                "Baghavevej 1",
+                10);
+
+        reol = new Reol(lager, 1);
+
+        hyldePlads = new HyldePlads(1, reol);
 
         destillat = new Destillat("NJ1",
                 LocalDate.of(2020, 1, 1),
@@ -39,7 +51,8 @@ class ReolTest {
                 50.0,
                 LocalDate.of(2020, 1, 4),
                 fad,
-                destillat);
+                destillat,
+                hyldePlads);
 
         fad.setPåfyldning(påfyldning);
 

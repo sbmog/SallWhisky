@@ -17,6 +17,9 @@ class WhiskyTest {
     private Tapning tapning;
     private ArrayList<Tapning> tapninger;
     private Whisky whisky;
+    private Lager lager;
+    private Reol reol;
+    private HyldePlads hyldePlads;
 
     @BeforeEach
     void resetFadIdCounter() {
@@ -25,12 +28,16 @@ class WhiskyTest {
 
     @BeforeEach
     void setUp() {
+        lager = new Lager("Lager1", "Adressevej 1", "By", 100);
+        reol = new Reol(lager, 1);
+        reol.createHyldePlads();
+        hyldePlads = reol.getHyldePladser().getFirst();
         maltListe = new ArrayList<>();
         maltBatch = new MaltBatch("MB001", LocalDate.of(2017, 12, 1), 300.0, maltListe);
         destillat = new Destillat("D123", LocalDate.of(2018, 1, 1), LocalDate.of(2018, 2, 1), 50.0, 61.0, true, 200.0, maltBatch);
         fadType = new FadType("Bourbon");
         fad = new Fad(300.0, "Eg", "Leverandør A", fadType);
-        påfyldning = new Påfyldning("AB", 100.0, LocalDate.of(2019, 1, 1), fad, destillat);
+        påfyldning = new Påfyldning("AB", 100.0, LocalDate.of(2019, 1, 1), fad, destillat, hyldePlads);
         fad.setPåfyldning(påfyldning);
         tapning = new Tapning(LocalDate.of(2022, 1, 2), "CD", 80.0, fad);
         tapninger = new ArrayList<>();

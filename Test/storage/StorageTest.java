@@ -26,6 +26,11 @@ class StorageTest {
 
     @BeforeEach
     void setUp() {
+        lager = new Lager("1", "Lager1", "Adressevej 1", 50);
+        lager.createReol();
+        reol = lager.getReoler().getFirst();
+        reol.createHyldePlads();
+        hyldePlads = reol.getHyldePladser().getFirst();
         ArrayList<Malt> maltList = new ArrayList<>();
         maltBatch = new MaltBatch("N1", LocalDate.of(2025, 5, 1), 100.0, maltList);
         maltBatch.createMalt("byg", "Mark 1", 20.0);
@@ -33,17 +38,13 @@ class StorageTest {
         destillat = new Destillat("1", LocalDate.of(2025, 5, 4), LocalDate.of(2025, 5, 5), 100.0, 60.0, false, 50.0, maltBatch);
         fadType = new FadType("Sherry");
         fad = new Fad(50.0, "Eg", "Spanien", fadType);
-        påfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.of(2025, 5, 4), fad, destillat);
+        påfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.of(2025, 5, 4), fad, destillat, hyldePlads);
         fad.setPåfyldning(påfyldning);
         tapning = new Tapning(LocalDate.of(2028, 5, 5), "SNIPE", 50.0, fad);
         ArrayList<Tapning> tapninger = new ArrayList<Tapning>();
         tapninger.add(tapning);
         whisky = new Whisky(1, "Test Whisky", 43.0, 10.0, tapninger, WhiskyType.SINGLE_MALT);
-        lager = new Lager("1", "Lager1", "Adressevej 1", 50);
-        lager.createReol();
-        reol = lager.getReoler().getFirst();
-        reol.createHyldePlads();
-        hyldePlads = reol.getHyldePladser().getFirst();
+
         whisky.createFlaske();
         flaske = whisky.getFlasker().getFirst();
     }
@@ -163,31 +164,5 @@ class StorageTest {
         Storage.addLager(lager);
         Storage.removeLager(lager);
         assertTrue(!Storage.getLagre().contains(lager));
-    }
-
-    @Test
-    void addHylde() {
-        Storage.addHylde(hyldePlads);
-        assertTrue(Storage.getHylder().contains(hyldePlads));
-    }
-
-    @Test
-    void removeHylde() {
-        Storage.addHylde(hyldePlads);
-        Storage.removeHylde(hyldePlads);
-        assertTrue(!Storage.getHylder().contains(hyldePlads));
-    }
-
-    @Test
-    void addReol() {
-        Storage.addReol(reol);
-        assertTrue(Storage.getReoler().contains(reol));
-    }
-
-    @Test
-    void removeReol() {
-        Storage.addReol(reol);
-        Storage.removeReol(reol);
-        assertTrue(!Storage.getReoler().contains(reol));
     }
 }

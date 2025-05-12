@@ -1,5 +1,4 @@
 package application.controller;
-import application.controller.Controller;
 import application.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,8 @@ class ControllerTest {
     private Whisky whisky;
     private Lager lager;
     private ArrayList<Tapning> tapninger;
+    private Reol reol;
+    private HyldePlads hyldePlads;
 
     @BeforeEach
     void resetFadIdCounter() {
@@ -27,6 +28,12 @@ class ControllerTest {
     }
     @BeforeEach
     void setUp() {
+        lager = Controller.createLager("Lager1", "Baghave", "Baghavevej 1", 10);
+        lager.createReol();
+
+        reol = lager.createReol();
+
+        hyldePlads = reol.createHyldePlads();
         maltList = new ArrayList<>();
         maltBatch = Controller.createMaltBatch("MB001", LocalDate.of(2020, 1, 1), 300, maltList);
         maltBatch.createMalt("Byg", "Mark 1", 20.0);
@@ -36,7 +43,7 @@ class ControllerTest {
         fadType = Controller.createFadType("Sherry");
         fad = Controller.createFad( 200, "Eg", "FadAPS", 0, fadType);
 
-        påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, destillat);
+        påfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.of(2020, 1, 4), fad, destillat, hyldePlads);
         fad.setPåfyldning(påfyldning);
 
         tapninger = new ArrayList<>();
@@ -46,8 +53,6 @@ class ControllerTest {
 
         whisky = Controller.createWhisky(1, "TestWhisky", 45.0, false, 10.0, tapninger, WhiskyType.SINGLE_MALT);
 
-        lager = Controller.createLager("Lager1", "Baghave", "Baghavevej 1", 10);
-        lager.createReol();
     }
 
         @Test

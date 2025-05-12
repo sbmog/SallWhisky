@@ -37,7 +37,8 @@ class FlaskeTest {
                 50.0,
                 LocalDate.of(2020, 1, 4),
                 fad,
-                destillat);
+                destillat,
+                new HyldePlads(1, new Reol(new Lager("Lager1", "Baghaven", "Baghavevej 1", 10), 1)));
 
         fad.setPåfyldning(påfyldning);
 
