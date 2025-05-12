@@ -51,8 +51,9 @@ public class WhiskyTab extends BaseTab<Whisky> {
         søgeFelt.getTextField().setOnAction(event -> søgning());
     }
 
-    //TODO tilføj søgningsmetode til controller
     private void søgning() {
+        String søgeTekst = søgeFelt.getInputValue().toLowerCase().trim();
+        liste.getListView().getItems().setAll(Controller.søgWhisky(søgeTekst));
     }
 }
 
