@@ -27,23 +27,24 @@ public class MaltBatchTab extends BaseTab<MaltBatch> {
         malte.getListView().setPrefHeight(150);
         Region spacer = new Region();
         VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
-        attributVisning.getChildren().addAll(batchNummer, dato, mængde, malte,spacer);
+        attributVisning.getChildren().addAll(batchNummer, dato, mængde, malte, spacer);
 
         liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue!=null){
+            if (newValue != null) {
                 batchNummer.setValue(newValue.getBatchNummer());
                 DateTimeFormatter longDateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
                 dato.setValue(newValue.getDato().format(longDateFormat));
-                mængde.setValue(newValue.getMængde()+" Kg");
+                mængde.setValue(newValue.getMængde() + " Kg");
 
                 malte.getListView().getItems().clear();
                 malte.getListView().getItems().setAll(newValue.getMalt());
             }
-            søgeFelt.getTextField().setOnAction(e->søgning());
         });
+        søgeFelt.getTextField().setOnAction(e -> søgning());
     }
 
     private void søgning() {
-//        TODO
+        String søgeTekst = søgeFelt.getInputValue().toLowerCase().trim();
+        liste.getListView().getItems().setAll(Controller.søgMaltBatch(søgeTekst));
     }
 }

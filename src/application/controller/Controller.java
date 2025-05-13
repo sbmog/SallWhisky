@@ -129,4 +129,45 @@ public class Controller {
         }
         return ledigeFade;
     }
+
+    public static List<Fad> søgFade(String søgeTekst) {
+        return getFade().stream()
+                .filter(fad ->
+                        String.valueOf(fad.getFadID()).contains(søgeTekst) ||
+                                fad.getMateriale().toLowerCase().contains(søgeTekst) ||
+                                fad.getLeverandør().toLowerCase().contains(søgeTekst) ||
+                                (fad.getFadType() != null && fad.getFadType().toString().toLowerCase().contains(søgeTekst))
+                )
+                .toList();
+    }
+
+    public static List<Destillat> søgDestillat(String søgeTekst) {
+        return getDestillater().stream()
+                .filter(destillat ->
+                        destillat.getDestillatID().toLowerCase().contains(søgeTekst) ||
+                                String.valueOf(destillat.getMaltBatch()).toLowerCase().contains(søgeTekst)
+                )
+                .toList();
+    }
+
+    public static List<MaltBatch> søgMaltBatch(String søgeTekst) {
+        return getMaltBatch().stream()
+                .filter(batch ->
+                        batch.getBatchNummer().toLowerCase().contains(søgeTekst) ||
+                                batch.getMalt().stream().anyMatch(malt ->
+                                        malt.getKornSort().toLowerCase().contains(søgeTekst) ||
+                                                malt.getMarkNavn().toLowerCase().contains(søgeTekst)
+                                )
+                )
+                .toList();
+    }
+
+    public static List<Whisky> søgWhisky(String søgeTekst) {
+        return getWhiskyer().stream()
+                .filter(whisky ->
+                        String.valueOf(whisky.getWhiskyID()).contains(søgeTekst) ||
+                                whisky.getNavn().toLowerCase().contains(søgeTekst) ||
+                                whisky.getWhiskyType().toString().toLowerCase().contains(søgeTekst))
+                .toList();
+    }
 }

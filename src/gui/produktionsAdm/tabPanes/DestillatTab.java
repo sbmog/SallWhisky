@@ -46,7 +46,8 @@ public class DestillatTab extends BaseTab<Destillat> {
         søgeFelt.getTextField().setOnAction(event -> søgning());
     }
 
-    //TODO tilføj søgningsmetode til controller
     private void søgning() {
+        String søgeTekst = søgeFelt.getInputValue().toLowerCase().trim();
+        liste.getListView().getItems().setAll(Controller.søgDestillat(søgeTekst));
     }
 }
