@@ -76,6 +76,24 @@ public class TestData {
                 WhiskyType.SINGLE_MALT
         };
 
+        String[] fadMaterialer = {
+                "Amerikansk Eg",
+                "Fransk Eg",
+                "Europæisk Eg",
+                "Japansk Eg",
+                "Kastanjetræ",
+                "Akacie"
+        };
+
+        String[] fadLeverandører = {
+                "FAD APS",
+                "Tøndeimport ApS",
+                "Cooper & Co",
+                "Nordic Barrels",
+                "Oak Brothers",
+                "ScandiFad"
+        };
+
         int antalDestillater = 10;
 
         // Destillater og tilknyttede fade, påfyldninger, tapninger og flasker
@@ -106,7 +124,10 @@ public class TestData {
 //            Fad
             for (int fadIndeks = 1; fadIndeks <= antalFade; fadIndeks++) {
                 int størrelse = tilladteFadStørrelser[(destillatIndeks + fadIndeks) % tilladteFadStørrelser.length];
-                Fad fad = new Fad(størrelse, "Amerikansk Eg", "FAD APS", fadTyper[(destillatIndeks + fadIndeks) % fadTyper.length]);
+                String materiale = fadMaterialer[(destillatIndeks + fadIndeks) % fadMaterialer.length];
+                String leverandør = fadLeverandører[(destillatIndeks + fadIndeks) % fadLeverandører.length];
+
+                Fad fad = new Fad(størrelse, materiale, leverandør, fadTyper[(destillatIndeks + fadIndeks) % fadTyper.length]);
                 Storage.addFad(fad);
 
                 // fadplacering
@@ -160,7 +181,10 @@ public class TestData {
         for (int i = 1; i <= 10; i++) {
             int størrelse = tilladteFadStørrelser[i % tilladteFadStørrelser.length];
 
-            Fad tomtFad = new Fad(størrelse, "Fransk Eg", "Tøndeimport ApS", fadTyper[i % fadTyper.length]);
+            String materiale = fadMaterialer[i % fadMaterialer.length];
+            String leverandør = fadLeverandører[i % fadLeverandører.length];
+
+            Fad tomtFad = new Fad(størrelse, materiale, leverandør, fadTyper[i % fadTyper.length]);
             Storage.addFad(tomtFad);
         }
 
