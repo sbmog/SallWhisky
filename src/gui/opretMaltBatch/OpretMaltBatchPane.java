@@ -20,7 +20,7 @@ import static gui.component.InputValidering.visDialog;
 public class OpretMaltBatchPane extends Stage {
     LabeledTextInput batchNummer = new LabeledTextInput("Indtast batchnummer");
     LabeledDateInput dato = new LabeledDateInput("Indtast dato");
-    LabeledTextInput maengde = new LabeledTextInput("Indtast mængde i kg");
+    LabeledTextInput mængde = new LabeledTextInput("Mængde i kg");
     LabeledComboBoxInput<Malt> maltInput = new LabeledComboBoxInput<>("Malt");
     LabeledButton opretMaltButton = new LabeledButton("Opret malt", "opret");
     LabeledButton opretMaltBatchButton = new LabeledButton("Opret maltbatch", "Opret");
@@ -41,7 +41,9 @@ public class OpretMaltBatchPane extends Stage {
         Region spacer = new Region();
         VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
-        root.getChildren().addAll(batchNummer, dato, maengde, opretMaltButton, spacer, opretMaltBatchButton);
+        root.getChildren().addAll(batchNummer, dato, mængde, opretMaltButton, spacer, opretMaltBatchButton);
+
+        mængde.setDisable(true);
 
         opretMaltButton.getButton().setOnAction(e -> opretMalt());
 
@@ -50,7 +52,7 @@ public class OpretMaltBatchPane extends Stage {
                 try {
                     String batchNummerInput = batchNummer.getInputValue();
                     LocalDate datoInput = dato.getInputValue();
-                    double maengdeInput = Double.parseDouble(maengde.getInputValue());
+                    double maengdeInput = Double.parseDouble(mængde.getInputValue());
 
                     // Brug malts-listen til at oprette en ny MaltBatch
                     Controller.createMaltBatch(batchNummerInput, datoInput, maengdeInput, malts);
@@ -72,8 +74,8 @@ public class OpretMaltBatchPane extends Stage {
     private boolean validerOprettelse() {
         InputValidering validering = new InputValidering();
         validering.validateNotEmpty(batchNummer, "Batchnummer må ikke være tomt")
-                .validateNotEmpty(maengde, "Mængde må ikke være tomt")
-                .validateInteger(maengde, "Mængde skal være et heltal");
+                .validateNotEmpty(mængde, "Mængde må ikke være tomt")
+                .validateInteger(mængde, "Mængde skal være et heltal");
         return validering.isValid();
     }
 
