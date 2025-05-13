@@ -25,6 +25,7 @@ public class TestData {
         MaltBatch maltBatch = new MaltBatch("MB001", LocalDate.of(2020, 1, 1), 300.0, new ArrayList<>());
         Storage.addMaltBatch(maltBatch);
         maltBatch.createMalt("Byg", "Mark 1", 20.0);
+        maltBatch.createMalt("Evergreen", "Mark 2", 30.0);
 
         // Destillat
         Destillat destillat = new Destillat("DS1", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 100.0, 60.0, false, 50.0, maltBatch);
