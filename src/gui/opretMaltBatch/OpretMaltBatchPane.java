@@ -20,7 +20,7 @@ import static gui.component.InputValidering.visDialog;
 public class OpretMaltBatchPane extends Stage {
     LabeledTextInput batchNummer = new LabeledTextInput("Indtast batchnummer");
     LabeledDateInput dato = new LabeledDateInput("Indtast dato");
-    LabeledTextInput mængde = new LabeledTextInput("Mængde i kg");
+    LabeledTextInput mængde = new LabeledTextInput("Total vægt i kg");
     LabeledComboBoxInput<Malt> maltInput = new LabeledComboBoxInput<>("Malt");
     LabeledButton opretMaltButton = new LabeledButton("Opret malt", "opret");
     LabeledButton opretMaltBatchButton = new LabeledButton("Opret maltbatch", "Opret");
@@ -80,15 +80,22 @@ public class OpretMaltBatchPane extends Stage {
     }
 
     private void opretMalt() {
-        MaltBatch tempMaltBatch = new MaltBatch("temp", LocalDate.of(2020,1,1), 10, malts);
+        MaltBatch tempMaltBatch = new MaltBatch("temp", LocalDate.of(2020,1,1), 10, new ArrayList<>());
         OpretMaltPane opretMaltPane = new OpretMaltPane(tempMaltBatch);
         opretMaltPane.showAndWait();
 
         Malt nyMalt = opretMaltPane.getOprettetMalt();
         if (nyMalt != null) {
-            malts.add(nyMalt); // Tilføj til listen af Malt-objekter
-            maltInput.getComboBox().getItems().add(nyMalt); // Opdater ComboBox
+            malts.add(nyMalt);
+            maltInput.getComboBox().getItems().add(nyMalt);
             maltInput.getComboBox().getSelectionModel().selectLast(); // Vælg den nyeste Malt
+
+          int totalVægt = 0;
+            for (int i = 0; i < malts.size(); i++) {
+                totalVægt += malts.get(i).getMængde();
+            }
+            mængde.setInputValue(String.valueOf(totalVægt));
+
             visDialog(Alert.AlertType.CONFIRMATION,
                     "Malt oprettet",
                     nyMalt + " er nu oprettet og tilføjet til listen.");
