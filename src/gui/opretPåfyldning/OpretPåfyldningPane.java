@@ -22,7 +22,7 @@ public class OpretPåfyldningPane extends Stage {
     private final LabeledTextInput initialerInput = new LabeledTextInput("Initialer for den ansvarlige");
     private final LabeledTextInput antalLiterInput = new LabeledTextInput("Antal Liter påfyldt");
 
-    private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillatet der fyldes på", "Søg destillat");
+    private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillatet der er klar til påfyldning", "Søg destillat");
 
     private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg ledige fade der skal fyldes på", "Søg fad");
 
@@ -44,7 +44,7 @@ public class OpretPåfyldningPane extends Stage {
         this.setScene(scene);
         this.show();
 
-        destillater.getListView().getItems().setAll(Controller.getDestillater());
+        destillater.getListView().getItems().setAll(Controller.getDestillaterUdenPåfyldning());
         fade.getListView().getItems().setAll(Controller.getLedigeFade());
         opbygHyldePladsTreeView();
 

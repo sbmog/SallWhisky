@@ -76,8 +76,10 @@ public class TestData {
                 WhiskyType.SINGLE_MALT
         };
 
+        int antalDestillater = 10;
+
         // Destillater og tilknyttede fade, påfyldninger, tapninger og flasker
-        for (int destillatIndeks = 1; destillatIndeks <= 10; destillatIndeks++) {
+        for (int destillatIndeks = 1; destillatIndeks <= antalDestillater; destillatIndeks++) {
 
             int randomYear = 2018 + (int) (Math.random() * 7); // 2018–2024
             int randomMonth = 1 + (int) (Math.random() * 12);  // 1–12
@@ -162,5 +164,24 @@ public class TestData {
             Storage.addFad(tomtFad);
         }
 
+//         To destillater klar til påfyldning
+        for (int indeks = 1; indeks <= 2; indeks++) {
+            MaltBatch mb = maltBatches.get(indeks % maltBatches.size());
+            LocalDate startDato = LocalDate.now().minusDays(5 + indeks);
+            LocalDate slutDato = LocalDate.now().minusDays(indeks);
+            int destillatID = antalDestillater + indeks;
+
+            Destillat klarDestillat = new Destillat(
+                    "DS" + destillatID,
+                    startDato,
+                    slutDato,
+                    150 + indeks * 10,
+                    63.0,
+                    false,
+                    70 + indeks * 5,
+                    mb
+            );
+            Storage.addDestillat(klarDestillat);
+        }
     }
 }
