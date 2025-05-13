@@ -91,14 +91,22 @@ class WhiskyTest {
 
     @Test
     public void testGetHistorik() {
-        fad = new Fad(300.0, "Eg", "Leverandør A", fadType);
         String historik = whisky.getHistorik();
 
         assertTrue(historik.contains("Historik for whisky: TestWhisky"));
-        assertTrue(historik.contains("tapning: 2022-01-02"));
-        assertTrue(historik.contains("Fad ID: 1"));
+        assertTrue(historik.contains("Whisky type: Single Malt"));
+        assertTrue(historik.contains("Alkoholprocent: 45.0"));
+        assertTrue(historik.contains("Antal flasker: 0"));
         assertTrue(historik.contains("Destillat ID: D123"));
-        assertTrue(historik.contains("Røget: true"));
+        assertTrue(historik.contains("Destillering startdato: 2018-01-01"));
+        assertTrue(historik.contains("Destillering slutdato: 2018-02-01"));
+        assertTrue(historik.contains("Påfyldning: 2019-01-01"));
+        assertTrue(historik.contains("Tapning: 2022-01-02"));
+        assertTrue(historik.contains("MaltBatch: MB001"));
+        assertTrue(historik.contains("Røget: Ja"));
+        assertTrue(historik.contains("Fortyndet: false"));
+        assertTrue(historik.contains("Vandmængde: 50.0"));
+        assertTrue(historik.contains("Væskemængde: 200.0"));
     }
 
     @Test
