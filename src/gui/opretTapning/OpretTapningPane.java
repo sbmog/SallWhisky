@@ -138,7 +138,6 @@ public class OpretTapningPane extends Stage {
     private void updateWhiskyMængde() {
         try {
             double antalLiter = Double.parseDouble(antalLiterFraFadInput.getInputValue());
-
             double totalMængde;
             if (!fortyndingCheckBox.isSelected()) {
                 totalMængde = antalLiter;

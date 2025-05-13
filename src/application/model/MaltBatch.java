@@ -17,16 +17,24 @@ public class MaltBatch {
             throw new IllegalArgumentException("Dato kan ikke være null.");
         } else if (mængdeIKg <= 0) {
             throw new IllegalArgumentException("Mængde skal være et tal over 0.");
-//        } else if (malt == null || malt.isEmpty()) {
-//            throw new IllegalArgumentException("Malt kan ikke være null eller tom.");
-            //Vores Malt ArrayList er nødt til at starte med at være null eller tom, da vi i vores system pt, creater Malt igennem Maltbatch.
        }
+
+    if (malt != null && !malt.isEmpty()) {
+        double totalMaltMængde = 0;
+        for (int i = 0; i < malt.size(); i++) {
+            totalMaltMængde += malt.get(i).getMængde();
+        }
+
+        if (mængdeIKg < totalMaltMængde) {
+            throw new IllegalArgumentException("Maltbatches mængde må ikke være mindre en summen af malt.");
+        }
+    }
+
         this.batchNummer = batchNummer;
         this.dato = dato;
         this.mængde = mængdeIKg;
         this.malt = malt;
     }
-
 
     public Malt createMalt(String kornsort, String markNavn, double maengde) {
         Malt maltObjekt = new Malt(kornsort, markNavn, maengde);
