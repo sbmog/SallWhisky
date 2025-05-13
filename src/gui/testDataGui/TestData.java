@@ -48,6 +48,9 @@ public class TestData {
             Storage.addFadType(ft);
         }
 
+        int[] tilladteFadStørrelser = {200, 225, 250, 300, 400, 500};
+
+
         // Maltbatches og malt
         ArrayList<MaltBatch> maltBatches = new ArrayList<>();
         for (int indeks = 1; indeks <= 6; indeks++) {
@@ -99,9 +102,8 @@ public class TestData {
             ArrayList<Tapning> tapninger = new ArrayList<>();
 
 //            Fad
-            int[] tilladteStørrelser = {200, 225, 250, 300, 400, 500};
             for (int fadIndeks = 1; fadIndeks <= antalFade; fadIndeks++) {
-                int størrelse = tilladteStørrelser[(destillatIndeks + fadIndeks) % tilladteStørrelser.length];
+                int størrelse = tilladteFadStørrelser[(destillatIndeks + fadIndeks) % tilladteFadStørrelser.length];
                 Fad fad = new Fad(størrelse, "Amerikansk Eg", "FAD APS", fadTyper[(destillatIndeks + fadIndeks) % fadTyper.length]);
                 Storage.addFad(fad);
 
@@ -152,5 +154,13 @@ public class TestData {
             }
 
         }
+//        10 tomme fade
+        for (int i = 1; i <= 10; i++) {
+            int størrelse = tilladteFadStørrelser[i % tilladteFadStørrelser.length];
+
+            Fad tomtFad = new Fad(størrelse, "Fransk Eg", "Tøndeimport ApS", fadTyper[i % fadTyper.length]);
+            Storage.addFad(tomtFad);
+        }
+
     }
 }
