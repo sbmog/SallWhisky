@@ -1,6 +1,7 @@
 package gui.lagerAdm;
 
 import application.controller.Controller;
+import application.model.Fad;
 import application.model.HyldePlads;
 import application.model.Lager;
 import application.model.Reol;
@@ -9,6 +10,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class LagerTreeViewPane extends VBox {
@@ -64,4 +66,17 @@ public class LagerTreeViewPane extends VBox {
         TreeItem<Object> selectedItem = treeViewInput.getTreeView().getSelectionModel().getSelectedItem();
         return selectedItem != null ? selectedItem.getValue() : null;
     }
+
+    public void visFadeSøgning(List<Fad> søgteFade) {
+        TreeItem<Object> rootItem = new TreeItem<>("Søgte fade");
+
+        for (Fad fad : søgteFade) {
+            TreeItem<Object> fadItem = new TreeItem<>(fad);
+            rootItem.getChildren().add(fadItem);
+        }
+
+        treeViewInput.setRoot(rootItem);
+        treeViewInput.expandAll(rootItem);
+    }
+
 }

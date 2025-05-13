@@ -53,7 +53,6 @@ public class OpretTapningPane extends Stage {
 
         vbox.setPadding(new Insets(0, 5, 10, 10));
 
-
         angelShareInput.getTextField().setEditable(false);
         whiskyMængdeInput.getTextField().setEditable(false);
 
@@ -138,6 +137,7 @@ public class OpretTapningPane extends Stage {
 
 
             Tapning newTapning = Controller.createTapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
+
             double fortyndning = 0;
             if (fortyndingCheckBox.isSelected()) {
                 fortyndning = Double.parseDouble(fortyndingInput.getInputValue());
@@ -160,16 +160,16 @@ public class OpretTapningPane extends Stage {
             double totalMængde = antalLiterFraFad + fortyndning;
             new RegistrerWhiskyPane(selectedFad, totalMængde, fortyndning, newTapning);
 
+                visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
 
-            visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
+                this.close();
 
-            this.close();
-
-        } catch (NumberFormatException e) {
-            visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Antal liter og fortynding skal være tal.");
+            }
+        } catch (
+                NumberFormatException e) {
+            visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
         } catch (IllegalArgumentException | NullPointerException e) {
             visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
-
 
         }
     }
