@@ -71,8 +71,10 @@ public class LagerTreeViewPane extends VBox {
         TreeItem<Object> rootItem = new TreeItem<>("Søgte fade");
 
         for (Fad fad : søgteFade) {
-            TreeItem<Object> fadItem = new TreeItem<>(fad);
-            rootItem.getChildren().add(fadItem);
+            if (fad.getFadPlacering() != null) {
+                TreeItem<Object> fadItem = new TreeItem<>(fad);
+                rootItem.getChildren().add(fadItem);
+            }
         }
 
         treeViewInput.setRoot(rootItem);

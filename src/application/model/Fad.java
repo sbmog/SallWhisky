@@ -88,7 +88,7 @@ public class Fad {
         }
     }
     public void fjernFraHyldeHvisTom() {
-        if (nuværendeIndhold == 0 & fadPlacering != null) {
+        if (fadPlacering != null) {
             fadPlacering.getHyldePlads().setPladsFri(true);
             fadPlacering = null;
         }

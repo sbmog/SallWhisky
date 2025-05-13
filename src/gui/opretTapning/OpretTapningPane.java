@@ -14,6 +14,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -160,15 +161,16 @@ public class OpretTapningPane extends Stage {
             double totalMængde = antalLiterFraFad + fortyndning;
             new RegistrerWhiskyPane(selectedFad, totalMængde, fortyndning, newTapning);
 
-                visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
+            visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
 
-                this.close();
+            this.close();
 
-            }
+
         } catch (
                 NumberFormatException e) {
             visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException |
+                 NullPointerException e) {
             visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
 
         }

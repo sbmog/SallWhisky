@@ -4,7 +4,10 @@ public enum WhiskyType {
     SINGLE_CASK("Single Cask"),
     CASK_STRENGTH("Cask Strength"),
     SINGLE_MALT("Single Malt"),
-    BLENDED("Blended");
+    BLENDED("Blended"),
+    PEATED_SINGLE_MALT("Peated Single Malt"),
+    GRAIN("Grain");
+
 
     private final String displayName;
 

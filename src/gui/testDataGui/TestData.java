@@ -5,68 +5,152 @@ import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TestData {
 
     public static void initTestData() {
         // Lager
-        Lager lager = new Lager("Lager 1", "Central lager", "Lagervej 1", 100);
-        Storage.addLager(lager);
+        Lager hovedlager = new Lager("Hovedlager", "Central lager", "Lagervej 1", 100);
+        Lager baghavelager = new Lager("Baghavelager", "Ekstra lager", "Baghavevej 2", 50);
+        Storage.addLager(hovedlager);
+        Storage.addLager(baghavelager);
 
-        // Reol
-        Reol reol = lager.createReol(); // Reol 1
+        // Reoler og hyldepladser
+        ArrayList<Reol> alleReoler = new ArrayList<>();
+        for (int reolIndeks = 0; reolIndeks < 20; reolIndeks++) {
+            alleReoler.add(hovedlager.createReol());
+        }
+        for (int reolIndeks = 0; reolIndeks < 6; reolIndeks++) {
+            alleReoler.add(baghavelager.createReol());
+        }
+        ArrayList<Reol> ledigeReoler = new ArrayList<>(alleReoler);
+        Collections.shuffle(ledigeReoler);
 
-        // Hyldeplads
-        HyldePlads hyldePlads1 = reol.createHyldePlads(); // Hylde 1
+        for (Reol reol : alleReoler) {
+            for (int hyldeIndeks = 0; hyldeIndeks < 9; hyldeIndeks++) {
+                reol.createHyldePlads();
+            }
+        }
+        int næsteReolIndeks = 0;
 
-        HyldePlads hyldePlads2 = reol.createHyldePlads(); // Hylde 2
+        // Fadtyper
+        FadType[] fadTyper = {
+                new FadType("Ny"),
+                new FadType("Ex-Bourbonfad"),
+                new FadType("Ex-Oloroso Sherryfad"),
+                new FadType("Ex-PX Sherryfad"),
+                new FadType("Ex-Laphroaig Bourbonfad"),
+                new FadType("Ex-Manzanilla Sherryfad")
+        };
+        for (FadType ft : fadTyper) {
+            Storage.addFadType(ft);
+        }
 
-        //maltbatch & malt
-        MaltBatch maltBatch = new MaltBatch("MB001", LocalDate.of(2020, 1, 1), 300.0, new ArrayList<>());
-        Storage.addMaltBatch(maltBatch);
-        maltBatch.createMalt("Byg", "Mark 1", 20.0);
+        // Maltbatches og malt
+        ArrayList<MaltBatch> maltBatches = new ArrayList<>();
+        for (int indeks = 1; indeks <= 6; indeks++) {
+            MaltBatch mb = new MaltBatch("MB00" + indeks, LocalDate.of(2020, indeks, 1), 200 + indeks * 50, new ArrayList<>());
+            mb.createMalt("Byg", "Mark " + indeks, 20.0 * indeks);
+            Storage.addMaltBatch(mb);
+            maltBatches.add(mb);
+        }
 
-        // Destillat
-        Destillat destillat = new Destillat("DS1", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 2), 100.0, 60.0, false, 50.0, maltBatch);
-        Storage.addDestillat(destillat);
+        // Liste over whisky-navne
+        String[] whiskyNavne = {
+                "MULD 1.1 – Single Malt Whisky",
+                "TØRV 2.1 – Peated Single Malt Whisky",
+                "GLØD 3.1 – Single Malt Whisky",
+        };
 
-        // Fadtype
-        FadType nyFadType = new FadType("Ny");
-        FadType bourbonFadType = new FadType(" Ex-Bourbonfad");
-        FadType olorosoFadType = new FadType("Ex-Oloroso Sherryfad");
-        FadType pxSherryFadType = new FadType("Ex-Pedro Ximénez SherryFad");
-        FadType laphroaigFadType = new FadType("Ex-Laphroaig Bourbonfad");
-        FadType manzanillaFadType = new FadType("Ex-Manzanilla Sherryfad");
-        Storage.addFadType(nyFadType);
-        Storage.addFadType(bourbonFadType);
-        Storage.addFadType(olorosoFadType);
-        Storage.addFadType(pxSherryFadType);
-        Storage.addFadType(laphroaigFadType);
-        Storage.addFadType(manzanillaFadType);
+        WhiskyType[] whiskyTyper = {
+                WhiskyType.SINGLE_MALT,
+                WhiskyType.PEATED_SINGLE_MALT,
+                WhiskyType.SINGLE_CASK,
+                WhiskyType.GRAIN,
+                WhiskyType.BLENDED,
+                WhiskyType.SINGLE_MALT
+        };
 
-        // Fad
-        Fad fad1 = new Fad(500, "Amerikansk Eg", "FAD APS", olorosoFadType);
-        Storage.addFad(fad1);
+        // Destillater og tilknyttede fade, påfyldninger, tapninger og flasker
+        for (int destillatIndeks = 1; destillatIndeks <= 10; destillatIndeks++) {
 
-        // Påfyldning
-        Påfyldning påfyldning = new Påfyldning("SNIPER", 100, LocalDate.now().minusYears(2), fad1, destillat, hyldePlads1);
-        fad1.setPåfyldning(påfyldning);
-        Storage.addPåfyldning(påfyldning);
+            int randomYear = 2018 + (int) (Math.random() * 7); // 2018–2024
+            int randomMonth = 1 + (int) (Math.random() * 12);  // 1–12
+            int randomDay = 1 + (int) (Math.random() * 28);    // sikre gyldige datoer
 
-        // Tapning (efter 3 år)
-        Tapning tapning = new Tapning(påfyldning.getDatoForPåfyldning().plusYears(3), "MK", 100, fad1);
-        tapning.createFortynding(10.0);
-        Storage.addTapning(tapning);
+            LocalDate destillatStartDato = LocalDate.of(randomYear, randomMonth, randomDay);
 
-        // Whisky
-        ArrayList<Tapning> tapninger = new ArrayList<>();
-        tapninger.add(tapning);
+            // Brug næste ledige reol
+            Reol valgtReol = alleReoler.get(næsteReolIndeks++);
+            List<HyldePlads> reolensHyldePladser = valgtReol.getHyldePladser();
+            int hyldeTæller = 0;
 
-        Whisky whisky = new Whisky(1, "Classic Oak", 46.0, 10.0, tapninger, WhiskyType.SINGLE_MALT);
-        Storage.addWhisky(whisky);
+            MaltBatch mb = maltBatches.get((destillatIndeks - 1) % maltBatches.size());
+            Destillat destillat = new Destillat("DS" + destillatIndeks,
+                    destillatStartDato, destillatStartDato.plusDays(5),
+                    100 + destillatIndeks * 10, 60.0, false,
+                    50 + destillatIndeks * 5, mb);
+            Storage.addDestillat(destillat);
 
-        // Flaske
-        whisky.createFlaske(); // Flaske 1
-        whisky.createFlaske(); // Flaske 2
+            int antalFade = 3 + (destillatIndeks % 4); // 3-6 fade
+
+            ArrayList<Tapning> tapninger = new ArrayList<>();
+
+//            Fad
+            int[] tilladteStørrelser = {200, 225, 250, 300, 400, 500};
+            for (int fadIndeks = 1; fadIndeks <= antalFade; fadIndeks++) {
+                int størrelse = tilladteStørrelser[(destillatIndeks + fadIndeks) % tilladteStørrelser.length];
+                Fad fad = new Fad(størrelse, "Amerikansk Eg", "FAD APS", fadTyper[(destillatIndeks + fadIndeks) % fadTyper.length]);
+                Storage.addFad(fad);
+
+                // fadplacering
+                if (hyldeTæller >= reolensHyldePladser.size()) {
+                    throw new IllegalStateException("Reolen har ikke nok hyldepladser til alle fade.");
+                }
+                HyldePlads placering = reolensHyldePladser.get(hyldeTæller++);
+
+                // påfyldning
+                Påfyldning påfyldning = new Påfyldning("SN" + destillatIndeks + fadIndeks,
+                        størrelse - 50,
+                        destillat.getSlutDato(),
+                        fad, destillat, placering);
+                fad.setPåfyldning(påfyldning);
+                Storage.addPåfyldning(påfyldning);
+
+                // tapning
+                if (påfyldning.getDatoForPåfyldning().plusYears(3).isBefore(LocalDate.now())) {
+                    Tapning tapning = new Tapning(
+                            påfyldning.getDatoForPåfyldning().plusYears(3),
+                            "MK" + destillatIndeks + fadIndeks,
+                            påfyldning.getAntalLiterPåfyldt(),
+                            fad
+                    );
+                    tapning.createFortynding(10.0);
+                    Storage.addTapning(tapning);
+                    tapninger.add(tapning);
+                }
+            }
+            if (!tapninger.isEmpty()) {
+                double alkoholProcent = Math.round((40.0 + Math.random() * 20.0) * 10.00) / 10.00;
+
+                Whisky whisky = new Whisky(
+                        destillatIndeks,
+                        whiskyNavne[(destillatIndeks - 1) % whiskyNavne.length],
+                        alkoholProcent,
+                        10.0 * destillatIndeks,
+                        tapninger,
+                        whiskyTyper[(destillatIndeks - 1) % whiskyTyper.length]
+                );
+                Storage.addWhisky(whisky);
+
+                // 10 flasker per whisky
+                for (int flaskeIndeks = 0; flaskeIndeks < 10; flaskeIndeks++) {
+                    whisky.createFlaske();
+                }
+            }
+
+        }
     }
 }
