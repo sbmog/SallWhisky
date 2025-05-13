@@ -14,7 +14,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,13 +49,10 @@ public class OpretTapningPane extends Stage {
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
 
-        vbox.getChildren().addAll(opretTapning, fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput, fortyndningCheckBox, fortyndningInput, whiskyMængdeInput, spacer, opretDestillatButton);
-
+        vbox.getChildren().addAll(opretTapning, fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput, fortyndingCheckBox, fortyndingInput, whiskyMængdeInput, spacer, opretDestillatButton);
 
         vbox.setPadding(new Insets(0, 5, 10, 10));
-        vbox.getChildren().addAll(opretTapning, fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput, fortyndingCheckBox, fortyndingInput, whiskyMængdeInput, spacer, opretDestillatButton);
-        
-      
+
 
         angelShareInput.getTextField().setEditable(false);
         whiskyMængdeInput.getTextField().setEditable(false);
@@ -142,41 +138,39 @@ public class OpretTapningPane extends Stage {
 
 
             Tapning newTapning = Controller.createTapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
-            double fortydningLiter = 0;
-            if (fortyndningCheckBox.isSelected()) {
-                fortydningLiter = Double.parseDouble(fortyndningInput.getInputValue());
-                newTapning.createFortynding(fortydningLiter);
-
-            Tapning tapning = new Tapning(tapningsDato, initialerForMedarbejder, antalLiterFraFad, selectedFad);
-
+            double fortyndning = 0;
             if (fortyndingCheckBox.isSelected()) {
-                double fortyndingLiter = Double.parseDouble(fortyndingInput.getInputValue());
-                tapning.createFortynding(fortyndingLiter);
+                fortyndning = Double.parseDouble(fortyndingInput.getInputValue());
+                newTapning.createFortynding(fortyndning);
 
             }
 
-        selectedFad.opdaterNuværendeInhold(antalLiterFraFad);
+            if (fortyndingCheckBox.isSelected()) {
+                double fortyndingLiter = Double.parseDouble(fortyndingInput.getInputValue());
+                newTapning.createFortynding(fortyndingLiter);
+            }
 
-        if (selectedFad.getNuværendeIndhold() == 0) {
-            selectedFad.fjernFraHyldeHvisTom();
-            visDialog(Alert.AlertType.INFORMATION, "Fad fjerners fra hylde", "Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
+            selectedFad.opdaterNuværendeInhold(antalLiterFraFad);
+
+            if (selectedFad.getNuværendeIndhold() == 0) {
+                selectedFad.fjernFraHyldeHvisTom();
+                visDialog(Alert.AlertType.INFORMATION, "Fad fjerners fra hylde", "Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
+            }
+
+            double totalMængde = antalLiterFraFad + fortyndning;
+            new RegistrerWhiskyPane(selectedFad, totalMængde, fortyndning, newTapning);
+
+
+            visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
+
+            this.close();
+
+        } catch (NumberFormatException e) {
+            visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Antal liter og fortynding skal være tal.");
+        } catch (IllegalArgumentException | NullPointerException e) {
+            visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
+
+
         }
-
-        double totalMængde = antalLiterFraFad + fortydningLiter;
-        new RegistrerWhiskyPane(selectedFad,totalMængde,fortydningLiter,newTapning);
-
-
-        visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
-
-        this.close();
-
-    } catch(
-    NumberFormatException e) {
-        visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
-    } catch(IllegalArgumentException | NullPointerException e) {
-        visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
-
-            
     }
-}
 }
