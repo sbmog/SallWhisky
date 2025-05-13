@@ -56,31 +56,40 @@ public class Whisky {
     public String getHistorik() {
         String historik = "Historik for whisky: " + navn + "\n";
 
+        // Tilføj overordnede oplysninger én gang
+        historik += "Whisky type: " + this.getWhiskyType() + "\n";
+        historik += "Alkoholprocent: " + this.getAlkoholProcent() + "\n";
+        historik += "Antal flasker: " + this.getFlasker().size() + "\n";
+
+        // Tilføj destillatoplysninger én gang
+        Destillat destillat = tapninger.get(0).getFad().getPåfyldning().getDestillat();
+        historik += "Destillat ID: " + destillat.getDestillatID() + "\n";
+        historik += "Destillering startdato: " + destillat.getStartDato() + "\n";
+        historik += "Destillering slutdato: " + destillat.getSlutDato() + "\n";
+        historik += "MaltBatch: " + destillat.getMaltBatch().getBatchNummer() + "\n";
+
+        // Tilføj maltdata én gang
+        for (Malt malt : destillat.getMaltBatch().getMalt()) {
+            historik += "- Malt: " + malt.toString() + "\n";
+        }
+
+        // Iterer over tapninger for at tilføje fade
+        historik += "Fade: \n";
         for (Tapning tapning : tapninger) {
             Fad fad = tapning.getFad();
-            Påfyldning påfyldning = fad.getPåfyldning();
-            Destillat destillat = påfyldning.getDestillat();
-
-            historik += "Whisky type: " + this.getWhiskyType() + "\n";
-            historik += "Alkoholprocent: " + this.getAlkoholProcent() + "\n";
-            historik += "Antal flasker: " + this.getFlasker().size() + "\n";
-//            historik += "Fad ID: " + fad.getFadID() + "\n";
-//            historik += "Fad type: " + fad.getFadType() + "\n";
-            historik += "Destillat ID: " + destillat.getDestillatID() + "\n";
-            historik += "Destillering startdato: " + destillat.getStartDato() + "\n";
-            historik += "Destillering slutdato: " + destillat.getSlutDato() + "\n";
-            historik += "Påfyldning: " + påfyldning.getDatoForPåfyldning() + "\n";
-            historik += "Tapning: " + tapning.getTapningsDato() + "\n";
-            historik += "MaltBatch: " + destillat.getMaltBatch().getBatchNummer() + "\n";
-            historik += "Røget: " + destillat.isRøget() + "\n";
-            historik += "Fortyndet: " + this.isFortyndet() + "\n";
-            historik += "Vandmængde: " + destillat.getLiterVand() + "\n";
-            historik += "Væskemængde: " + destillat.getVæskemængde() + "\n";
-
+            historik += "- Fad: " + fad.toString() + "\n";
+            historik += "  Påfyldning: " + fad.getPåfyldning().getDatoForPåfyldning() + "\n";
+            historik += "  Tapning: " + tapning.getTapningsDato() + "\n";
         }
+
+        // Tilføj afsluttende oplysninger én gang
+        historik += "Røget: " + (destillat.isRøget() ? "Ja" : "Nej") + "\n";
+        historik += "Fortyndet: " + this.isFortyndet() + "\n";
+        historik += "Vandmængde: " + destillat.getLiterVand() + "\n";
+        historik += "Væskemængde: " + destillat.getVæskemængde() + "\n";
+
         return historik;
     }
-
 
     public String getNavn() {
         return navn;

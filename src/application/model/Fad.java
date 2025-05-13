@@ -186,7 +186,7 @@ public class Fad {
     }
 
     public String toString() {
-        return "Fad: #" + fadID;
+        return "Fad: #" + fadID + ", " + fadType + ", " + materiale;
     }
 
     public static void resetIDCounter() {
