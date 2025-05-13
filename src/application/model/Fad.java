@@ -53,17 +53,6 @@ public class Fad {
         } else throw new IllegalStateException("Hyldepladsen er allerede optaget.");
     }
 
-//TODO hvor får vi flaskestørrelse fra? ift. brugen i GUI
-    public int beregnAntalFlasker(double flaskeStørrelse) {
-        if (tapning == null) {
-            throw new IllegalStateException("Der er endnu ikke foretaget en tapning på dette fad");
-        }
-        if ( flaskeStørrelse <= 0) {
-            throw new IllegalArgumentException("Flaske størrelse skal være større end 0.");
-        }
-        return (int) (tapning.getAntalLiterFraFad() / flaskeStørrelse); //Konvertere fra liter til CL
-    }
-
     public int BeregnLagringstid() {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
         //startDato behøver ikke nullpointer, da den allerede findes i påfyldning

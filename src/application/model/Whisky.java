@@ -61,17 +61,21 @@ public class Whisky {
             Påfyldning påfyldning = fad.getPåfyldning();
             Destillat destillat = påfyldning.getDestillat();
 
-            historik += "tapning: " + tapning.getTapningsDato() + "\n";
-            historik += "Fad ID: " + fad.getFadID() + "\n";
-            historik += "Påfyldning: " + påfyldning.getDatoForPåfyldning() + "\n";
+            historik += "Whisky type: " + this.getWhiskyType() + "\n";
+            historik += "Alkoholprocent: " + this.getAlkoholProcent() + "\n";
+            historik += "Antal flasker: " + this.getFlasker().size() + "\n";
+//            historik += "Fad ID: " + fad.getFadID() + "\n";
+//            historik += "Fad type: " + fad.getFadType() + "\n";
             historik += "Destillat ID: " + destillat.getDestillatID() + "\n";
-            historik += "Startdato: " + destillat.getStartDato() + "\n";
-            historik += "Slutdato: " + destillat.getSlutDato() + "\n";
-            historik += "Alkoholprocent: " + destillat.getAlkoholProcent() + "\n";
+            historik += "Destillering startdato: " + destillat.getStartDato() + "\n";
+            historik += "Destillering slutdato: " + destillat.getSlutDato() + "\n";
+            historik += "Påfyldning: " + påfyldning.getDatoForPåfyldning() + "\n";
+            historik += "Tapning: " + tapning.getTapningsDato() + "\n";
+            historik += "MaltBatch: " + destillat.getMaltBatch().getBatchNummer() + "\n";
             historik += "Røget: " + destillat.isRøget() + "\n";
+            historik += "Fortyndet: " + this.isFortyndet() + "\n";
             historik += "Vandmængde: " + destillat.getLiterVand() + "\n";
             historik += "Væskemængde: " + destillat.getVæskemængde() + "\n";
-            historik += "-----------------------------------\n";
 
         }
         return historik;
