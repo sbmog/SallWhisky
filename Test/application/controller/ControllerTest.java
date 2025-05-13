@@ -107,7 +107,7 @@ class ControllerTest {
         assertNotNull(maltBatch);
         assertEquals("MB001", maltBatch.getBatchNummer());
         assertEquals(LocalDate.of(2020, 1, 1), maltBatch.getDato());
-        assertEquals(300, maltBatch.getMængde());
+        assertEquals(320, maltBatch.getMængde());
         assertEquals(1, maltBatch.getMalt().size());
     }
 
