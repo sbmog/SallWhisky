@@ -39,8 +39,8 @@ public class Controller {
         return newTapning;
     }
 
-    public static Whisky createWhisky(double whiskyID,String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
-        Whisky newWhisky = new Whisky(whiskyID,navn, alkoholProcent, vandMængde, tapninger, whiskyType);
+    public static Whisky createWhisky(double whiskyID, String navn, double alkoholProcent, boolean fortyndet, double vandMængde, ArrayList<Tapning> tapninger, WhiskyType whiskyType) {
+        Whisky newWhisky = new Whisky(whiskyID, navn, alkoholProcent, vandMængde, tapninger, whiskyType);
         Storage.addWhisky(newWhisky);
         return newWhisky;
     }
@@ -169,5 +169,26 @@ public class Controller {
                                 whisky.getNavn().toLowerCase().contains(søgeTekst) ||
                                 whisky.getWhiskyType().toString().toLowerCase().contains(søgeTekst))
                 .toList();
+    }
+
+    public static ArrayList<Destillat> getDestillaterUdenPåfyldning() {
+        ArrayList<Destillat> destillaterUdenPåfyldning = new ArrayList<>();
+        for (Destillat destillat : getDestillater()) {
+            boolean harPåfyldning = false;
+            for (Påfyldning påfyldning : getPåfyldninger()) {
+                if (påfyldning.getDestillat().equals(destillat)) {
+                    harPåfyldning = true;
+                    break;
+                }
+            }
+            if (!harPåfyldning) {
+                destillaterUdenPåfyldning.add(destillat);
+            }
+        }
+        return destillaterUdenPåfyldning;
+    }
+
+    public static ArrayList<Påfyldning> getPåfyldninger() {
+        return Storage.getPåfyldninger();
     }
 }
