@@ -105,7 +105,7 @@ public class Storage {
         return new ArrayList<>(maltBatches);
     }
 
-    //Malt - OBS
+    
     public static void addMalt(Malt malt){
         if (!malter.contains(malt)){
             malter.add(malt);
