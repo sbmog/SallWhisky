@@ -183,14 +183,16 @@ public class OpretTapningPane extends Stage {
             double totalMængde = antalLiterFraFad + fortynding;
             new RegistrerWhiskyPane(selectedFad, totalMængde, fortynding, newTapning);
 
-                visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
+            visDialog(Alert.AlertType.CONFIRMATION, "Fadet er tappet", "Fad #" + selectedFad.getFadID() + " er nu tappet med " + totalMængde + " liter.");
 
-                this.close();
+            this.close();
+
 
         } catch (
                 NumberFormatException e) {
             visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Vand, alkoholprocent og væskemængde skal være tal.");
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException |
+                 NullPointerException e) {
             visDialog(Alert.AlertType.ERROR, "Fejl ved oprettelse", e.getMessage());
         }
     }
