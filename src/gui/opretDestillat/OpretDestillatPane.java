@@ -18,7 +18,6 @@ import static gui.component.InputValidering.visDialog;
 
 public class OpretDestillatPane extends Stage {
 
-    private final HeaderLabel opretDestiliat = new HeaderLabel("Opret destillat");
 
     private final LabeledTextInput indtastDestillatID = new LabeledTextInput("Destillat navn");
     private final LabeledDateInput indtastDestillatStartDato = new LabeledDateInput("Indsæt startdato");
@@ -40,7 +39,7 @@ public class OpretDestillatPane extends Stage {
         VBox vbox = new VBox(5);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
-        vbox.getChildren().addAll(opretDestiliat, indtastDestillatID, indtastDestillatStartDato,
+        vbox.getChildren().addAll(indtastDestillatID, indtastDestillatStartDato,
                 indtastDestillatSlutDato, indtastDestillatLiterVand, indtastDestillatAlkoholprocent,
                 indtastMæskningsMængde, checkRøget, vælgBatch, spacer, opretDestillatButton);
 

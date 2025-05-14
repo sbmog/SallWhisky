@@ -2,13 +2,18 @@ package gui.produktionsAdm.tabPanes;
 
 import application.controller.Controller;
 import application.model.Fad;
+import application.model.Påfyldning;
+import application.model.Tapning;
 import gui.component.AttributeDisplay;
 import gui.component.LabeledListViewInput;
 import gui.component.LabeledTextInput;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+
+import javax.swing.text.TableView;
 
 public class FadTab extends BaseTab<Fad> {
 //    AttributeDisplays
@@ -23,7 +28,7 @@ public class FadTab extends BaseTab<Fad> {
     private final AttributeDisplay påfyldning = new AttributeDisplay("Påfyldt med destillat", "");
     private final AttributeDisplay dagePåFad = new AttributeDisplay("Antal dage på fad", "");
     private final AttributeDisplay dageTilTapning = new AttributeDisplay("Antal dage til tapning", "");
-    private final AttributeDisplay estimeretAntalFlasker = new AttributeDisplay("Estimeret antal flasker af indhold", "");
+    private final AttributeDisplay estimeretAntalFlasker = new AttributeDisplay("Estimeret antal flasker (70 cl)", "");
 
 
     public FadTab() {
@@ -32,6 +37,7 @@ public class FadTab extends BaseTab<Fad> {
         liste.getListView().getItems().setAll(Controller.getFade());
 
         attributVisning.getChildren().addAll(fadID, fadStørrelse, materiale, leverandør, fadType, antalGangeBrugt, nuværendeIndhold, fadPlacering, påfyldning, dagePåFad, dageTilTapning, estimeretAntalFlasker);
+
 
         liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -44,16 +50,30 @@ public class FadTab extends BaseTab<Fad> {
 
                 if (newValue.getAntalGangeBrugt() != 0) {
                     nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter ");
-                    påfyldning.setValue(String.valueOf(newValue.getPåfyldning().getDestillat().getDestillatID()));
+                    if(newValue.getPåfyldning() != null && newValue.getPåfyldning().getDestillat() != null) {
+                        påfyldning.setValue(String.valueOf(newValue.getPåfyldning().getDestillat().getDestillatID()));
+                    } else {
+                        påfyldning.setValue("Ukendt destillat");
+                    }
+                    Tapning tapning = newValue.getTapning();
+                    double flaskeStørrelseCL = 70.0;
+                    if(tapning != null) {
+                        int antalFlasker = tapning.beregnAntalFlasker(flaskeStørrelseCL);
+                        estimeretAntalFlasker.setValue(String.valueOf(antalFlasker));
+                    } else {
+                        estimeretAntalFlasker.setValue("Ingen Tapning");
+                    }
+
                     dagePåFad.setValue(String.valueOf(newValue.BeregnLagringstid()));
                     dageTilTapning.setValue(String.valueOf(newValue.beregnTidTilWhisky()));
-// TODO               estimeretAntalFlasker.setValue(newValue.beregnAntalFlasker(?));
+
                 } else {
                     String ikkeBrugt = "Fadet har ikke været i brug endnu";
                     nuværendeIndhold.setValue(ikkeBrugt);
                     påfyldning.setValue(ikkeBrugt);
                     dagePåFad.setValue(ikkeBrugt);
                     dageTilTapning.setValue(ikkeBrugt);
+                    estimeretAntalFlasker.setValue(ikkeBrugt);
                 }
 
                 if (newValue.getFadPlacering() != null)
@@ -61,11 +81,10 @@ public class FadTab extends BaseTab<Fad> {
                 else fadPlacering.setValue("Fadet har ikke en plads på lageret");
 
 
+                søgeFelt.getTextField().setOnAction(event -> søgning());
             }
         });
-
-        søgeFelt.getTextField().setOnAction(event -> søgning());
-    }
+        }
 
     private void søgning() {
         String søgeTekst = søgeFelt.getInputValue().toLowerCase().trim();

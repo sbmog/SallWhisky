@@ -1,10 +1,7 @@
 package gui.opretTapning;
 
 import application.controller.Controller;
-import application.model.Fad;
-import application.model.Tapning;
-import application.model.Whisky;
-import application.model.WhiskyType;
+import application.model.*;
 import gui.component.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -71,12 +68,13 @@ public class RegistrerWhiskyPane extends Stage {
             updateAntalFlasker(antalLiter);
         });
 
+
         updateAntalFlasker(antalLiter);
         registrerButton.getButton().setOnAction(event -> håndterWhiskyRegistrering(tapning));
 
 
 
-        Scene scene = new Scene(vbox, 300, 500);
+        Scene scene = new Scene(vbox, 300, 600);
         this.setScene(scene);
         this.show();
     }
@@ -116,10 +114,16 @@ public class RegistrerWhiskyPane extends Stage {
         Integer flaskeStørrelse = flaskeStørrelseCombo.getComboBox().getValue();
         if (flaskeStørrelse != null && flaskeStørrelse > 0) {
             try {
+                if(tapning == null) {
+                    throw new IllegalArgumentException("Tapning kan ikke være null");
+                }
+
                 int antalFlasker = tapning.beregnAntalFlasker(flaskeStørrelse);
                 antalFlaskerOutPut.getTextField().setText(String.valueOf(antalFlasker));
             } catch (IllegalArgumentException e) {
                 antalFlaskerOutPut.getTextField().setText("Ugyldig flaske størrelse");
+            } catch (Exception e) {
+                antalFlaskerOutPut.getTextField().setText("Tapning er ikke tilgængelig");
             }
         } else {
             antalFlaskerOutPut.getTextField().setText("Vælg flaske størrelse");
