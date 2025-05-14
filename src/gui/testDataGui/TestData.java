@@ -48,7 +48,7 @@ public class TestData {
             Storage.addFadType(ft);
         }
 
-        int[] tilladteFadStørrelser = {200, 225, 250, 300, 400, 500};
+        int[] tilladteFadStørrelser = {100, 125, 150, 200, 250};
 
 
         // Maltbatches og malt
@@ -113,7 +113,7 @@ public class TestData {
             MaltBatch mb = maltBatches.get((destillatIndeks - 1) % maltBatches.size());
             Destillat destillat = new Destillat("DS" + destillatIndeks,
                     destillatStartDato, destillatStartDato.plusDays(5),
-                    100 + destillatIndeks * 10, 60.0, false,
+                    500 + destillatIndeks * 10, 60.0, false,
                     50 + destillatIndeks * 5, mb);
             Storage.addDestillat(destillat);
 
@@ -155,6 +155,9 @@ public class TestData {
                     tapning.createFortynding(10.0);
                     Storage.addTapning(tapning);
                     tapninger.add(tapning);
+
+                    fad.opdaterTilTomNårTappet(påfyldning.getAntalLiterPåfyldt());
+                    fad.fjernFraHyldeNårTappet();
                 }
             }
             if (!tapninger.isEmpty()) {
