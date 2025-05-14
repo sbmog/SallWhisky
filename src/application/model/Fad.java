@@ -1,7 +1,5 @@
 package application.model;
 
-import application.controller.Controller;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -11,16 +9,14 @@ public class Fad {
     private double fadILiter;
     private String materiale;
     private String leverandør;
-    private int antalGangeBrugt = 0;
+    private int antalGangeBrugt;
     private static final int maksAntalGangeBrugt = 3;
-    private double nuværendeIndhold = 0;
+    private double nuværendeIndhold;
     private Tapning tapning;
     private static final double maxFadStørrelse = 500;
     private FadPlacering fadPlacering;
     private FadType fadType;
     private Påfyldning påfyldning;
-    private double antalLiterPåFyldt;
-
 
     public Fad(double fadILiter, String materiale, String leverandør, FadType fadType) {
         if (fadILiter > maxFadStørrelse) {
@@ -37,6 +33,7 @@ public class Fad {
         this.leverandør = leverandør;
         this.antalGangeBrugt = 0;
         this.fadType = fadType;
+        this.nuværendeIndhold = 0;
     }
 
     public Tapning getTapning() {
@@ -57,25 +54,26 @@ public class Fad {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
         //startDato behøver ikke nullpointer, da den allerede findes i påfyldning
         LocalDate nu = LocalDate.now();
-        if (startDato.isAfter(nu)){
+        if (startDato.isAfter(nu)) {
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
-        return (int) ChronoUnit.DAYS.between(startDato,nu);
+        return (int) ChronoUnit.DAYS.between(startDato, nu);
     }
 
     public int beregnTidTilWhisky() {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
         //startDato behøver ikke nullpointer, da den allerede findes i påfyldning
         LocalDate whiskyDato = startDato.plusYears(3);
-        if (startDato.isAfter(LocalDate.now())){
+        if (startDato.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Startdato kan ikke være i fremtiden.");
         }
-        if(LocalDate.now().isBefore(whiskyDato)) {
+        if (LocalDate.now().isBefore(whiskyDato)) {
             return (int) ChronoUnit.DAYS.between(LocalDate.now(), whiskyDato);
         } else {
             return 0;
         }
     }
+
     public void fjernFraHyldeHvisTom() {
         if (fadPlacering != null) {
             fadPlacering.getHyldePlads().setPladsFri(true);
@@ -91,7 +89,6 @@ public class Fad {
     }
 
 
-
     public void setPåfyldning(Påfyldning nyPåfyldning) {
         if (antalGangeBrugt >= maksAntalGangeBrugt) {
             throw new IllegalStateException("Fadet kan ikke bruges mere end " + maksAntalGangeBrugt + " gange.");
@@ -99,17 +96,13 @@ public class Fad {
         if (nyPåfyldning == null) {
             throw new IllegalArgumentException("Påfyldning kan ikke være null.");
         }
-        if (nuværendeIndhold + nyPåfyldning.getAntalLiterPåfyldt() > fadILiter) {
-            throw new IllegalArgumentException("Påfyldning overstiger fadets kapacitet.");
-        }
-        
+
         this.påfyldning = nyPåfyldning;
-        this.nuværendeIndhold += nyPåfyldning.getAntalLiterPåfyldt();
-        this.antalLiterPåFyldt += nyPåfyldning.getAntalLiterPåfyldt();
-        nyPåfyldning.setFad(this);
+        this.nuværendeIndhold = nyPåfyldning.getAntalLiterPåfyldt();
+        if (!nyPåfyldning.getFad().equals(this)) {
+            nyPåfyldning.setFad(this);
+        }
         antalGangeBrugt++;
-
-
     }
 
     public int getMaksAntalGangeBrugt() {
@@ -120,6 +113,9 @@ public class Fad {
         return nuværendeIndhold;
     }
 
+    public void setNuværendeIndhold(double nuværendeIndhold) {
+        this.nuværendeIndhold = nuværendeIndhold;
+    }
 
     public int getFadID() {
         return fadID;
@@ -138,7 +134,6 @@ public class Fad {
             throw new IllegalArgumentException("Fad størrelse kan ikke være over " + maxFadStørrelse + " liter.");
         }
         this.fadILiter = fadILiter;
-
     }
 
     public String getMateriale() {
