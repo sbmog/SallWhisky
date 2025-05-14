@@ -95,6 +95,7 @@ public class TestData {
         };
 
         int antalDestillater = 10;
+        int antalTapningerSomIkkeErOprettet = 0;
 
         // Destillater og tilknyttede fade, påfyldninger, tapninger og flasker
         for (int destillatIndeks = 1; destillatIndeks <= antalDestillater; destillatIndeks++) {
@@ -146,18 +147,22 @@ public class TestData {
 
                 // tapning
                 if (erFadKlarTilTapning(fad)) {
-                    Tapning tapning = new Tapning(
-                            påfyldning.getDatoForPåfyldning().plusYears(3),
-                            "MK" + destillatIndeks + fadIndeks,
-                            påfyldning.getAntalLiterPåfyldt(),
-                            fad
-                    );
-                    tapning.createFortynding(10.0);
-                    Storage.addTapning(tapning);
-                    tapninger.add(tapning);
+                    if (antalTapningerSomIkkeErOprettet < 3) {
+                        antalTapningerSomIkkeErOprettet++;
+                    } else {
+                        Tapning tapning = new Tapning(
+                                påfyldning.getDatoForPåfyldning().plusYears(3),
+                                "MK" + destillatIndeks + fadIndeks,
+                                påfyldning.getAntalLiterPåfyldt(),
+                                fad
+                        );
+                        tapning.createFortynding(10.0);
+                        Storage.addTapning(tapning);
+                        tapninger.add(tapning);
 //
 //                    fad.opdaterTilTomNårTappet(påfyldning.getAntalLiterPåfyldt());
 //                    fad.fjernFraHyldeNårTappet();
+                    }
                 }
             }
             if (!tapninger.isEmpty()) {

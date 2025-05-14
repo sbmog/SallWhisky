@@ -57,7 +57,7 @@ public class OpretTapningPane extends Stage {
     }
 
     private void initializeValues() {
-        List<Fad> alleFade = Controller.getFade();
+        List<Fad> alleFade = Controller.getFadeDerErKlarTilAtBliveTappet();
         List<Fad> fadeMedIndhold = new ArrayList<>();
 
         for (int i = 0; i < alleFade.size(); i++) {

@@ -41,6 +41,7 @@ public class Fad {
     }
 
     public void setTapning(Tapning tapning) {
+        this.nuværendeIndhold = 0;
         this.tapning = tapning;
     }
 
