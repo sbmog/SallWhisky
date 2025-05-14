@@ -47,7 +47,7 @@ public class OpretPåfyldningPane extends Stage {
         fejlLabel.setVisible(false);
         antalLiterInput.getChildren().add(fejlLabel);
 
-        destillater.getListView().getItems().setAll(Controller.getDestillaterUdenPåfyldning());
+        destillater.getListView().getItems().setAll(Controller.getDestillaterMedResterendeIndhold());
         fade.getListView().getItems().setAll(Controller.getLedigeFade());
         opbygHyldePladsTreeView();
         konfigurerDestillatListView();
