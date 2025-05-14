@@ -171,24 +171,46 @@ public class Controller {
                 .toList();
     }
 
-    public static ArrayList<Destillat> getDestillaterUdenPåfyldning() {
-        ArrayList<Destillat> destillaterUdenPåfyldning = new ArrayList<>();
+    public static ArrayList<Destillat> getDestillaterMedResterendeIndhold() {
+        ArrayList<Destillat> resultat = new ArrayList<>();
+
         for (Destillat destillat : getDestillater()) {
-            boolean harPåfyldning = false;
+            double totalPåfyldt = 0.0;
+
             for (Påfyldning påfyldning : getPåfyldninger()) {
                 if (påfyldning.getDestillat().equals(destillat)) {
-                    harPåfyldning = true;
-                    break;
+                    totalPåfyldt += påfyldning.getAntalLiterPåfyldt();
                 }
             }
-            if (!harPåfyldning) {
-                destillaterUdenPåfyldning.add(destillat);
+
+            if (totalPåfyldt < destillat.getVæskemængde()) {
+                resultat.add(destillat);
             }
         }
-        return destillaterUdenPåfyldning;
+        return resultat;
     }
 
     public static ArrayList<Påfyldning> getPåfyldninger() {
         return Storage.getPåfyldninger();
+    }
+
+    public static ArrayList<Fad> getFadePåfyldtMedDestillat(Destillat destillat) {
+        ArrayList<Fad> fade = new ArrayList<>();
+        for (Påfyldning påfyldning : getPåfyldninger()) {
+            if (påfyldning.getDestillat().equals(destillat)) {
+                fade.add(påfyldning.getFad());
+            }
+        }
+        return fade;
+    }
+
+    public static double getAntalLiterTilbagePåDestillat(Destillat destillat) {
+        double totalPåfyldt = 0.0;
+        for (Påfyldning påfyldning : getPåfyldninger()) {
+            if (påfyldning.getDestillat().equals(destillat)) {
+                totalPåfyldt += påfyldning.getAntalLiterPåfyldt();
+            }
+        }
+        return destillat.getVæskemængde() - totalPåfyldt;
     }
 }

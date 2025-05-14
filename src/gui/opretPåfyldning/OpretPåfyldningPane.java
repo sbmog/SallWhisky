@@ -22,6 +22,7 @@ public class OpretPåfyldningPane extends Stage {
 
     private final LabeledTextInput initialerInput = new LabeledTextInput("Initialer for den ansvarlige");
     private final LabeledTextInput antalLiterInput = new LabeledTextInput("Antal Liter påfyldt");
+
     private final Label fejlLabel = new Label();
     private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillat der er klar til påfyldning", "Søg destillat");
     private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg ledige fade der skal fyldes på", "Søg fad");
@@ -42,25 +43,22 @@ public class OpretPåfyldningPane extends Stage {
         this.setScene(scene);
         this.show();
 
-
         fejlLabel.setTextFill(javafx.scene.paint.Color.RED);
         fejlLabel.setVisible(false);
         antalLiterInput.getChildren().add(fejlLabel);
 
-
         destillater.getListView().getItems().setAll(Controller.getDestillaterUdenPåfyldning());
         fade.getListView().getItems().setAll(Controller.getLedigeFade());
         opbygHyldePladsTreeView();
-
+        konfigurerDestillatListView();
+        konfigurerFadListView();
 
         destillater.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgDestillat(newVal));
         fade.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgFad(newVal));
         hyldePladser.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgHyldePlads(newVal));
 
-
         antalLiterInput.getTextField().textProperty().addListener((obs, oldVal, newVal) -> checkFadKapacitet());
         fade.getListView().getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> checkFadKapacitet());
-
 
         opretButton.getButton().setOnAction(e -> håndterOpretButton());
     }
@@ -201,6 +199,35 @@ public class OpretPåfyldningPane extends Stage {
         hyldePladser.expandAll(root);
     }
 
+    private void konfigurerDestillatListView() {
+        destillater.getListView().setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(Destillat destillat, boolean empty) {
+                super.updateItem(destillat, empty);
+                if (empty || destillat == null) {
+                    setText(null);
+                } else {
+                    double literTilbage = Controller.getAntalLiterTilbagePåDestillat(destillat);
+                    setText(destillat.getDestillatID() + " (" + String.format("%.1f", literTilbage) + " L tilbage)");
+                }
+            }
+        });
+    }
+
+    private void konfigurerFadListView() {
+        fade.getListView().setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(Fad fad, boolean empty) {
+                super.updateItem(fad, empty);
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    setText("Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getFadILiter()) + " L)");
+                }
+            }
+        });
+    }
+  
     private void checkFadKapacitet() {
         Fad fad = fade.getListView().getSelectionModel().getSelectedItem();
         if (fad == null) {

@@ -1,6 +1,5 @@
 package gui.opretDestillat;
 
-
 import application.controller.Controller;
 import application.model.MaltBatch;
 import gui.component.*;
@@ -27,7 +26,7 @@ public class OpretDestillatPane extends Stage {
     private final LabeledTextInput indtastDestillatAlkoholprocent = new LabeledTextInput("Indsæt alkoholprocent");
     private final LabeledTextInput indtastMæskningsMængde = new LabeledTextInput("Indsæt mæskningsmængde i liter");
     private final LabeledCheckBoxInput checkRøget = new LabeledCheckBoxInput("Er den røget", "Ja");
-    private final LabeledComboBoxInput vælgBatch = new LabeledComboBoxInput<>("Vælg batch");
+    private final LabeledComboBoxInput<MaltBatch> vælgBatch = new LabeledComboBoxInput<>("Vælg malt batch");
     private final LabeledButton opretDestillatButton = new LabeledButton("Opret destillat", "Opret");
 
 
@@ -42,7 +41,7 @@ public class OpretDestillatPane extends Stage {
         vbox.setSpacing(10);
         vbox.getChildren().addAll(indtastDestillatID, indtastDestillatStartDato,
                 indtastDestillatSlutDato, indtastDestillatLiterVand, indtastDestillatAlkoholprocent,
-                indtastMæskningsMængde, checkRøget, vælgBatch,spacer, opretDestillatButton);
+                indtastMæskningsMængde, checkRøget, vælgBatch, spacer, opretDestillatButton);
 
 
         Scene scene = new Scene(vbox, 300, 650);
@@ -57,7 +56,6 @@ public class OpretDestillatPane extends Stage {
 
         opretDestillatButton.getButton().setOnAction(event -> HåndterOpretDestillat());
     }
-
 
 
     private void HåndterOpretDestillat() {
