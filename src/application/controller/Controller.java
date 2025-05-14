@@ -222,4 +222,20 @@ public class Controller {
 
         return (int) ((totalVæskeILiter * 100) / flaskeStørrelseCL);
     }
+
+    public static List<Fad> getFadeDerErKlarTilAtBliveTappet() {
+        ArrayList<Fad> fadeKlar = new ArrayList<>();
+        for (Fad fad : getFade()) {
+            if (erFadKlarTilTapning(fad)) {
+                fadeKlar.add(fad);
+            }
+        }
+        return fadeKlar;
+    }
+
+    private static boolean erFadKlarTilTapning(Fad fad) {
+        Påfyldning påfyldning = fad.getPåfyldning();
+        return påfyldning != null &&
+                påfyldning.getDatoForPåfyldning().plusYears(3).isBefore(LocalDate.now());
+    }
 }
