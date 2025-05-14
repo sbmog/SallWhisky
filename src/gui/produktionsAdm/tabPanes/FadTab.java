@@ -2,20 +2,11 @@ package gui.produktionsAdm.tabPanes;
 
 import application.controller.Controller;
 import application.model.Fad;
-import application.model.Påfyldning;
 import application.model.Tapning;
 import gui.component.AttributeDisplay;
-import gui.component.LabeledListViewInput;
-import gui.component.LabeledTextInput;
-import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-
-import javax.swing.text.TableView;
 
 public class FadTab extends BaseTab<Fad> {
+    //    AttributeDisplays
     private final AttributeDisplay fadID = new AttributeDisplay("Fad ID", "");
     private final AttributeDisplay fadStørrelse = new AttributeDisplay("Fad størrelse", "");
     private final AttributeDisplay materiale = new AttributeDisplay("Materiale", "");
@@ -48,24 +39,28 @@ public class FadTab extends BaseTab<Fad> {
                 antalGangeBrugt.setValue(String.valueOf(newValue.getAntalGangeBrugt()));
 
                 if (newValue.getAntalGangeBrugt() != 0) {
-                    nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter ");
-                    if(newValue.getPåfyldning() != null && newValue.getPåfyldning().getDestillat() != null) {
-                        påfyldning.setValue(String.valueOf(newValue.getPåfyldning().getDestillat().getDestillatID()));
-                    } else {
-                        påfyldning.setValue("Ukendt destillat");
-                    }
                     Tapning tapning = newValue.getTapning();
                     double flaskeStørrelseCL = 70.0;
-                    if(tapning != null) {
-                        int antalFlasker = tapning.beregnAntalFlasker(flaskeStørrelseCL);
-                        estimeretAntalFlasker.setValue(String.valueOf(antalFlasker));
+                    if (tapning == null) {
+                        if (newValue.getPåfyldning() != null && newValue.getPåfyldning().getDestillat() != null) {
+                            påfyldning.setValue(String.valueOf(newValue.getPåfyldning().getDestillat().getDestillatID()));
+                        } else {
+                            påfyldning.setValue("Ukendt destillat");
+                        }
+                        nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter ");
+                        dagePåFad.setValue(String.valueOf(newValue.BeregnLagringstid()));
+                        dageTilTapning.setValue(String.valueOf(newValue.beregnTidTilWhisky()));
+                        estimeretAntalFlasker.getHeaderLabel().setText("Estimeret antal flasker (70 cl)");
+                        estimeretAntalFlasker.setValue(String.valueOf(Controller.beregnEstimeretAntalFlasker(newValue, flaskeStørrelseCL)));
                     } else {
-                        estimeretAntalFlasker.setValue("Ingen Tapning");
+                        String erTappet = "Fadet er tappet";
+                        nuværendeIndhold.setValue(erTappet);
+                        påfyldning.setValue(erTappet);
+                        dagePåFad.setValue(erTappet);
+                        dageTilTapning.setValue(erTappet);
+                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (70 cl)");
+                        estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
                     }
-
-                    dagePåFad.setValue(String.valueOf(newValue.BeregnLagringstid()));
-                    dageTilTapning.setValue(String.valueOf(newValue.beregnTidTilWhisky()));
-
                 } else {
                     String ikkeBrugt = "Fadet har ikke været i brug endnu";
                     nuværendeIndhold.setValue(ikkeBrugt);
@@ -83,7 +78,7 @@ public class FadTab extends BaseTab<Fad> {
                 søgeFelt.getTextField().setOnAction(event -> søgning());
             }
         });
-        }
+    }
 
     private void søgning() {
         String søgeTekst = søgeFelt.getInputValue().toLowerCase().trim();

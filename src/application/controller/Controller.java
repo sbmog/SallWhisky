@@ -213,4 +213,13 @@ public class Controller {
         }
         return destillat.getVæskemængde() - totalPåfyldt;
     }
+
+    public static int beregnEstimeretAntalFlasker(Fad fad, double flaskeStørrelseCL) {
+        if (flaskeStørrelseCL <= 0) {
+            throw new IllegalArgumentException("Flaskestørrelse skal være større end 0.");
+        }
+        double totalVæskeILiter = fad.getPåfyldning().getAntalLiterPåfyldt();
+
+        return (int) ((totalVæskeILiter * 100) / flaskeStørrelseCL);
+    }
 }

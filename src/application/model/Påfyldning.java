@@ -11,6 +11,8 @@ public class Påfyldning {
     private Destillat destillat;
 
     public Påfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat, HyldePlads hyldePlads) {
+        this.fad = fad;
+        fad.setPåfyldning(this);
         if (fad.getNuværendeIndhold() + antalLiterPåfyldt > fad.getFadILiter()) {
             throw new IllegalArgumentException("Påfyldning overstiger fadets størrelse.");
         } else if (antalLiterPåfyldt <= 0) {
@@ -26,9 +28,12 @@ public class Påfyldning {
         this.initialerForMedarbejder = initialerForMedarbejder;
         this.antalLiterPåfyldt = antalLiterPåfyldt;
         this.datoForPåfyldning = datoForPåfyldning;
-        this.fad = fad;
         this.destillat = destillat;
+        fad.setNuværendeIndhold(antalLiterPåfyldt);
         fad.placerPåHylde(hyldePlads, datoForPåfyldning);
+        if (fad.getTapning() != null) {
+            fad.setTapning(null);
+        }
     }
 
     public String getInitialerForMedarbejder() {

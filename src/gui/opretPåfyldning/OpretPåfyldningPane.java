@@ -136,7 +136,7 @@ public class OpretPåfyldningPane extends Stage {
         validering
                 .validateNotEmpty(initialerInput, "Initialer for den ansvarlige må ikke være tomt.")
                 .validateNotEmpty(antalLiterInput, "Antal Liter påfyldt må ikke være tomt.")
-                .validateInteger(antalLiterInput, "Antal Liter påfyldt skal være et heltal")
+                .validateInteger(antalLiterInput, "Antal Liter påfyldt skal være et tal")
                 .validateListViewSelection(destillater.getListView(), "Der skal være valgt et destillat")
                 .validateListViewSelection(fade.getListView(), "Der skal være valgt et fad");
 

@@ -25,8 +25,9 @@ public class Tapning {
         this.fad = fad;
         fortyndinger = new ArrayList<>();
 
+        fad.setFadPlacering(null);
         fad.fjernFraHyldeHvisTom();
-
+        fad.setTapning(this);
         LocalDate påfyldningsDato = fad.getPåfyldning().getDatoForPåfyldning();
 
         if (tapningsDato.isBefore(påfyldningsDato)) {
@@ -36,8 +37,8 @@ public class Tapning {
         }
     }
 
-    public void createFortynding(double vandMængde){
-       fortyndinger.add(new Fortynding(vandMængde));
+    public void createFortynding(double vandMængde) {
+        fortyndinger.add(new Fortynding(vandMængde));
     }
 
     public LocalDate getTapningsDato() {
@@ -77,7 +78,7 @@ public class Tapning {
     }
 
     public void addFortyndinger(Fortynding fortynding) {
-        if (!fortyndinger.contains(fortynding)){
+        if (!fortyndinger.contains(fortynding)) {
             this.fortyndinger.add(fortynding);
         }
     }
