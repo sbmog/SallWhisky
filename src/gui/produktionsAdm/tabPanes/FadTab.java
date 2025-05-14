@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javax.swing.text.TableView;
 
 public class FadTab extends BaseTab<Fad> {
-//    AttributeDisplays
     private final AttributeDisplay fadID = new AttributeDisplay("Fad ID", "");
     private final AttributeDisplay fadStørrelse = new AttributeDisplay("Fad størrelse", "");
     private final AttributeDisplay materiale = new AttributeDisplay("Materiale", "");
