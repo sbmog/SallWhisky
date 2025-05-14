@@ -24,7 +24,7 @@ public class OpretPåfyldningPane extends Stage {
 
     private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillatet der er klar til påfyldning", "Søg destillat");
 
-    private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg ledige fade der skal fyldes på", "Søg fad");
+    private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg et ledig fad der skal fyldes på", "Søg fad");
 
     private final TextInputWithTreeViewInput<Object> hyldePladser = new TextInputWithTreeViewInput<>("Vælg en fri hylde at placere fadet på", "Søg Hylde plads");
 
@@ -44,9 +44,11 @@ public class OpretPåfyldningPane extends Stage {
         this.setScene(scene);
         this.show();
 
-        destillater.getListView().getItems().setAll(Controller.getDestillaterUdenPåfyldning());
+        destillater.getListView().getItems().setAll(Controller.getDestillaterMedResterendeIndhold());
         fade.getListView().getItems().setAll(Controller.getLedigeFade());
         opbygHyldePladsTreeView();
+        konfigurerDestillatListView();
+        konfigurerFadListView();
 
         destillater.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgDestillat(newVal));
         fade.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgFad(newVal));
@@ -167,5 +169,34 @@ public class OpretPåfyldningPane extends Stage {
         }
         hyldePladser.setRoot(root);
         hyldePladser.expandAll(root);
+    }
+
+    private void konfigurerDestillatListView() {
+        destillater.getListView().setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(Destillat destillat, boolean empty) {
+                super.updateItem(destillat, empty);
+                if (empty || destillat == null) {
+                    setText(null);
+                } else {
+                    double literTilbage = Controller.getAntalLiterTilbagePåDestillat(destillat);
+                    setText(destillat.getDestillatID() + " (" + String.format("%.1f", literTilbage) + " L tilbage)");
+                }
+            }
+        });
+    }
+
+    private void konfigurerFadListView() {
+        fade.getListView().setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(Fad fad, boolean empty) {
+                super.updateItem(fad, empty);
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    setText("Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getFadILiter()) + " L)");
+                }
+            }
+        });
     }
 }
