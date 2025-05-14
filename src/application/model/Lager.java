@@ -26,7 +26,7 @@ public class Lager {
         this.reoler = new ArrayList<>();
         this.maxAntalReoler = maxAntalReoler;
     }
- //todo har ændret den væk fra void, så man kan retunere reol og bruge den i gui
+
     public Reol createReol() {
         if (reoler.size() >= maxAntalReoler) {
             throw new IllegalArgumentException("Lageret har nået det maksimale antal reoler.");

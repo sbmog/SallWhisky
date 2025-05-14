@@ -83,19 +83,19 @@ class ControllerTest {
 
     @Test
     void createFadForkert() {
-        // Test cases for invalid Fad creation
+
         Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
             Controller.createFad(600.0, "Eg", "Spanien", 1, fadType);
         });
         assertEquals("Fad størrelse kan ikke være over 500.0 liter.", exception1.getMessage());
 
-        // Test 2: Null leverandør
+
         Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
             Controller.createFad(400.0, "Eg", null, 1, fadType);
         });
         assertEquals("Leverandør og/eller Materiale kan ikke være null eller tom.", exception2.getMessage());
 
-        // Test 3: Null fadtype
+
         Exception exception5 = assertThrows(NullPointerException.class, () -> {
             Controller.createFad(400.0, "Eg", "Spanien", 1, null);
         });

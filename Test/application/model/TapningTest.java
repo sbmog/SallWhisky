@@ -54,7 +54,7 @@ class TapningTest {
                 fad, // Brug fad her
                 destillat,
                 hyldePlads
-                );
+        );
 
         fad.setPåfyldning(påfyldning);
 
@@ -73,6 +73,7 @@ class TapningTest {
             new Tapning(LocalDate.of(2020, 1, 1), "CD", 50, fad);
         });
     }
+
     @Test
     void tapningsDatoNullThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -121,5 +122,58 @@ class TapningTest {
             new Tapning(LocalDate.of(2022, 1, 3), "CD", 50, fad);
         });
         assertEquals("Destillatet kan ikke tappes før den har lagret i 3 år.", exception.getMessage());
+    }
+
+    @Test
+    void beregnAngelShareIProcentKorrektUdregning() {
+        Tapning tapning = new Tapning(LocalDate.of(2025, 5, 1), "CD", 45.0, fad);
+
+        double angelShare = Tapning.beregnAngelShareIProcent(45.0, fad, LocalDate.of(2025, 5, 1));
+
+        assertEquals(10.0, angelShare, 0.01);
+    }
+
+    @Test
+    void beregnAngelShareUnder3ÅrThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Tapning.beregnAngelShareIProcent(45.0, fad, LocalDate.of(2022, 1, 1));
+        });
+    }
+
+    @Test
+    void beregnAngelShareUdenPåfyldningThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            fad.setPåfyldning(null);
+        });
+        assertEquals("Påfyldning kan ikke være null.", exception.getMessage());
+    }
+
+
+    @Test
+    void beregnAntalFlaskerKorrektUdenFortynding() {
+        Tapning tapning = new Tapning(LocalDate.of(2025, 5, 1), "CD", 45.0, fad);
+
+        int antalFlasker = tapning.beregnAntalFlasker(50); // 50 cl
+
+        assertEquals(90, antalFlasker);
+    }
+    @Test
+    void beregnAntalFlaskerMedFortynding() {
+        Tapning tapning = new Tapning(LocalDate.of(2025, 1, 5), "CD", 50.0, fad);
+        tapning.createFortynding(5.0);
+        int result = tapning.beregnAntalFlasker(50.0);
+        assertEquals(110, result);
+    }
+
+    @Test
+    void beregnAntalFlaskerMedNulFlaskestørrelseThrowsException() {
+        Tapning tapning = new Tapning(LocalDate.of(2025, 1, 5), "CD", 50.0, fad);
+        assertThrows(IllegalArgumentException.class, () -> tapning.beregnAntalFlasker(0));
+    }
+
+    @Test
+    void beregnAntalFlaskerMedNegativFlaskestørrelseThrowsException() {
+        Tapning tapning = new Tapning(LocalDate.of(2025, 1, 5), "CD", 50.0, fad);
+        assertThrows(IllegalArgumentException.class, () -> tapning.beregnAntalFlasker(-25));
     }
 }
