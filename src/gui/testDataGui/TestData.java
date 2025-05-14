@@ -100,8 +100,8 @@ public class TestData {
         for (int destillatIndeks = 1; destillatIndeks <= antalDestillater; destillatIndeks++) {
 
             int randomYear = 2018 + (int) (Math.random() * 7); // 2018–2024
-            int randomMonth = 1 + (int) (Math.random() * 12);  // 1–12
-            int randomDay = 1 + (int) (Math.random() * 28);    // sikre gyldige datoer
+            int randomMonth = 1 + (int) (Math.random() * 12);
+            int randomDay = 1 + (int) (Math.random() * 28);
 
             LocalDate destillatStartDato = LocalDate.of(randomYear, randomMonth, randomDay);
 
@@ -155,9 +155,9 @@ public class TestData {
                     tapning.createFortynding(10.0);
                     Storage.addTapning(tapning);
                     tapninger.add(tapning);
-
-                    fad.opdaterTilTomNårTappet(påfyldning.getAntalLiterPåfyldt());
-                    fad.fjernFraHyldeNårTappet();
+//
+//                    fad.opdaterTilTomNårTappet(påfyldning.getAntalLiterPåfyldt());
+//                    fad.fjernFraHyldeNårTappet();
                 }
             }
             if (!tapninger.isEmpty()) {

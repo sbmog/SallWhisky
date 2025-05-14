@@ -25,7 +25,6 @@ public class Tapning {
         this.fad = fad;
         fortyndinger = new ArrayList<>();
 
-        fad.setFadPlacering(null);
         fad.fjernFraHyldeHvisTom();
         fad.setTapning(this);
         LocalDate påfyldningsDato = fad.getPåfyldning().getDatoForPåfyldning();
