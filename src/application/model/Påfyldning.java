@@ -29,6 +29,10 @@ public class Påfyldning {
         this.fad = fad;
         this.destillat = destillat;
         fad.placerPåHylde(hyldePlads, datoForPåfyldning);
+        fad.setPåfyldning(this);
+        if (fad.getTapning() != null) {
+            fad.setTapning(null);
+        }
     }
 
     public String getInitialerForMedarbejder() {

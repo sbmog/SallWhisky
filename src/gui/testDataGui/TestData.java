@@ -145,7 +145,7 @@ public class TestData {
                 Storage.addPåfyldning(påfyldning);
 
                 // tapning
-                if (påfyldning.getDatoForPåfyldning().plusYears(3).isBefore(LocalDate.now())) {
+                if (erFadKlarTilTapning(fad)) {
                     Tapning tapning = new Tapning(
                             påfyldning.getDatoForPåfyldning().plusYears(3),
                             "MK" + destillatIndeks + fadIndeks,
@@ -207,5 +207,11 @@ public class TestData {
             );
             Storage.addDestillat(klarDestillat);
         }
+    }
+
+    private static boolean erFadKlarTilTapning(Fad fad) {
+        Påfyldning påfyldning = fad.getPåfyldning();
+        return påfyldning != null &&
+                påfyldning.getDatoForPåfyldning().plusYears(3).isBefore(LocalDate.now());
     }
 }
