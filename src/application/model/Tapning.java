@@ -7,7 +7,6 @@ public class Tapning {
     private LocalDate tapningsDato;
     private String initialerForMedarbejder;
     private double antalLiterFraFad;
-
     private Fad fad;
     private ArrayList<Fortynding> fortyndinger;
 

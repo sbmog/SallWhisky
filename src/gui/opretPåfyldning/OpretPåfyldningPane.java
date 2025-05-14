@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -21,13 +22,10 @@ public class OpretPåfyldningPane extends Stage {
 
     private final LabeledTextInput initialerInput = new LabeledTextInput("Initialer for den ansvarlige");
     private final LabeledTextInput antalLiterInput = new LabeledTextInput("Antal Liter påfyldt");
-
-    private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillatet der er klar til påfyldning", "Søg destillat");
-
+    private final Label fejlLabel = new Label();
+    private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillat der er klar til påfyldning", "Søg destillat");
     private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg ledige fade der skal fyldes på", "Søg fad");
-
-    private final TextInputWithTreeViewInput<Object> hyldePladser = new TextInputWithTreeViewInput<>("Vælg en fri hylde at placere fadet på", "Søg Hylde plads");
-
+    private final TextInputWithTreeViewInput<Object> hyldePladser = new TextInputWithTreeViewInput<>("Vælg en fri hylde at placere fadet på", "Søg hylde plads");
     private final LabeledButton opretButton = new LabeledButton("Registrer påfyldning", "Registrer");
 
     public OpretPåfyldningPane() {
@@ -44,13 +42,25 @@ public class OpretPåfyldningPane extends Stage {
         this.setScene(scene);
         this.show();
 
+
+        fejlLabel.setTextFill(javafx.scene.paint.Color.RED);
+        fejlLabel.setVisible(false);
+        antalLiterInput.getChildren().add(fejlLabel);
+
+
         destillater.getListView().getItems().setAll(Controller.getDestillaterUdenPåfyldning());
         fade.getListView().getItems().setAll(Controller.getLedigeFade());
         opbygHyldePladsTreeView();
 
+
         destillater.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgDestillat(newVal));
         fade.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgFad(newVal));
         hyldePladser.getTextField().textProperty().addListener((obs, oldVal, newVal) -> søgHyldePlads(newVal));
+
+
+        antalLiterInput.getTextField().textProperty().addListener((obs, oldVal, newVal) -> checkFadKapacitet());
+        fade.getListView().getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> checkFadKapacitet());
+
 
         opretButton.getButton().setOnAction(e -> håndterOpretButton());
     }
@@ -64,8 +74,7 @@ public class OpretPåfyldningPane extends Stage {
                 TreeItem<Object> reolItem = new TreeItem<>(reol);
                 for (HyldePlads hylde : reol.getHyldePladser()) {
                     if (hylde.isPladsFri()) {
-                        TreeItem<Object> hyldeItem = new TreeItem<>(hylde);
-                        reolItem.getChildren().add(hyldeItem);
+                        reolItem.getChildren().add(new TreeItem<>(hylde));
                     }
                 }
                 if (!reolItem.getChildren().isEmpty()) {
@@ -80,17 +89,39 @@ public class OpretPåfyldningPane extends Stage {
         hyldePladser.expandAll(root);
     }
 
-
     private void håndterOpretButton() {
         if (validerOprettelse()) {
             String initialer = initialerInput.getInputValue();
-            double antalLiter = Double.parseDouble(antalLiterInput.getInputValue());
+            double antalLiter;
+            try {
+                antalLiter = Double.parseDouble(antalLiterInput.getInputValue());
+            } catch (NumberFormatException e) {
+                fejlLabel.setText("Antal liter skal være et tal.");
+                fejlLabel.setVisible(true);
+                return;
+            }
+
             Fad fad = fade.getListView().getSelectionModel().getSelectedItem();
             Destillat destillat = destillater.getListView().getSelectionModel().getSelectedItem();
             TreeItem<Object> selectedHylde = hyldePladser.getSelectedItem();
             HyldePlads hyldePlads = null;
             if (selectedHylde != null && selectedHylde.getValue() instanceof HyldePlads) {
                 hyldePlads = (HyldePlads) selectedHylde.getValue();
+            }
+
+            double nuværendeIndhold = 0;
+            for (Påfyldning p : Controller.getPåfyldninger()) {
+                if (p.getFad().equals(fad)) {
+                    nuværendeIndhold += p.getAntalLiterPåfyldt();
+                }
+            }
+
+            if (nuværendeIndhold + antalLiter > fad.getFadILiter()) {
+                fejlLabel.setText("Påfyldningen overstiger fadets kapacitet");
+                fejlLabel.setVisible(true);
+                return;
+            } else {
+                fejlLabel.setVisible(false);
             }
 
             Controller.createPåfyldning(initialer, antalLiter, LocalDate.now(), fad, destillat, hyldePlads);
@@ -110,6 +141,7 @@ public class OpretPåfyldningPane extends Stage {
                 .validateInteger(antalLiterInput, "Antal Liter påfyldt skal være et heltal")
                 .validateListViewSelection(destillater.getListView(), "Der skal være valgt et destillat")
                 .validateListViewSelection(fade.getListView(), "Der skal være valgt et fad");
+
         TreeItem<Object> selectedHylde = hyldePladser.getSelectedItem();
         if (selectedHylde == null || !(selectedHylde.getValue() instanceof HyldePlads)) {
             visDialog(Alert.AlertType.ERROR, "Validering fejlede", "Der skal være valgt en ledig hyldeplads");
@@ -167,5 +199,38 @@ public class OpretPåfyldningPane extends Stage {
         }
         hyldePladser.setRoot(root);
         hyldePladser.expandAll(root);
+    }
+
+    private void checkFadKapacitet() {
+        Fad fad = fade.getListView().getSelectionModel().getSelectedItem();
+        if (fad == null) {
+            fejlLabel.setVisible(false);
+            return;
+        }
+
+        String input = antalLiterInput.getInputValue();
+        double antalLiter;
+
+        try {
+            antalLiter = Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            fejlLabel.setText("Antal liter skal være et tal.");
+            fejlLabel.setVisible(true);
+            return;
+        }
+
+        double nuværendeIndhold = 0;
+        for (Påfyldning p : Controller.getPåfyldninger()) {
+            if (p.getFad().equals(fad)) {
+                nuværendeIndhold += p.getAntalLiterPåfyldt();
+            }
+        }
+
+        if (nuværendeIndhold + antalLiter > fad.getFadILiter()) {
+            fejlLabel.setText("Påfyldningen overstiger fadets kapacitet.");
+            fejlLabel.setVisible(true);
+        } else {
+            fejlLabel.setVisible(false);
+        }
     }
 }
