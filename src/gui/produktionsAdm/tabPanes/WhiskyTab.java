@@ -23,7 +23,7 @@ public class WhiskyTab extends BaseTab<Whisky> {
     private final AttributeDisplay alkoholProcent = new AttributeDisplay("Alkohol procent", "");
     private final AttributeDisplay fortyndet = new AttributeDisplay("Fortyndet", "");
     private final AttributeDisplay vandmængde = new AttributeDisplay("Vandmængde fra fad", "");
-    private final AttributeDisplay antalFlasker = new AttributeDisplay("Antal flasker", "");
+    private final AttributeDisplay antalFlasker = new AttributeDisplay("Estimeret antal flasker (70 cl)", "");
     private final LabeledListViewInput<Tapning> tapninger = new LabeledListViewInput<>("Tapninger af fade");
     private final AttributeDisplay whiskyType = new AttributeDisplay("Whisky type", "");
     private final LabeledButton hentHistorik = new LabeledButton("Hent historik", "Historik");
@@ -51,6 +51,13 @@ public class WhiskyTab extends BaseTab<Whisky> {
 
                 tapninger.getListView().getItems().clear();
                 tapninger.getListView().getItems().setAll(newValue.getTapninger());
+
+                int totalAntalFlasker = 0;
+                for (Tapning tapning : newValue.getTapninger()) {
+                    double flaskeStørrelseCl = 70.0;
+                    totalAntalFlasker += tapning.beregnAntalFlasker(flaskeStørrelseCl);
+                }
+                antalFlasker.setValue(String.valueOf(totalAntalFlasker));
             }
         });
 
