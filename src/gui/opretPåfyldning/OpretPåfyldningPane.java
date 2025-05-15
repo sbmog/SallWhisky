@@ -25,7 +25,7 @@ public class OpretPåfyldningPane extends Stage {
 
     private final Label fejlLabel = new Label();
     private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillat der er klar til påfyldning", "Søg destillat");
-    private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg ledige fade der skal fyldes på", "Søg fad");
+    private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg fad der skal påfyldes", "Søg fad");
     private final TextInputWithTreeViewInput<Object> hyldePladser = new TextInputWithTreeViewInput<>("Vælg en fri hylde at placere fadet på", "Søg hylde plads");
     private final LabeledButton opretButton = new LabeledButton("Registrer påfyldning", "Registrer");
 
