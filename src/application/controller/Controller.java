@@ -74,6 +74,17 @@ public class Controller {
         return angelShare;
     }
 
+    public static double beregnFlaskeStørrelse(Whisky whisky){
+        double flaskeStørrelse = 0.0;
+        for (Tapning tapning : whisky.getTapninger()){
+            tapning.getAntalLiterFraFad();
+            whisky.getFlasker().size();
+            flaskeStørrelse = tapning.getAntalLiterFraFad() / whisky.getFlasker().size();
+        }
+        return Math.floor(flaskeStørrelse * 100) / 100;
+    }
+
+
     public static ArrayList<Fad> getFade() {
         return Storage.getFade();
     }

@@ -23,10 +23,11 @@ public class WhiskyTab extends BaseTab<Whisky> {
     private final AttributeDisplay alkoholProcent = new AttributeDisplay("Alkohol procent", "");
     private final AttributeDisplay fortyndet = new AttributeDisplay("Fortyndet", "");
     private final AttributeDisplay vandmængde = new AttributeDisplay("Vandmængde fra fad", "");
-    private final AttributeDisplay antalFlasker = new AttributeDisplay("Estimeret antal flasker (70 cl)", "");
+    private final AttributeDisplay antalFlasker = new AttributeDisplay("Antal flasker", "");
     private final LabeledListViewInput<Tapning> tapninger = new LabeledListViewInput<>("Tapninger af fade");
     private final AttributeDisplay whiskyType = new AttributeDisplay("Whisky type", "");
     private final LabeledButton hentHistorik = new LabeledButton("Hent historik", "Historik");
+    private final AttributeDisplay flaskeStørrelse = new AttributeDisplay("Flaske størrelse i liter", "");
 
     public WhiskyTab() {
         super("Søg whisky", "Whiskyer");
@@ -34,7 +35,7 @@ public class WhiskyTab extends BaseTab<Whisky> {
         liste.getListView().getItems().setAll(Controller.getWhiskyer());
 
         tapninger.getListView().setPrefHeight(150);
-        attributVisning.getChildren().addAll(whiskyID, whiskyNavn, whiskyType, alkoholProcent, fortyndet, vandmængde, antalFlasker, tapninger, hentHistorik);
+        attributVisning.getChildren().addAll(whiskyID, whiskyNavn, whiskyType, alkoholProcent, fortyndet, vandmængde, flaskeStørrelse, antalFlasker, tapninger, hentHistorik);
 
         liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -48,16 +49,12 @@ public class WhiskyTab extends BaseTab<Whisky> {
 
                 vandmængde.setValue(String.valueOf(newValue.getVandMængde()));
                 antalFlasker.setValue(String.valueOf(newValue.getFlasker().size()));
+                flaskeStørrelse.setValue(String.valueOf(Controller.beregnFlaskeStørrelse(newValue)));
 
                 tapninger.getListView().getItems().clear();
                 tapninger.getListView().getItems().setAll(newValue.getTapninger());
 
-                int totalAntalFlasker = 0;
-                for (Tapning tapning : newValue.getTapninger()) {
-                    double flaskeStørrelseCl = 70.0;
-                    totalAntalFlasker += tapning.beregnAntalFlasker(flaskeStørrelseCl);
-                }
-                antalFlasker.setValue(String.valueOf(totalAntalFlasker));
+                antalFlasker.setValue(String.valueOf(newValue.getFlasker().size()));
             }
         });
 

@@ -1,5 +1,7 @@
 package application.model;
 
+import application.controller.Controller;
+
 import java.util.ArrayList;
 
 public class Whisky {
@@ -59,7 +61,8 @@ public class Whisky {
         // Tilføj overordnede oplysninger én gang
         historik += "Whisky type: " + this.getWhiskyType() + "\n";
         historik += "Alkoholprocent: " + this.getAlkoholProcent() + "\n";
-        historik += "Antal flasker: " + this.getFlasker().size() + "\n";
+        historik += "Flaskestørrelse i liter: " + Controller.beregnFlaskeStørrelse(this) + "\n";
+        historik += "Antal flasker: " + this.getFlasker().size() +  "\n";
 
         // Tilføj destillatoplysninger én gang
         Destillat destillat = tapninger.get(0).getFad().getPåfyldning().getDestillat();

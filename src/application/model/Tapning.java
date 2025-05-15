@@ -87,18 +87,19 @@ public class Tapning {
     }
 
 
+
     public int beregnAntalFlasker(double flaskeStørrelseCl) {
-        if (flaskeStørrelseCl <= 0) {
-            throw new IllegalArgumentException("Flaskestørrelse skal være større end 0.");
-        }
+            if (flaskeStørrelseCl <= 0) {
+                throw new IllegalArgumentException("Flaskestørrelse skal være større end 0.");
+            }
 
-        double totalVæske = antalLiterFraFad + getTotalFortydnigMængde();
+            double totalVæske = antalLiterFraFad + getTotalFortydnigMængde();
 
 
-        return (int) ((totalVæske * 100) / flaskeStørrelseCl);
+            return (int) ((totalVæske * 100) / flaskeStørrelseCl);
     }
 
-    private double getTotalFortydnigMængde() {
+    public double getTotalFortydnigMængde() {
         double totalFortynding = 0;
         for (Fortynding fortynding : fortyndinger) {
             totalFortynding += fortynding.getVandmængde();

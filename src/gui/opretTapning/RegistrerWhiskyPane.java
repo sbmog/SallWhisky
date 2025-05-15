@@ -84,10 +84,9 @@ public class RegistrerWhiskyPane extends Stage {
             String navn = whiskyNavnInput.getInputValue();
             double alkoholProcent = Double.parseDouble(alkoholProcentInput.getInputValue());
             boolean fortyndet = fortyndningCheckBox.getCheckBox().isSelected();
-            new ArrayList<>(List.of(tapning));
             double WhiskyMængde = Double.parseDouble(vandMængdeFraFadInput.getInputValue());
             WhiskyType whiskyType = whiskyTypeInput.getComboBox().getValue();
-
+            Integer flaskeStørrelse = flaskeStørrelseCombo.getComboBox().getValue();
 
             if (navn == null || navn.isEmpty()) {
                 throw new IllegalArgumentException("Whisky navn skal udfyldes.");
@@ -95,21 +94,40 @@ public class RegistrerWhiskyPane extends Stage {
             if (whiskyType == null) {
                 throw new IllegalArgumentException("Whisky type skal vælges.");
             }
+            if (flaskeStørrelse == null || flaskeStørrelse <= 0) {
+                throw new IllegalArgumentException("Flaske størrelse skal være valgt og større end 0.");
+            }
 
-            Controller.createWhisky(whiskyID, navn, alkoholProcent, fortyndet, WhiskyMængde,
-                    new ArrayList<>(List.of(tapning)), whiskyType);
+            // Opret Whisky
+            Whisky whisky = Controller.createWhisky(
+                    whiskyID,
+                    navn,
+                    alkoholProcent,
+                    fortyndet,
+                    WhiskyMængde,
+                    new ArrayList<>(List.of(tapning)),
+                    whiskyType
+            );
+
+            // Beregn og opret flasker
+            int antalFlasker = tapning.beregnAntalFlasker(flaskeStørrelse);
+            for (int i = 0; i < antalFlasker; i++) {
+                whisky.createFlaske();
+            }
+
+            // Vis bekræftelse
+            visDialog(Alert.AlertType.CONFIRMATION, "Whisky registreret",
+                    "Whisky med navn: " + navn + " er registreret med " + antalFlasker + " flasker.");
 
             this.close();
 
-            visDialog(Alert.AlertType.CONFIRMATION, "Whisky registreret", "Whisky med navn: " + navn + " er registreret.");
-            this.close();
         } catch (NumberFormatException e) {
             visDialog(Alert.AlertType.ERROR, "Ugyldigt input", "Alkoholprocent og vandmængde skal være tal.");
         } catch (IllegalArgumentException e) {
             visDialog(Alert.AlertType.ERROR, "Fejl ved registrering", e.getMessage());
         }
-
     }
+
     private void updateAntalFlasker(double liter) {
         Integer flaskeStørrelse = flaskeStørrelseCombo.getComboBox().getValue();
         if (flaskeStørrelse != null && flaskeStørrelse > 0) {
