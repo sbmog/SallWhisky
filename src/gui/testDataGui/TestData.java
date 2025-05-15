@@ -142,7 +142,6 @@ public class TestData {
                         størrelse - 50,
                         destillat.getSlutDato(),
                         fad, destillat, placering);
-                fad.setPåfyldning(påfyldning);
                 Storage.addPåfyldning(påfyldning);
 
                 // tapning
