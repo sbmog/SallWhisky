@@ -121,7 +121,7 @@ public class OpretTapningPane extends Stage {
             double antalLiter = Double.parseDouble(antalLiterFraFadInput.getInputValue());
 
             if (selectedFad != null && tapningsDato != null) {
-                double angelShare = Tapning.beregnAngelShareIProcent(antalLiter, selectedFad, tapningsDato);
+                double angelShare = Controller.beregnAngelShareIProcent(antalLiter, selectedFad, tapningsDato);
                 angelShareInput.getTextField().setText(String.format("%.2f %%", angelShare));
                 clearFejl();
             }
