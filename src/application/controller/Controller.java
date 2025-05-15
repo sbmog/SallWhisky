@@ -87,7 +87,8 @@ public class Controller {
         for (Lager lager : Storage.getLagre()) {
             for (Reol reol : lager.getReoler()) {
                 for (HyldePlads hyldePlads : reol.getHyldePladser()) {
-                    if (hyldePlads.isPladsFri()) friePladser.add(hyldePlads);
+                    if (hyldePlads.isPladsFri())
+                        friePladser.add(hyldePlads);
                 }
             }
         }
