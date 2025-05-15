@@ -48,7 +48,7 @@ public class FadTab extends BaseTab<Fad> {
                             påfyldning.setValue("Ukendt destillat");
                         }
                         nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter ");
-                        dagePåFad.setValue(String.valueOf(newValue.BeregnLagringstid()));
+                        dagePåFad.setValue(String.valueOf(newValue.beregnLagringstid()));
                         int dageTil = newValue.beregnTidTilWhisky();
                         if (dageTil <= 0) {
                             dageTilTapning.setValue("Klar til tapning");

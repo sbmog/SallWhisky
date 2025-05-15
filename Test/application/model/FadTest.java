@@ -102,7 +102,7 @@ class FadTest {
         fad.setPåfyldning(futurePåfyldning);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            fad.BeregnLagringstid();
+            fad.beregnLagringstid();
         });
         assertEquals("Startdato kan ikke være i fremtiden.", exception.getMessage());
     }

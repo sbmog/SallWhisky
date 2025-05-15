@@ -49,7 +49,7 @@ public class FadPlacering {
 
     public void setHyldePlads(HyldePlads hyldePlads) {
         if (this.hyldePlads != null) {
-            this.hyldePlads.setPladsFri(true);
+            this.hyldePlads.setPladsFri();
         }
         this.hyldePlads = hyldePlads;
         if (hyldePlads != null) {

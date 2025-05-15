@@ -109,13 +109,13 @@ public class Tapning {
             throw new IllegalArgumentException("Flaskestørrelse skal være større end 0.");
         }
 
-        double totalVæske = antalLiterFraFad + getTotalFortydnigMængde();
+        double totalVæske = antalLiterFraFad + getTotalFortyndigMængde();
 
 
         return (int) ((totalVæske * 100) / flaskeStørrelseCl);
     }
 
-    private double getTotalFortydnigMængde() {
+    private double getTotalFortyndigMængde() {
         double totalFortynding = 0;
         for (Fortynding fortynding : fortyndinger) {
             totalFortynding += fortynding.getVandmængde();

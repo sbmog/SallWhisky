@@ -35,7 +35,7 @@ public class HyldePlads {
         return fadPlaceret == null;
     }
 
-    public void setPladsFri(boolean pladsFri) {
+    public void setPladsFri() {
         this.fadPlaceret = null;
     }
 
