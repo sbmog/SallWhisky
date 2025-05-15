@@ -172,6 +172,8 @@ public class OpretTapningPane extends Stage {
                 return;
             }
 
+            selectedFad.opdaterNuværendeInhold(antalLiter);
+
             Tapning tapning = Controller.createTapning(tapningsDato, initialer, antalLiter, selectedFad);
             double fortynding = fortyndingCheckBox.isSelected() ?
                     Double.parseDouble(fortyndingInput.getInputValue()) : 0;
@@ -180,7 +182,6 @@ public class OpretTapningPane extends Stage {
                 tapning.createFortynding(fortynding);
             }
 
-            selectedFad.opdaterNuværendeInhold(antalLiter);
             if (selectedFad.getNuværendeIndhold() == 0) {
                 selectedFad.fjernFraHyldeHvisTom();
                 visDialog(Alert.AlertType.INFORMATION, "Fad fjernet", "Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
