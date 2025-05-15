@@ -49,7 +49,12 @@ public class FadTab extends BaseTab<Fad> {
                         }
                         nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter ");
                         dagePåFad.setValue(String.valueOf(newValue.BeregnLagringstid()));
-                        dageTilTapning.setValue(String.valueOf(newValue.beregnTidTilWhisky()));
+                        int dageTil = newValue.beregnTidTilWhisky();
+                        if (dageTil <= 0) {
+                            dageTilTapning.setValue("Klar til tapning");
+                        } else {
+                            dageTilTapning.setValue(String.valueOf(newValue.beregnTidTilWhisky()));
+                        }
                         estimeretAntalFlasker.getHeaderLabel().setText("Estimeret antal flasker (70 cl)");
                         estimeretAntalFlasker.setValue(String.valueOf(Controller.beregnEstimeretAntalFlasker(newValue, flaskeStørrelseCL)));
                     } else {
