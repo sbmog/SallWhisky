@@ -86,23 +86,6 @@ public class Tapning {
         return "Tapning fra " + fad;
     }
 
-    public static double beregnAngelShareIProcent(double antalLiterFraFad, Fad fad, LocalDate tapningsDato) {
-        if (fad.getPåfyldning() == null) {
-            throw new IllegalArgumentException("Fadet har ingen påfyldning – angel share kan ikke beregnes.");
-        }
-
-        LocalDate startDato = fad.getPåfyldning().getDatoForPåfyldning();
-
-        if (tapningsDato.isBefore(startDato.plusYears(3))) {
-            throw new IllegalArgumentException("Destillatet kan ikke tappes før den har lagret i 3 år.");
-        }
-
-
-        double påfyldt = fad.getPåfyldning().getAntalLiterPåfyldt();
-        double angelShare = (påfyldt - antalLiterFraFad) / påfyldt * 100;
-
-        return angelShare;
-    }
 
     public int beregnAntalFlasker(double flaskeStørrelseCl) {
         if (flaskeStørrelseCl <= 0) {
