@@ -159,9 +159,6 @@ public class TestData {
                         tapning.createFortynding(10.0);
                         Storage.addTapning(tapning);
                         tapninger.add(tapning);
-//
-//                    fad.opdaterTilTomNårTappet(påfyldning.getAntalLiterPåfyldt());
-//                    fad.fjernFraHyldeNårTappet();
                     }
                 }
             }
