@@ -1,5 +1,6 @@
 package application.model;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,26 +12,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class FadTest {
 
     private Destillat destillat;
-    private Påfyldning påfyldning;
     private Fad fad;
-    private Tapning tapning;
     private Lager lager;
     private Reol reol;
     private int hyldePladsCounter;
 
     @BeforeEach
     void setUp() {
+        hyldePladsCounter = 0;
+
         MaltBatch maltBatch = new MaltBatch("B1", LocalDate.of(2020, 1, 1), 40.0, new ArrayList<>());
 
-        lager = new Lager("Lager1",
-                "Baghaven",
-                "Baghavevej 1",
-                10);
-
+        lager = new Lager("Lager1", "Baghaven", "Baghavevej 1", 10);
         reol = new Reol(lager, 1);
-
-        // Brug en tæller til at sikre unikke HyldePlads-objekter
-        hyldePladsCounter = 0;
 
         destillat = new Destillat("NJ1",
                 LocalDate.of(2020, 1, 1),
@@ -46,21 +40,6 @@ class FadTest {
                 "Eg",
                 "Spanien",
                 new FadType("Sherry"));
-
-        påfyldning = new Påfyldning("SNIPE",
-                50.0,
-                LocalDate.of(2020, 1, 4),
-                fad,
-                destillat,
-                createUniqueHyldePlads());
-
-        fad.setPåfyldning(påfyldning);
-
-        tapning = new Tapning(LocalDate.of(2023, 1, 5),
-                "NJ",
-                50.0,
-                fad);
-        fad.setTapning(tapning);
     }
 
     private HyldePlads createUniqueHyldePlads() {
@@ -99,8 +78,6 @@ class FadTest {
     @Test
     void beregnLagringstidStartDatoInFutureThrowsException() {
         Påfyldning futurePåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
-        fad.setPåfyldning(futurePåfyldning);
-
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             fad.BeregnLagringstid();
         });
@@ -109,8 +86,7 @@ class FadTest {
 
     @Test
     void beregnTidTilWhiskyStartDatoInFutureException() {
-        Påfyldning futurePåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
-        fad.setPåfyldning(futurePåfyldning);
+    new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             fad.beregnTidTilWhisky();
         });
@@ -120,9 +96,8 @@ class FadTest {
     @Test
     void setPåfyldningMaxUsageException() {
         fad.setAntalGangeBrugt(fad.getMaksAntalGangeBrugt());
-        Påfyldning newPåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now(), fad, destillat, createUniqueHyldePlads());
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            fad.setPåfyldning(newPåfyldning);
+        new Påfyldning("SNIPE", 50.0, LocalDate.now(), fad, destillat, createUniqueHyldePlads());
         });
         assertEquals("Fadet kan ikke bruges mere end " + fad.getMaksAntalGangeBrugt() + " gange.", exception.getMessage());
     }
