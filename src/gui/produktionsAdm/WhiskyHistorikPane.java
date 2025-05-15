@@ -3,12 +3,16 @@ package gui.produktionsAdm;
 import application.model.Fad;
 import application.model.Malt;
 import application.model.Whisky;
+import gui.component.LabeledButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class WhiskyHistorikPane extends Stage {
 
@@ -25,14 +29,22 @@ public class WhiskyHistorikPane extends Stage {
         // Saml hele historikken som én streng
         String historik = whisky.getHistorik();
 
-        // Opret en TextArea til at vise historikken
-        TextArea textArea = new TextArea(historik);
-        textArea.setPrefWidth(380); // Sæt bredden
-        textArea.setPrefHeight(380); // Sæt højden
-        textArea.setEditable(false); // Gør den skrivebeskyttet
-        textArea.setWrapText(true); // Tillad tekstombrydning
 
-        // Tilføj TextArea til layoutet
-        root.getChildren().add(textArea);
+        TextArea textArea = new TextArea(historik);
+        textArea.setPrefWidth(380);
+        textArea.setPrefHeight(380);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        LabeledButton labledbutton = new LabeledButton("Print", "Print");
+        labledbutton.getButton().setOnAction(e -> {
+            try (FileWriter fileWriter = new FileWriter("Whisky_historik.txt")) {
+                fileWriter.write(historik);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        root.getChildren().addAll(textArea,labledbutton);
     }
 }
