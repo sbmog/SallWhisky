@@ -1,8 +1,8 @@
 package application.model;
 
+import application.controller.Controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import  org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ class TapningTest {
     void beregnAngelShareIProcentKorrektUdregning() {
         Tapning tapning = new Tapning(LocalDate.of(2025, 5, 1), "CD", 45.0, fad);
 
-        double angelShare = Tapning.beregnAngelShareIProcent(45.0, fad, LocalDate.of(2025, 5, 1));
+        double angelShare = Controller.beregnAngelShareIProcent(45.0, fad, LocalDate.of(2025, 5, 1));
 
         assertEquals(10.0, angelShare, 0.01);
     }
@@ -136,7 +136,7 @@ class TapningTest {
     @Test
     void beregnAngelShareUnder3ÅrThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {
-            Tapning.beregnAngelShareIProcent(45.0, fad, LocalDate.of(2022, 1, 1));
+            Controller.beregnAngelShareIProcent(45.0, fad, LocalDate.of(2022, 1, 1));
         });
     }
 
