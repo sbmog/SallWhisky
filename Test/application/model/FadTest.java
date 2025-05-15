@@ -79,7 +79,7 @@ class FadTest {
     void beregnLagringstidStartDatoInFutureThrowsException() {
         Påfyldning futurePåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            fad.BeregnLagringstid();
+            fad.beregnLagringstid();
         });
         assertEquals("Startdato kan ikke være i fremtiden.", exception.getMessage());
     }

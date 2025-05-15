@@ -36,10 +36,10 @@ public class MaltBatch {
         this.malt = malt;
     }
 
-    public Malt createMalt(String kornsort, String markNavn, double maengde) {
-        Malt maltObjekt = new Malt(kornsort, markNavn, maengde);
+    public Malt createMalt(String kornsort, String markNavn, double mængde) {
+        Malt maltObjekt = new Malt(kornsort, markNavn, mængde);
         malt.add(maltObjekt);
-        this.mængde += maengde;
+        this.mængde += mængde;
         return maltObjekt;
     }
 

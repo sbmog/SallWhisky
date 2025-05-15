@@ -113,7 +113,7 @@ class ReolTest {
         FadPlacering fadPlacering = new FadPlacering(LocalDate.of(2025, 5,5), fad, hyldePlads2);
 
         // hyldePlads 1 er fri.
-        hyldePlads1.setPladsFri(true);
+        hyldePlads1.setPladsFri();
 
         reol.removeHyldePlads(hyldePlads1);
         assertEquals(1, reol.getHyldePladser().size());

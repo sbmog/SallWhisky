@@ -130,7 +130,7 @@ public class Controller {
 
         FadPlacering nuværendePlacering = fad.getFadPlacering();
         if (nuværendePlacering != null) {
-            nuværendePlacering.getHyldePlads().setPladsFri(true);
+            nuværendePlacering.getHyldePlads().setPladsFri();
         }
 
         fad.placerPåHylde(nyHyldePlads, LocalDate.now());

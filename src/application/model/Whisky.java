@@ -134,8 +134,8 @@ public class Whisky {
         return tapninger;
     }
 
-    public void setTapninger(ArrayList<Tapning> tapninger) {
-        this.tapninger = tapninger;
+    public void addTapning(Tapning tapning) {
+        this.tapninger.add(tapning);
     }
 
     public WhiskyType getWhiskyType() {

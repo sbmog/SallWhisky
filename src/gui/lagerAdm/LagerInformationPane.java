@@ -8,9 +8,6 @@ import gui.component.AttributeDisplay;
 import gui.component.HeaderLabel;
 import javafx.scene.layout.VBox;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-
 public class LagerInformationPane extends VBox {
     private final HeaderLabel information = new HeaderLabel("Information");
 
@@ -70,7 +67,7 @@ public class LagerInformationPane extends VBox {
                 Fad fad = hylde.getFadPlaceret().getFad();
                 fadID.setValue(String.valueOf(fad.getFadID()));
                 fadIndhold.setValue(String.valueOf(fad.getPåfyldning().getDestillat()));
-                antalDagePåLager.setValue(String.valueOf(fad.BeregnLagringstid()));
+                antalDagePåLager.setValue(String.valueOf(fad.beregnLagringstid()));
                 dageTilTapning.setValue(String.valueOf(fad.beregnTidTilWhisky()));
             }
         } else if (selectedObject instanceof Fad fad) {
@@ -82,7 +79,7 @@ public class LagerInformationPane extends VBox {
             hyldeID.setValue(String.valueOf(hyldePlads.getHyldePladsID()));
             fadID.setValue(String.valueOf(fad.getFadID()));
             fadIndhold.setValue(String.valueOf(fad.getPåfyldning().getDestillat()));
-            antalDagePåLager.setValue(String.valueOf(fad.BeregnLagringstid()));
+            antalDagePåLager.setValue(String.valueOf(fad.beregnLagringstid()));
             dageTilTapning.setValue(String.valueOf(fad.beregnTidTilWhisky()));
         }
     }

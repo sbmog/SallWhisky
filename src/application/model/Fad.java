@@ -51,7 +51,7 @@ public class Fad {
         } else throw new IllegalStateException("Hyldepladsen er allerede optaget.");
     }
 
-    public int BeregnLagringstid() {
+    public int beregnLagringstid() {
         LocalDate startDato = påfyldning.getDatoForPåfyldning();
         //startDato behøver ikke nullpointer, da den allerede findes i påfyldning
         LocalDate nu = LocalDate.now();
@@ -77,7 +77,7 @@ public class Fad {
 
     public void fjernFraHyldeHvisTom() {
         if (fadPlacering != null) {
-            fadPlacering.getHyldePlads().setPladsFri(true);
+            fadPlacering.getHyldePlads().setPladsFri();
             fadPlacering = null;
         }
     }
