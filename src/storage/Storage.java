@@ -19,7 +19,7 @@ public class Storage {
     private static ArrayList<Reol> reoler = new ArrayList<>();
 
 
-    //Destillat
+
     public static void addDestillat(Destillat destillat) {
         if (!destillater.contains(destillat)) {
             destillater.add(destillat);
@@ -37,7 +37,7 @@ public class Storage {
         return new ArrayList<>(destillater);
     }
 
-    //Fad
+
     public static void addFad(Fad fad) {
         if (!fade.contains(fad)) {
             fade.add(fad);

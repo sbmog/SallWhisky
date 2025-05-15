@@ -124,6 +124,7 @@ class ReolTest {
         assertEquals(1, reol.getHyldePladser().size());
         assertTrue(reol.getHyldePladser().contains(hyldePlads2));
     }
+
     @Test
     void hyldePladsIDUnderOrEqualToZeroThrowsException() {
         Reol reol = new Reol(new Lager("Lager 1", "Central lager", "Lagervej 1", 10), 1);

@@ -97,7 +97,7 @@ public class TestData {
         int antalDestillater = 10;
         int antalTapningerSomIkkeErOprettet = 0;
 
-        // Destillater og tilknyttede fade, påfyldninger, tapninger og flasker
+
         for (int destillatIndeks = 1; destillatIndeks <= antalDestillater; destillatIndeks++) {
 
             int randomYear = 2018 + (int) (Math.random() * 7); // 2018–2024
@@ -106,7 +106,7 @@ public class TestData {
 
             LocalDate destillatStartDato = LocalDate.of(randomYear, randomMonth, randomDay);
 
-            // Brug næste ledige reol
+
             Reol valgtReol = alleReoler.get(næsteReolIndeks++);
             List<HyldePlads> reolensHyldePladser = valgtReol.getHyldePladser();
             int hyldeTæller = 0;
@@ -131,20 +131,20 @@ public class TestData {
                 Fad fad = new Fad(størrelse, materiale, leverandør, fadTyper[(destillatIndeks + fadIndeks) % fadTyper.length]);
                 Storage.addFad(fad);
 
-                // fadplacering
+
                 if (hyldeTæller >= reolensHyldePladser.size()) {
                     throw new IllegalStateException("Reolen har ikke nok hyldepladser til alle fade.");
                 }
                 HyldePlads placering = reolensHyldePladser.get(hyldeTæller++);
 
-                // påfyldning
+
                 Påfyldning påfyldning = new Påfyldning("SN" + destillatIndeks + fadIndeks,
                         størrelse - 50,
                         destillat.getSlutDato(),
                         fad, destillat, placering);
                 Storage.addPåfyldning(påfyldning);
 
-                // tapning
+
                 if (erFadKlarTilTapning(fad)) {
                     if (antalTapningerSomIkkeErOprettet < 3) {
                         antalTapningerSomIkkeErOprettet++;
