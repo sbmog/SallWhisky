@@ -23,7 +23,7 @@ public class OpretTapningPane extends Stage {
     private final LabeledTextInput initialerForMedarbejderInput = new LabeledTextInput("Indtast initialer for medarbejder");
     private final LabeledTextInput antalLiterFraFadInput = new LabeledTextInput("Indtast antal liter fra fad");
     private final LabeledTextInput angelShareInput = new LabeledTextInput("Angel share i procent");
-    private final LabeledComboBoxInput<Fad> fad = new LabeledComboBoxInput<>("Vælg fad");
+    private final LabeledComboBoxInput<Fad> fad = new LabeledComboBoxInput<>("Vælg fad (indhold i Liter)");
     private final LabeledCheckBoxInput fortyndingCheckBox = new LabeledCheckBoxInput("Tilføj fortynding", "Ja");
     private final LabeledTextInput fortyndingInput = new LabeledTextInput("Indtast fortynding i liter");
     private final LabeledTextInput whiskyMængdeInput = new LabeledTextInput("Total mængde whisky i liter");
@@ -68,6 +68,7 @@ public class OpretTapningPane extends Stage {
         }
 
         fad.addItems(fadeMedIndhold);
+        konfigurerFadComboBox();
     }
 
     private void setupListeners() {
@@ -75,18 +76,18 @@ public class OpretTapningPane extends Stage {
             Fad valgteFad = fad.getComboBox().getValue();
             if (valgteFad == null) {
                 clearFejl();
-            return;
-        }
-                    try {
-                        double antalliter = Double.parseDouble(newVal);
-                        if(antalliter > valgteFad.getNuværendeIndhold()) {
-                            visFejl("Du kan ikke tappe mere end fadets indhold (" + valgteFad.getNuværendeIndhold() + " L).");
-                        } else {
-                            clearFejl();
-                        }
-                    } catch (NumberFormatException e) {
-                        clearFejl();
-                    }
+                return;
+            }
+            try {
+                double antalliter = Double.parseDouble(newVal);
+                if (antalliter > valgteFad.getNuværendeIndhold()) {
+                    visFejl("Du kan ikke tappe mere end fadets indhold (" + valgteFad.getNuværendeIndhold() + " L).");
+                } else {
+                    clearFejl();
+                }
+            } catch (NumberFormatException e) {
+                clearFejl();
+            }
 
             updateAngelShare();
             updateWhiskyMængde();
@@ -193,6 +194,20 @@ public class OpretTapningPane extends Stage {
         } catch (Exception e) {
             visFejl("Fejl: " + e.getMessage());
         }
+    }
+
+    private void konfigurerFadComboBox() {
+        fad.getComboBox().setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(Fad fad, boolean empty) {
+                super.updateItem(fad, empty);
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    setText("Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getNuværendeIndhold()) + " L) af " + fad.getPåfyldning().getDestillat());
+                }
+            }
+        });
     }
 
     private void visFejl(String tekst) {
