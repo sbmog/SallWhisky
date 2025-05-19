@@ -74,14 +74,18 @@ public class Controller {
         return angelShare;
     }
 
-    public static double beregnFlaskeStørrelse(Whisky whisky){
-        double flaskeStørrelse = 0.0;
-        for (Tapning tapning : whisky.getTapninger()){
-            tapning.getAntalLiterFraFad();
-            whisky.getFlasker().size();
-            flaskeStørrelse = tapning.getAntalLiterFraFad() / whisky.getFlasker().size();
+    public static int beregnFlaskeStørrelse(Whisky whisky) {
+        double samletLiter = 0.0;
+        int antalFlasker = whisky.getFlasker().size();
+
+        if (antalFlasker == 0) return 0;
+
+        for (Tapning tapning : whisky.getTapninger()) {
+            samletLiter += tapning.getAntalLiterFraFad() + tapning.getTotalFortydnigMængde();
         }
-        return Math.floor(flaskeStørrelse * 100) / 100;
+        double flaskeStørrelse = samletLiter / antalFlasker * 100;
+        int afrundet = (int) Math.round(flaskeStørrelse);
+        return afrundet;
     }
 
 

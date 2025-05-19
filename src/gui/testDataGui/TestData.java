@@ -48,7 +48,7 @@ public class TestData {
             Storage.addFadType(ft);
         }
 
-        int[] tilladteFadStørrelser = {100, 125, 150, 200, 250};
+        int[] tilladteFadStørrelser = {150, 200, 250, 300, 400, 500};
 
 
         // Maltbatches og malt
@@ -94,7 +94,7 @@ public class TestData {
                 "ScandiFad"
         };
 
-        int antalDestillater = 10;
+        int antalDestillater = 8;
         int antalTapningerSomIkkeErOprettet = 0;
 
 
@@ -106,40 +106,68 @@ public class TestData {
 
             LocalDate destillatStartDato = LocalDate.of(randomYear, randomMonth, randomDay);
 
-
-            Reol valgtReol = alleReoler.get(næsteReolIndeks++);
-            List<HyldePlads> reolensHyldePladser = valgtReol.getHyldePladser();
-            int hyldeTæller = 0;
+            int mængdeDestillat = 1000 + (int) (Math.random() * 1001); // 1000-2000 L
 
             MaltBatch mb = maltBatches.get((destillatIndeks - 1) % maltBatches.size());
             Destillat destillat = new Destillat("DS" + destillatIndeks,
                     destillatStartDato, destillatStartDato.plusDays(5),
                     500 + destillatIndeks * 10, 60.0, false,
-                    50 + destillatIndeks * 5, mb);
+                    mængdeDestillat, mb);
             Storage.addDestillat(destillat);
 
-            int antalFade = 3 + (destillatIndeks % 4); // 3-6 fade
+            int resterendeLiter = mængdeDestillat;
+            int fadIndeks = 0;
 
             ArrayList<Tapning> tapninger = new ArrayList<>();
 
+            Reol valgtReol = alleReoler.get(næsteReolIndeks++);
+            List<HyldePlads> reolensHyldePladser = valgtReol.getHyldePladser();
+            int hyldeTæller = 0;
+
 //            Fad
-            for (int fadIndeks = 1; fadIndeks <= antalFade; fadIndeks++) {
+            while (resterendeLiter > 0) {
+                if (hyldeTæller >= reolensHyldePladser.size()) {
+                    næsteReolIndeks++;
+                    if (næsteReolIndeks >= alleReoler.size()) {
+                        throw new IllegalArgumentException("Der er ikke flere reoler med ledige hyldepladser til alle fade.");
+                    }
+                    valgtReol = alleReoler.get(næsteReolIndeks);
+                    reolensHyldePladser = valgtReol.getHyldePladser();
+                    hyldeTæller = 0;
+                }
+
                 int størrelse = tilladteFadStørrelser[(destillatIndeks + fadIndeks) % tilladteFadStørrelser.length];
+                int fyldMængde = Math.min(størrelse, resterendeLiter);
+
                 String materiale = fadMaterialer[(destillatIndeks + fadIndeks) % fadMaterialer.length];
                 String leverandør = fadLeverandører[(destillatIndeks + fadIndeks) % fadLeverandører.length];
 
                 Fad fad = new Fad(størrelse, materiale, leverandør, fadTyper[(destillatIndeks + fadIndeks) % fadTyper.length]);
                 Storage.addFad(fad);
 
-
-                if (hyldeTæller >= reolensHyldePladser.size()) {
-                    throw new IllegalStateException("Reolen har ikke nok hyldepladser til alle fade.");
+                HyldePlads placering = null;
+                for (; hyldeTæller < reolensHyldePladser.size(); hyldeTæller++) {
+                    HyldePlads kandidat = reolensHyldePladser.get(hyldeTæller);
+                    if (kandidat.isPladsFri()) {
+                        placering = kandidat;
+                        hyldeTæller++;
+                        break;
+                    }
                 }
-                HyldePlads placering = reolensHyldePladser.get(hyldeTæller++);
 
+                if (placering == null) {
+                    næsteReolIndeks++;
+                    if (næsteReolIndeks >= alleReoler.size()) {
+                        throw new IllegalArgumentException("Der er ikke flere reoler med ledige hyldepladser til alle fade.");
+                    }
+                    valgtReol = alleReoler.get(næsteReolIndeks);
+                    reolensHyldePladser = valgtReol.getHyldePladser();
+                    hyldeTæller = 0;
+                    continue;
+                }
 
                 Påfyldning påfyldning = new Påfyldning("SN" + destillatIndeks + fadIndeks,
-                        størrelse - 50,
+                        fyldMængde,
                         destillat.getSlutDato(),
                         fad, destillat, placering);
                 Storage.addPåfyldning(påfyldning);
@@ -149,10 +177,13 @@ public class TestData {
                     if (antalTapningerSomIkkeErOprettet < 3) {
                         antalTapningerSomIkkeErOprettet++;
                     } else {
+                        double påfyldt = påfyldning.getAntalLiterPåfyldt();
+                        double angelShareProcent = Math.random() * 7.0;
+                        double tilbageLiter = Math.round(påfyldt * (1 - angelShareProcent / 100.0) * 10.0) / 10.0;
                         Tapning tapning = new Tapning(
                                 påfyldning.getDatoForPåfyldning().plusYears(3),
                                 "MK" + destillatIndeks + fadIndeks,
-                                påfyldning.getAntalLiterPåfyldt(),
+                                tilbageLiter,
                                 fad
                         );
                         tapning.createFortynding(10.0);
@@ -160,12 +191,14 @@ public class TestData {
                         tapninger.add(tapning);
                     }
                 }
+                resterendeLiter -= fyldMængde;
+                fadIndeks++;
             }
             if (!tapninger.isEmpty()) {
                 double alkoholProcent = Math.round((40.0 + Math.random() * 20.0) * 10.00) / 10.00;
 
                 Whisky whisky = new Whisky(
-                        destillatIndeks,
+                        Storage.getWhiskyer().size() + 1,
                         whiskyNavne[(destillatIndeks - 1) % whiskyNavne.length],
                         alkoholProcent,
                         10.0 * destillatIndeks,
@@ -174,8 +207,13 @@ public class TestData {
                 );
                 Storage.addWhisky(whisky);
 
-                // 10 flasker per whisky
-                for (int flaskeIndeks = 0; flaskeIndeks < 10; flaskeIndeks++) {
+                int samletAntalFlasker = 0;
+                for (Tapning tapning : tapninger) {
+                    double flaskeStørrelseCl = 70.0;
+                    int antalFlasker = tapning.beregnAntalFlasker(flaskeStørrelseCl);
+                    samletAntalFlasker += antalFlasker;
+                }
+                for (int flaskeIndeks = 0; flaskeIndeks < samletAntalFlasker; flaskeIndeks++) {
                     whisky.createFlaske();
                 }
             }
@@ -197,6 +235,8 @@ public class TestData {
             MaltBatch mb = maltBatches.get(indeks % maltBatches.size());
             LocalDate startDato = LocalDate.now().minusDays(5 + indeks);
             LocalDate slutDato = LocalDate.now().minusDays(indeks);
+
+            int mængdeDestillat = 1000 + (int) (Math.random() * 1001);
             int destillatID = antalDestillater + indeks;
 
             Destillat klarDestillat = new Destillat(
@@ -206,7 +246,7 @@ public class TestData {
                     150 + indeks * 10,
                     63.0,
                     false,
-                    70 + indeks * 5,
+                    mængdeDestillat,
                     mb
             );
             Storage.addDestillat(klarDestillat);
