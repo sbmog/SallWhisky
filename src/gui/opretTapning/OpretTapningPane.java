@@ -19,6 +19,7 @@ import java.util.List;
 import static gui.component.InputValidering.visDialog;
 
 public class OpretTapningPane extends Stage {
+    private boolean registrerWhiskyPaneÅben = false;
     private final LabeledDateInput tapningsDatoInput = new LabeledDateInput("Indsæt tapningsdato");
     private final LabeledTextInput initialerForMedarbejderInput = new LabeledTextInput("Indtast initialer for medarbejder");
     private final LabeledTextInput antalLiterFraFadInput = new LabeledTextInput("Indtast antal liter fra fad");
@@ -27,11 +28,13 @@ public class OpretTapningPane extends Stage {
     private final LabeledCheckBoxInput fortyndingCheckBox = new LabeledCheckBoxInput("Tilføj fortynding", "Ja");
     private final LabeledTextInput fortyndingInput = new LabeledTextInput("Indtast fortynding i liter");
     private final LabeledTextInput whiskyMængdeInput = new LabeledTextInput("Total mængde whisky i liter");
-    private final LabeledButton opretDestillatButton = new LabeledButton("Opret tapning", "Opret");
+    private final LabeledButton opretTapningButton = new LabeledButton("Opret tapning", "Opret");
     private final Label fejlLabel = new Label();
 
+
     public OpretTapningPane() {
-        setTitle("Tapning af fad");
+
+        setTitle("Opret tapning");
         setupGUI();
         initializeValues();
         setupListeners();
@@ -43,7 +46,7 @@ public class OpretTapningPane extends Stage {
         root.setPadding(new Insets(10));
         root.getChildren().addAll(fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput,
                 fortyndingCheckBox, fortyndingInput, whiskyMængdeInput,
-                fejlLabel, opretDestillatButton);
+                fejlLabel, opretTapningButton);
 
         angelShareInput.getTextField().setDisable(true);
         angelShareInput.getTextField().setEditable(false);
@@ -55,6 +58,7 @@ public class OpretTapningPane extends Stage {
 
         setScene(new Scene(root, 300, 700));
         show();
+
     }
 
     private void initializeValues() {
@@ -112,7 +116,9 @@ public class OpretTapningPane extends Stage {
 
         fortyndingInput.getTextField().textProperty().addListener((obs, oldVal, newVal) -> updateWhiskyMængde());
 
-        opretDestillatButton.getButton().setOnAction(e -> håndterOpretTapning());
+        opretTapningButton.getButton().setOnAction(e -> håndterOpretTapning());
+
+
     }
 
     private void updateAngelShare() {
@@ -179,6 +185,7 @@ public class OpretTapningPane extends Stage {
             double fortynding = fortyndingCheckBox.isSelected() ?
                     Double.parseDouble(fortyndingInput.getInputValue()) : 0;
 
+
             if (fortynding > 0) {
                 tapning.createFortynding(fortynding);
             }
@@ -188,10 +195,17 @@ public class OpretTapningPane extends Stage {
                 visDialog(Alert.AlertType.INFORMATION, "Fad fjernet", "Fad #" + selectedFad.getFadID() + " er nu tomt og fjernes fra hylde.");
             }
 
-            new RegistrerWhiskyPane(selectedFad, antalLiter + fortynding, fortynding, tapning);
-
             visDialog(Alert.AlertType.CONFIRMATION, "Tapning oprettet", "Fad #" + selectedFad.getFadID() + " er tappet med " + (antalLiter + fortynding) + " liter.");
+
+
+            if (!registrerWhiskyPaneÅben) {
+                registrerWhiskyPaneÅben = true;
+                RegistrerWhiskyPane registrerWhiskyPane = RegistrerWhiskyPane.getInstance(selectedFad, antalLiter, fortynding, tapning);
+                registrerWhiskyPane.show();
+            }
+
             this.close();
+
 
         } catch (Exception e) {
             visFejl("Fejl: " + e.getMessage());
@@ -220,5 +234,15 @@ public class OpretTapningPane extends Stage {
     private void clearFejl() {
         fejlLabel.setText("");
         fejlLabel.setVisible(false);
+    }
+
+    private void resetInputs() {
+        tapningsDatoInput.getDatePicker().setValue(null);
+        initialerForMedarbejderInput.getTextField().clear();
+        antalLiterFraFadInput.getTextField().clear();
+        angelShareInput.getTextField().setText("");
+        whiskyMængdeInput.getTextField().setText("");
+        fortyndingCheckBox.getCheckBox().setSelected(false);
+        fortyndingInput.getTextField().clear();
     }
 }
