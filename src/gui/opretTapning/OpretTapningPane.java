@@ -45,6 +45,7 @@ public class OpretTapningPane extends Stage {
                 fortyndingCheckBox, fortyndingInput, whiskyMængdeInput,
                 fejlLabel, opretDestillatButton);
 
+        angelShareInput.getTextField().setDisable(true);
         angelShareInput.getTextField().setEditable(false);
         whiskyMængdeInput.getTextField().setEditable(false);
         fortyndingInput.getTextField().setDisable(true);

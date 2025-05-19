@@ -167,7 +167,7 @@ public class OpretPåfyldningPane extends Stage {
     }
 
     private void søgHyldePlads(String input) {
-        String søgeTekst = hyldePladser.getTextField().getText().toLowerCase().trim();
+        String søgeTekst = hyldePladser.getTextInputValue().toLowerCase();
 
         TreeItem<Object> root = new TreeItem<>("Lagre");
 

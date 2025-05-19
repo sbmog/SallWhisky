@@ -3,7 +3,9 @@ package gui.produktionsAdm.tabPanes;
 import application.controller.Controller;
 import application.model.Fad;
 import application.model.Tapning;
+import application.model.Whisky;
 import gui.component.AttributeDisplay;
+import storage.Storage;
 
 public class FadTab extends BaseTab<Fad> {
     //    AttributeDisplays
@@ -84,9 +86,17 @@ public class FadTab extends BaseTab<Fad> {
                         }
 
                         estimeretAntalFlasker.getHeaderLabel().setText("Estimeret antal flasker (70 cl)");
-                        estimeretAntalFlasker.setValue(String.valueOf(
-                                Controller.beregnEstimeretAntalFlasker(newValue, flaskeStørrelseCL)
-                        ));
+
+                        estimeretAntalFlasker.setValue(String.valueOf(Controller.beregnEstimeretAntalFlasker(newValue, flaskeStørrelseCL)));
+                    } else {
+                        String erTappet = "Fadet er tappet";
+                        nuværendeIndhold.setValue(erTappet);
+                        påfyldning.setValue(erTappet);
+                        dagePåFad.setValue(erTappet);
+                        dageTilTapning.setValue(erTappet);
+                        Whisky whisky = getWhiskyForTapning(newValue.getTapning());
+                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (" + Controller.beregnFlaskeStørrelse(whisky) + ")");
+                        estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
                     }
                 } else {
                     // Fadet er aldrig brugt
@@ -109,7 +119,17 @@ public class FadTab extends BaseTab<Fad> {
         });
     }
 
-        private void søgning() {
+    private Whisky getWhiskyForTapning(Tapning tapning) {
+        for (Whisky whisky : Storage.getWhiskyer()) {
+            for (Tapning tapningFraWhsiky : whisky.getTapninger()) {
+                if (tapning.equals(tapningFraWhsiky))
+                    return whisky;
+            }
+        }
+        return null;
+    }
+
+    private void søgning() {
         String søgeTekst = søgeFelt.getInputValue().toLowerCase().trim();
         liste.getListView().getItems().setAll(Controller.søgFade(søgeTekst));
     }
