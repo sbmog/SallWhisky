@@ -2,7 +2,6 @@ package gui.produktionsAdm.tabPanes;
 
 import gui.component.LabeledListViewInput;
 import gui.component.LabeledTextInput;
-import gui.component.LabeledTreeViewInput;
 import javafx.geometry.Insets;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
