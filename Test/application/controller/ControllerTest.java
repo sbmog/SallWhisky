@@ -3,9 +3,11 @@ package application.controller;
 import application.model.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,6 +53,82 @@ class ControllerTest {
 
         whisky = Controller.createWhisky(1, "TestWhisky", 45.0, false, 10.0, tapninger, WhiskyType.SINGLE_MALT);
     }
+
+    @Test
+    void testOmhældningSucces() {
+        // Arrange - Brug de allerede oprettede objekter fra setUpAll
+        Fad fraFad = fad; // Brug den eksisterende Fad instans
+        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad",0, fadType);// Skab et nyt modtagerfad
+        HyldePlads tilHyldePlads = reol.createHyldePlads(); // Brug eksisterende reol
+        Påfyldning tilPåfyldning = new Påfyldning("TEST", 50.0, LocalDate.of(2021, 1, 1), tilFad, destillat, tilHyldePlads);
+        tilFad.setPåfyldning(tilPåfyldning);
+
+        // Sæt indhold i kildefadet
+        fraFad.setNuværendeIndhold(50.0);
+
+
+        // Act
+        Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, tilHyldePlads);
+        Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, tilHyldePlads);
+
+        // Assert
+        assertEquals(10.0, fraFad.getNuværendeIndhold(), 0.01); // Kildefadet skal have 30 liter tilbage
+        assertEquals(90.0, tilFad.getNuværendeIndhold(), 0.01); // Modtagerfadet skal have 20 liter
+        assertEquals(1, tilFad.getAntalGangeBrugt()); // Der skal være én påfyldning i storage
+
+    }
+
+    @Test
+    void testOmhældningSameFad() {
+        // Arrange
+        Fad fraFad = fad; // Brug den eksisterende Fad instans
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            Controller.omhældDestillat( 20.0, fraFad, fraFad, destillat, null);
+        }, "Kan ikke omhælde til samme fad.");
+    }
+
+    @Test
+    void testOmhældningNotEnoughLiquid() {
+        // Arrange
+        Fad fraFad = fad; // Brug den eksisterende Fad instans
+        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad", 0, fadType); // Skab et nyt modtagerfad
+        fraFad.setNuværendeIndhold(10.0); // Kildefadet har kun 10 liter
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, null);
+        }, "Ikke nok væske i kildefad.");
+    }
+
+    @Test
+    void testOmhældningOverfilledReceiver() {
+        // Arrange
+        Fad fraFad = fad; // Brug den eksisterende Fad instans
+        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad", 190, fadType); // Modtagerfadet har næsten fyldt
+        fraFad.setNuværendeIndhold(50.0); // Kildefadet har 50 liter
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            Controller.omhældDestillat( 20.0, fraFad, tilFad, destillat, null);
+        }, "Modtagerfadet bliver overfyldt.");
+    }
+
+    @Test
+    void testOmhældningNullDestillat() {
+        // Arrange
+        Fad fraFad = fad; // Brug den eksisterende Fad instans
+        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad", 0, fadType); // Skab et nyt modtagerfad
+        fraFad.setNuværendeIndhold(50.0); // Kildefadet har 50 liter
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            Controller.omhældDestillat( 20.0, fraFad, tilFad, null, null);
+        }, "Destillat skal angives.");
+    }
+
+
 
     @Test
     void createDestillat() {

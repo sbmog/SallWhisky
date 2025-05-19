@@ -1,5 +1,6 @@
 package gui.testDataGui;
 
+import application.controller.Controller;
 import application.model.*;
 import storage.Storage;
 
@@ -138,7 +139,7 @@ public class TestData {
                 HyldePlads placering = reolensHyldePladser.get(hyldeTæller++);
 
 
-                Påfyldning påfyldning = new Påfyldning("SN" + destillatIndeks + fadIndeks,
+                Påfyldning påfyldning = Controller.createPåfyldning("SN" + destillatIndeks + fadIndeks,
                         størrelse - 50,
                         destillat.getSlutDato(),
                         fad, destillat, placering);

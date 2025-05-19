@@ -58,25 +58,57 @@ public class Whisky {
     public String getHistorik() {
         String historik = "Historik for whisky: " + navn + "\n";
 
-        // Tilføj overordnede oplysninger én gang
+        // Overordnede oplysninger
         historik += "Whisky type: " + this.getWhiskyType() + "\n";
         historik += "Alkoholprocent: " + this.getAlkoholProcent() + "\n";
         historik += "Flaskestørrelse i liter: " + Controller.beregnFlaskeStørrelse(this) + "\n";
-        historik += "Antal flasker: " + this.getFlasker().size() +  "\n";
+        historik += "Antal flasker: " + this.getFlasker().size() + "\n";
 
-        // Tilføj destillatoplysninger én gang
-        Destillat destillat = tapninger.get(0).getFad().getPåfyldning().getDestillat();
-        historik += "Destillat ID: " + destillat.getDestillatID() + "\n";
-        historik += "Destillering startdato: " + destillat.getStartDato() + "\n";
-        historik += "Destillering slutdato: " + destillat.getSlutDato() + "\n";
-        historik += "MaltBatch: " + destillat.getMaltBatch().getBatchNummer() + "\n";
-
-        // Tilføj maltdata én gang
-        for (Malt malt : destillat.getMaltBatch().getMalt()) {
-            historik += "- Malt: " + malt.toString() + "\n";
+        // Saml unikke destillater
+        ArrayList<Destillat> unikkeDestillater = new ArrayList<>();
+        for (Tapning tapning : tapninger) {
+            Fad fad = tapning.getFad();
+            for (Destillat destillat : fad.getDestillater()) {
+                boolean findesAllerede = false;
+                for (Destillat d : unikkeDestillater) {
+                    if (d.getDestillatID() == destillat.getDestillatID()) {
+                        findesAllerede = true;
+                        break;
+                    }
+                }
+                if (!findesAllerede) {
+                    unikkeDestillater.add(destillat);
+                }
+            }
         }
 
-        // Iterer over tapninger for at tilføje fade
+        // Vis alle destillat-ID'er
+        historik += "Destillat ID'er: ";
+        for (int i = 0; i < unikkeDestillater.size(); i++) {
+            historik += unikkeDestillater.get(i).getDestillatID();
+            if (i < unikkeDestillater.size() - 1) {
+                historik += ", ";
+            }
+        }
+        historik += "\n";
+
+        // Vis detaljer for det første destillat
+        if (!unikkeDestillater.isEmpty()) {
+            Destillat første = unikkeDestillater.get(0);
+            historik += "Destillering startdato: " + første.getStartDato() + "\n";
+            historik += "Destillering slutdato: " + første.getSlutDato() + "\n";
+            historik += "MaltBatch: " + første.getMaltBatch().getBatchNummer() + "\n";
+
+            for (Malt malt : første.getMaltBatch().getMalt()) {
+                historik += "- Malt: " + malt.toString() + "\n";
+            }
+
+            historik += "Røget: " + (første.isRøget() ? "Ja" : "Nej") + "\n";
+            historik += "Vandmængde: " + første.getLiterVand() + "\n";
+            historik += "Væskemængde: " + første.getVæskemængde() + "\n";
+        }
+
+        // Fade og tapninger
         historik += "Fade: \n";
         for (Tapning tapning : tapninger) {
             Fad fad = tapning.getFad();
@@ -85,14 +117,12 @@ public class Whisky {
             historik += "  Tapning: " + tapning.getTapningsDato() + "\n";
         }
 
-        // Tilføj afsluttende oplysninger én gang
-        historik += "Røget: " + (destillat.isRøget() ? "Ja" : "Nej") + "\n";
-        historik += "Fortyndet: " + this.isFortyndet() + "\n";
-        historik += "Vandmængde: " + destillat.getLiterVand() + "\n";
-        historik += "Væskemængde: " + destillat.getVæskemængde() + "\n";
+        // Fortyndet
+        historik += "Fortyndet: " + (this.isFortyndet() ? "Ja" : "Nej") + "\n";
 
         return historik;
     }
+
 
     public String getNavn() {
         return navn;

@@ -8,7 +8,7 @@ public class FadPlacering {
     private Fad fad;
     private HyldePlads hyldePlads;
 
-    protected FadPlacering(LocalDate datoPlaceret, Fad fad, HyldePlads hyldePlads) {
+    public FadPlacering(LocalDate datoPlaceret, Fad fad, HyldePlads hyldePlads) {
         if (datoPlaceret == null) {
             throw new IllegalArgumentException("Dato kan ikke være null.");
         } else if (fad == null) {
