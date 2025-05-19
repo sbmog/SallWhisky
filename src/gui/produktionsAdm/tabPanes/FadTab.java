@@ -21,14 +21,14 @@ public class FadTab extends BaseTab<Fad> {
     private final AttributeDisplay dagePåFad = new AttributeDisplay("Antal dage på fad", "");
     private final AttributeDisplay dageTilTapning = new AttributeDisplay("Antal dage til tapning", "");
     private final AttributeDisplay estimeretAntalFlasker = new AttributeDisplay("Estimeret antal flasker (70 cl)", "");
-
+    private final AttributeDisplay destillater = new AttributeDisplay("Destillater", "");
 
     public FadTab() {
         super("Søg fad", "Fade");
 
         liste.getListView().getItems().setAll(Controller.getFade());
 
-        attributVisning.getChildren().addAll(fadID, fadStørrelse, materiale, leverandør, fadType, antalGangeBrugt, nuværendeIndhold, fadPlacering, påfyldning, dagePåFad, dageTilTapning, estimeretAntalFlasker);
+        attributVisning.getChildren().addAll(fadID, fadStørrelse, materiale, leverandør, fadType, antalGangeBrugt, nuværendeIndhold, fadPlacering, destillater, dagePåFad, dageTilTapning, estimeretAntalFlasker);
 
 
         liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -43,21 +43,50 @@ public class FadTab extends BaseTab<Fad> {
                 if (newValue.getAntalGangeBrugt() != 0) {
                     Tapning tapning = newValue.getTapning();
                     double flaskeStørrelseCL = 70.0;
-                    if (tapning == null) {
+
+                    boolean erTappet = (tapning != null) || (newValue.getNuværendeIndhold() <= 0);
+
+                    if (erTappet) {
+                        String tappetTekst = "Fadet er tappet";
+                        nuværendeIndhold.setValue(tappetTekst);
+                        påfyldning.setValue(tappetTekst);
+                        destillater.setValue(tappetTekst);
+                        dagePåFad.setValue(tappetTekst);
+                        dageTilTapning.setValue(tappetTekst);
+
+                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal flasker (70 cl)");
+                        if (tapning != null) {
+                            estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
+                        } else {
+                            estimeretAntalFlasker.setValue("Indhold omhældt til andre fade");
+                        }
+                    } else {
+                        // Ikke tappet, viser normale informationer
                         if (newValue.getPåfyldning() != null && newValue.getPåfyldning().getDestillat() != null) {
-                            påfyldning.setValue(String.valueOf(newValue.getPåfyldning().getDestillat().getDestillatID()));
+                            påfyldning.setValue("ID " + newValue.getPåfyldning().getDestillat().getDestillatID());
                         } else {
                             påfyldning.setValue("Ukendt destillat");
                         }
-                        nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter ");
+
+                        // Vis alle destillat-ID'er
+                        String destillatTekst = "";
+                        for (int i = 0; i < newValue.getDestillater().size(); i++) {
+                            if (i > 0) destillatTekst += ", ";
+                            destillatTekst += "ID " + newValue.getDestillater().get(i).getDestillatID();
+                        }
+                        destillater.setValue(destillatTekst.isEmpty() ? "Ingen destillater" : destillatTekst);
+
+                        nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter");
                         dagePåFad.setValue(String.valueOf(newValue.beregnLagringstid()));
                         int dageTil = newValue.beregnTidTilWhisky();
                         if (dageTil <= 0) {
                             dageTilTapning.setValue("Klar til tapning");
                         } else {
-                            dageTilTapning.setValue(String.valueOf(newValue.beregnTidTilWhisky()));
+                            dageTilTapning.setValue(String.valueOf(dageTil));
                         }
+
                         estimeretAntalFlasker.getHeaderLabel().setText("Estimeret antal flasker (70 cl)");
+
                         estimeretAntalFlasker.setValue(String.valueOf(Controller.beregnEstimeretAntalFlasker(newValue, flaskeStørrelseCL)));
                     } else {
                         String erTappet = "Fadet er tappet";
@@ -70,18 +99,20 @@ public class FadTab extends BaseTab<Fad> {
                         estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
                     }
                 } else {
+                    // Fadet er aldrig brugt
                     String ikkeBrugt = "Fadet har ikke været i brug endnu";
                     nuværendeIndhold.setValue(ikkeBrugt);
                     påfyldning.setValue(ikkeBrugt);
+                    destillater.setValue(ikkeBrugt);
                     dagePåFad.setValue(ikkeBrugt);
                     dageTilTapning.setValue(ikkeBrugt);
                     estimeretAntalFlasker.setValue(ikkeBrugt);
                 }
 
                 if (newValue.getFadPlacering() != null)
-                    fadPlacering.setValue(String.valueOf(newValue.getFadPlacering().getFullFadPlacering()));
-                else fadPlacering.setValue("Fadet har ikke en plads på lageret");
-
+                    fadPlacering.setValue(newValue.getFadPlacering().getFullFadPlacering());
+                else
+                    fadPlacering.setValue("Fadet har ikke en plads på lageret");
 
                 søgeFelt.getTextField().setOnAction(event -> søgning());
             }

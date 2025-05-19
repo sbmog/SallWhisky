@@ -107,12 +107,8 @@ public class OpretPåfyldningPane extends Stage {
                 hyldePlads = (HyldePlads) selectedHylde.getValue();
             }
 
-            double nuværendeIndhold = 0;
-            for (Påfyldning p : Controller.getPåfyldninger()) {
-                if (p.getFad().equals(fad)) {
-                    nuværendeIndhold += p.getAntalLiterPåfyldt();
-                }
-            }
+            double nuværendeIndhold = fad.getNuværendeIndhold();
+            System.out.println(fad.getNuværendeIndhold());
 
             if (nuværendeIndhold + antalLiter > fad.getFadILiter()) {
                 fejlLabel.setText("Påfyldningen overstiger fadets kapacitet");
@@ -246,12 +242,12 @@ public class OpretPåfyldningPane extends Stage {
             return;
         }
 
-        double nuværendeIndhold = 0;
-        for (Påfyldning p : Controller.getPåfyldninger()) {
-            if (p.getFad().equals(fad)) {
-                nuværendeIndhold += p.getAntalLiterPåfyldt();
-            }
-        }
+        double nuværendeIndhold = fad.getNuværendeIndhold();
+//        for (Påfyldning p : Controller.getPåfyldninger()) {
+//            if (p.getFad().equals(fad)) {
+//                nuværendeIndhold += p.getAntalLiterPåfyldt();
+//            }
+//        } Var grunden til fejlen, virker uden.
 
         if (nuværendeIndhold + antalLiter > fad.getFadILiter()) {
             fejlLabel.setText("Påfyldningen overstiger fadets kapacitet.");

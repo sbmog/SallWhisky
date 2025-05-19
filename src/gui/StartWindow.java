@@ -3,6 +3,7 @@ package gui;
 import gui.component.HeaderLabel;
 import gui.component.LabeledButton;
 import gui.lagerAdm.LagerAdmOversigt;
+import gui.omhældDestillat.OmhældDestillatPane;
 import gui.opretDestillat.OpretDestillatPane;
 import gui.opretFad.OpretFadPane;
 import gui.opretMaltBatch.OpretMaltBatchPane;
@@ -30,7 +31,7 @@ public class StartWindow extends Application {
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
 
-        Scene scene = new Scene(pane, 800, 300);
+        Scene scene = new Scene(pane, 800, 350);
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -52,7 +53,10 @@ public class StartWindow extends Application {
         LabeledButton opretTapning = new LabeledButton("Tapning af fad", "Tap");
         opretTapning.getButton().setOnAction(e -> opretTapningButton());
 
-        opretObjekter.getChildren().addAll(produktionsHeader, opretDestillat, opretPåfyldning, opretTapning);
+        LabeledButton omhældDestillat = new LabeledButton("Omhæld destillat", "Omhæld");
+        omhældDestillat.getButton().setOnAction(e -> omhældDestillatButton());
+
+        opretObjekter.getChildren().addAll(produktionsHeader, opretDestillat, opretPåfyldning, opretTapning, omhældDestillat);
         pane.add(opretObjekter, 0, 1);
 
         VBox registrerRåVarer = new VBox(5);
@@ -119,5 +123,10 @@ public class StartWindow extends Application {
     private void opretDestillatButton() {
         OpretDestillatPane opretDestillatPane = new OpretDestillatPane();
         if (!opretDestillatPane.isShowing()) opretDestillatPane.showAndWait();
+    }
+
+    private void omhældDestillatButton() {
+        OmhældDestillatPane omhældDestillatPane = new OmhældDestillatPane();
+        if (!omhældDestillatPane.isShowing()) omhældDestillatPane.showAndWait();
     }
 }

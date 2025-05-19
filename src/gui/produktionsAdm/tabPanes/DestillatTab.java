@@ -47,7 +47,7 @@ public class DestillatTab extends BaseTab<Destillat> {
 
                 maltBatch.setValue(String.valueOf(newValue.getMaltBatch()));
 
-                ArrayList<Fad> fadeMedDestillat = Controller.getFadePåfyldtMedDestillat(newValue);
+                ArrayList<Fad> fadeMedDestillat = Controller.getFadeMedPåfyldning(newValue);
                 if (!fadeMedDestillat.isEmpty()) {
                     fade.getListView().getItems().setAll(fadeMedDestillat);
                 } else {

@@ -29,6 +29,7 @@ public class Controller {
 
     public static Påfyldning createPåfyldning(String initialerForMedarbejder, double antalLiterPåfyldt, LocalDate datoForPåfyldning, Fad fad, Destillat destillat, HyldePlads hyldePlads) {
         Påfyldning newPåfyldning = new Påfyldning(initialerForMedarbejder, antalLiterPåfyldt, datoForPåfyldning, fad, destillat, hyldePlads);
+        fad.setPåfyldning(newPåfyldning);
         Storage.addPåfyldning(newPåfyldning);
         return newPåfyldning;
     }
@@ -87,6 +88,54 @@ public class Controller {
         int afrundet = (int) Math.round(flaskeStørrelse);
         return afrundet;
     }
+
+    public static void omhældDestillat(
+            double antalLiter,
+            Fad fraFad,
+            Fad tilFad,
+            Destillat destillat,
+            HyldePlads tilHyldePlads
+    ) {
+        if (fraFad == null || tilFad == null)
+            throw new IllegalArgumentException("Begge fade skal være angivet.");
+
+        if (fraFad == tilFad)
+            throw new IllegalArgumentException("Kan ikke omhælde til samme fad.");
+
+        if (antalLiter <= 0)
+            throw new IllegalArgumentException("Mængde skal være større end 0.");
+
+        if (antalLiter > fraFad.getNuværendeIndhold())
+            throw new IllegalArgumentException("Ikke nok væske i kildefad.");
+
+        if (tilFad.getNuværendeIndhold() + antalLiter > tilFad.getFadILiter())
+            throw new IllegalArgumentException("Modtagerfadet bliver overfyldt.");
+
+        if (destillat == null)
+            throw new IllegalArgumentException("Destillat skal angives.");
+
+        // Opdater mængden i kildefad
+        fraFad.opdaterNuværendeInhold(antalLiter);
+
+        // Opdater mængden i modtagerfadet
+        tilFad.opdaterNuværendeInhold(-antalLiter);
+
+        tilFad.tilføjDestillat(destillat);
+
+        // Find hyldeplads til modtagerfad
+        HyldePlads anvendtHyldePlads = tilFad.getFadPlacering() != null
+                ? tilFad.getFadPlacering().getHyldePlads()
+                : tilHyldePlads;
+
+        if (anvendtHyldePlads == null) {
+            throw new IllegalArgumentException("Hyldeplads skal angives for tomt fad.");
+        }
+
+        if (fraFad.getNuværendeIndhold() == 0) {
+            fraFad.fjernFraHyldeHvisTom();
+        }
+    }
+
 
 
     public static ArrayList<Fad> getFade() {
@@ -226,7 +275,7 @@ public class Controller {
         return Storage.getPåfyldninger();
     }
 
-    public static ArrayList<Fad> getFadePåfyldtMedDestillat(Destillat destillat) {
+    public static ArrayList<Fad> getFadeMedPåfyldning(Destillat destillat) {
         ArrayList<Fad> fade = new ArrayList<>();
         for (Påfyldning påfyldning : getPåfyldninger()) {
             if (påfyldning.getDestillat().equals(destillat)) {
@@ -235,6 +284,17 @@ public class Controller {
         }
         return fade;
     }
+
+    public static ArrayList<Fad> getFadeMedPåfyldning() {
+        ArrayList<Fad> fadeMedPåfyldning = new ArrayList<>();
+        for (Fad fad : getFade()) {
+            if (fad.getPåfyldning() != null && fad.getNuværendeIndhold() > 0) {
+                fadeMedPåfyldning.add(fad);
+            }
+        }
+        return fadeMedPåfyldning;
+    }
+
 
     public static double getAntalLiterTilbagePåDestillat(Destillat destillat) {
         double totalPåfyldt = 0.0;

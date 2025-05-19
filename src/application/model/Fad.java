@@ -2,6 +2,7 @@ package application.model;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 public class Fad {
     private int fadID;
@@ -17,6 +18,7 @@ public class Fad {
     private FadPlacering fadPlacering;
     private FadType fadType;
     private Påfyldning påfyldning;
+    private ArrayList<Destillat> destillater = new ArrayList<>();
 
     public Fad(double fadILiter, String materiale, String leverandør, FadType fadType) {
         if (fadILiter > maxFadStørrelse) {
@@ -34,6 +36,19 @@ public class Fad {
         this.antalGangeBrugt = 0;
         this.fadType = fadType;
         this.nuværendeIndhold = 0;
+    }
+
+
+    public ArrayList<Destillat> getDestillater() {
+        return destillater;
+    }
+
+
+    public void tilføjDestillat(Destillat destillat) {
+        if (destillat == null) {
+            throw new IllegalArgumentException("Destillatet kan ikke være null.");
+        }
+        destillater.add(destillat);
     }
 
     public Tapning getTapning() {
@@ -102,6 +117,7 @@ public class Fad {
         this.nuværendeIndhold = nyPåfyldning.getAntalLiterPåfyldt();
         if (!nyPåfyldning.getFad().equals(this)) {
             nyPåfyldning.setFad(this);
+            this.tilføjDestillat(nyPåfyldning.getDestillat());
         }
         antalGangeBrugt++;
     }

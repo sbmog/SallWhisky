@@ -1,5 +1,6 @@
 package application.model;
 
+import application.controller.Controller;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,7 +78,7 @@ class FadTest {
 
     @Test
     void beregnLagringstidStartDatoInFutureThrowsException() {
-        Påfyldning futurePåfyldning = new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
+        Påfyldning futurePåfyldning = Controller.createPåfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             fad.beregnLagringstid();
         });
@@ -86,7 +87,7 @@ class FadTest {
 
     @Test
     void beregnTidTilWhiskyStartDatoInFutureException() {
-    new Påfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
+    Controller.createPåfyldning("SNIPE", 50.0, LocalDate.now().plusDays(1), fad, destillat, createUniqueHyldePlads());
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             fad.beregnTidTilWhisky();
         });
@@ -97,7 +98,7 @@ class FadTest {
     void setPåfyldningMaxUsageException() {
         fad.setAntalGangeBrugt(fad.getMaksAntalGangeBrugt());
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-        new Påfyldning("SNIPE", 50.0, LocalDate.now(), fad, destillat, createUniqueHyldePlads());
+        Controller.createPåfyldning("SNIPE", 50.0, LocalDate.now(), fad, destillat, createUniqueHyldePlads());
         });
         assertEquals("Fadet kan ikke bruges mere end " + fad.getMaksAntalGangeBrugt() + " gange.", exception.getMessage());
     }

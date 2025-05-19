@@ -1,5 +1,6 @@
 package gui.testDataGui;
 
+import application.controller.Controller;
 import application.model.*;
 import storage.Storage;
 
@@ -166,8 +167,9 @@ public class TestData {
                     continue;
                 }
 
-                Påfyldning påfyldning = new Påfyldning("SN" + destillatIndeks + fadIndeks,
-                        fyldMængde,
+                Påfyldning påfyldning = Controller.createPåfyldning("SN" + destillatIndeks + fadIndeks,
+                        størrelse - 50,
+
                         destillat.getSlutDato(),
                         fad, destillat, placering);
                 Storage.addPåfyldning(påfyldning);
