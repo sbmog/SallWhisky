@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import storage.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +21,12 @@ import static gui.component.InputValidering.visDialog;
 public class RegistrerWhiskyPane extends Stage {
     private final Tapning tapning;
     private final HeaderLabel registrerWhiskyLabel = new HeaderLabel("Registrer Whisky");
-    private final LabeledTextInput whiskyIdInput = new LabeledTextInput("Indtast whisky ID");
+    private final LabeledTextInput whiskyIdInput = new LabeledTextInput("Whisky ID");
     private final LabeledTextInput whiskyNavnInput = new LabeledTextInput("Indtast whisky navn");
     private final LabeledTextInput alkoholProcentInput = new LabeledTextInput("Indtast alkoholprocent");
     private final LabeledCheckBoxInput fortyndningCheckBox = new LabeledCheckBoxInput("Tilføj fortyndning", "Ja");
     private final LabeledTextInput vandMængdeFraFadInput = new LabeledTextInput("Indtast vandmængde");
-    private final LabeledComboBoxInput<WhiskyType> whiskyTypeInput = new LabeledComboBoxInput<> ("Vælg whisky type");
+    private final LabeledComboBoxInput<WhiskyType> whiskyTypeInput = new LabeledComboBoxInput<>("Vælg whisky type");
     private final LabeledComboBoxInput<Integer> flaskeStørrelseCombo = new LabeledComboBoxInput<>("Vælg flaske størrelse (cl)");
     private final LabeledTextInput antalFlaskerOutPut = new LabeledTextInput("Antal flasker (beregnet)");
     private final LabeledButton registrerButton = new LabeledButton("Registrer Whisky", "Registrer");
@@ -46,10 +47,10 @@ public class RegistrerWhiskyPane extends Stage {
         VBox vbox = new VBox(5);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
-        vbox.getChildren().addAll(whiskyIdInput, whiskyNavnInput, alkoholProcentInput, vandMængdeFraFadInput,fortyndningCheckBox, whiskyTypeInput,flaskeStørrelseCombo,antalFlaskerOutPut,registrerButton);
+        vbox.getChildren().addAll(whiskyIdInput, whiskyNavnInput, alkoholProcentInput, vandMængdeFraFadInput, fortyndningCheckBox, whiskyTypeInput, flaskeStørrelseCombo, antalFlaskerOutPut, registrerButton);
 
 
-        whiskyIdInput.setInputValue(String.valueOf(fad.getFadID()));
+        whiskyIdInput.setInputValue(String.valueOf(Storage.getWhiskyer().size() + 1));
         whiskyIdInput.setDisable(true);
         vandMængdeFraFadInput.setInputValue(String.valueOf(antalLiter));
         vandMængdeFraFadInput.setDisable(true);
@@ -59,12 +60,12 @@ public class RegistrerWhiskyPane extends Stage {
 
         if (fortynding > 0) {
             fortyndningCheckBox.getCheckBox().setSelected(true);
-            visDialog(Alert.AlertType.INFORMATION,"fortynding", "fortynding: " + fortynding + " liter");
+            visDialog(Alert.AlertType.INFORMATION, "fortynding", "fortynding: " + fortynding + " liter");
         }
         whiskyTypeInput.addItems(WhiskyType.values());
 
-        flaskeStørrelseCombo.addItems(5,50,70);
-        flaskeStørrelseCombo.getComboBox().valueProperty().addListener((obs,oldVal,newVal) -> {
+        flaskeStørrelseCombo.addItems(5, 50, 70);
+        flaskeStørrelseCombo.getComboBox().valueProperty().addListener((obs, oldVal, newVal) -> {
             updateAntalFlasker(antalLiter);
         });
 
@@ -73,11 +74,11 @@ public class RegistrerWhiskyPane extends Stage {
         registrerButton.getButton().setOnAction(event -> håndterWhiskyRegistrering(tapning));
 
 
-
         Scene scene = new Scene(vbox, 300, 600);
         this.setScene(scene);
         this.show();
     }
+
     private void håndterWhiskyRegistrering(Tapning tapning) {
         try {
             double whiskyID = Double.parseDouble(whiskyIdInput.getInputValue());
@@ -132,7 +133,7 @@ public class RegistrerWhiskyPane extends Stage {
         Integer flaskeStørrelse = flaskeStørrelseCombo.getComboBox().getValue();
         if (flaskeStørrelse != null && flaskeStørrelse > 0) {
             try {
-                if(tapning == null) {
+                if (tapning == null) {
                     throw new IllegalArgumentException("Tapning kan ikke være null");
                 }
 

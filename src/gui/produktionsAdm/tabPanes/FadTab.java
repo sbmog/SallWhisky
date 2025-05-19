@@ -3,7 +3,9 @@ package gui.produktionsAdm.tabPanes;
 import application.controller.Controller;
 import application.model.Fad;
 import application.model.Tapning;
+import application.model.Whisky;
 import gui.component.AttributeDisplay;
+import storage.Storage;
 
 public class FadTab extends BaseTab<Fad> {
     //    AttributeDisplays
@@ -63,7 +65,8 @@ public class FadTab extends BaseTab<Fad> {
                         påfyldning.setValue(erTappet);
                         dagePåFad.setValue(erTappet);
                         dageTilTapning.setValue(erTappet);
-                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (70 cl)");
+                        Whisky whisky = getWhiskyForTapning(newValue.getTapning());
+                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (" + Controller.beregnFlaskeStørrelse(whisky) + ")");
                         estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
                     }
                 } else {
@@ -83,6 +86,16 @@ public class FadTab extends BaseTab<Fad> {
                 søgeFelt.getTextField().setOnAction(event -> søgning());
             }
         });
+    }
+
+    private Whisky getWhiskyForTapning(Tapning tapning) {
+        for (Whisky whisky : Storage.getWhiskyer()) {
+            for (Tapning tapningFraWhsiky : whisky.getTapninger()) {
+                if (tapning.equals(tapningFraWhsiky))
+                    return whisky;
+            }
+        }
+        return null;
     }
 
     private void søgning() {
