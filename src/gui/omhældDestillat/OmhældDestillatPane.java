@@ -17,11 +17,13 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static gui.component.InputValidering.visDialog;
 
 public class OmhældDestillatPane extends Stage {
+    private final LabeledTextInput initialerInput = new LabeledTextInput("Indtast initialer for medarbejder");
     private final TextInputWithListViewInput<Fad> fraFad = new TextInputWithListViewInput<>("Vælg fad der skal hældes fra (Indhold)", "Søg fad");
     private final TextInputWithListViewInput<Fad> tilFad = new TextInputWithListViewInput<>("Vælg fad der skal fyldes på (Kapacitet)", "Søg fad");
     private final LabeledTextInput antalLiter = new LabeledTextInput("Antal liter der skal hældes");
@@ -40,7 +42,7 @@ public class OmhældDestillatPane extends Stage {
 
         omhældButton.getButton().setOnAction(e -> omhældDestillat());
 
-        VBox root = new VBox(10, fraFad, tilFad, antalLiter, fejlLabel, omhældButton);
+        VBox root = new VBox(10, initialerInput, fraFad, tilFad, antalLiter, fejlLabel, omhældButton);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(0, 5, 10, 10));
 
@@ -51,13 +53,10 @@ public class OmhældDestillatPane extends Stage {
         konfigurerFraFadListView();
         konfigurerTilFadListView();
 
-        // Live-validering
-        antalLiter.getTextField().textProperty().addListener((obs, oldVal, newVal) -> validerInputs());
-        fraFad.getListView().getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validerInputs());
-        tilFad.getListView().getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validerInputs());
-
         fraFad.getTextField().setOnAction(e -> søgFraFad());
         tilFad.getTextField().setOnAction(e -> søgTilFad());
+
+        antalLiter.getTextField().setOnAction(e -> omhældDestillat());
     }
 
     private void søgTilFad() {
@@ -84,80 +83,74 @@ public class OmhældDestillatPane extends Stage {
         }
     }
 
-    private void validerInputs() {
-        StringBuilder fejl = new StringBuilder();
-
+    private String validerInputs() {
         Fad fra = fraFad.getListView().getSelectionModel().getSelectedItem();
         Fad til = tilFad.getListView().getSelectionModel().getSelectedItem();
 
         // Valider valg
         if (fra == null || til == null) {
-            fejl.append("Vælg både 'fra' og 'til' fad.\n");
+            return "Vælg både 'fra' og 'til' fad.";
         }
 
         // Valider liter
         String tekst = antalLiter.getTextField().getText();
         double liter = -1;
         if (tekst.isBlank()) {
-            fejl.append("Angiv antal liter.\n");
+            return "Angiv antal liter.";
         } else {
             try {
                 liter = Double.parseDouble(tekst);
                 if (liter <= 0) {
-                    fejl.append("Antal liter skal være over 0.\n");
+                    return "Antal liter skal være over 0.";
                 }
             } catch (NumberFormatException e) {
-                fejl.append("Antal liter skal være et tal.\n");
+                return "Antal liter skal være et tal.";
             }
         }
 
         // Valider størrelse
         if (fra != null && til != null && liter > 0) {
             if (liter > fra.getNuværendeIndhold()) {
-                fejl.append("Antal liter overstiger kildefadets nuværende antal liter.\n");
+                return "Antal liter overstiger kildefadets nuværende antal liter.";
             } else if (til.getNuværendeIndhold() + liter > til.getFadILiter()) {
-                fejl.append("Antal liter overstiger modtagende fadets kapacitet.\n");
+                fejlLabel.setVisible(true);
+                return "Antal liter overstiger modtagende fadets kapacitet.";
             }
         }
+        return null;
+    }
 
-        // Vis eller skjul fejl
-        if (fejl.length() > 0) {
-            fejlLabel.setText(fejl.toString().trim());
-            fejlLabel.setVisible(true);
-        } else {
-            fejlLabel.setVisible(false);
-        }
+    private void visFejl(String fejltekst) {
+        fejlLabel.setText(fejltekst);
+        fejlLabel.setVisible(true);
     }
 
     private void omhældDestillat() {
-        validerInputs();
-        if (fejlLabel.isVisible()) {
+        String fejl = validerInputs();
+        if (fejl != null) {
+            visFejl(fejl);
             return; // Stop hvis der er fejl
         }
+        fejlLabel.setVisible(false);
 
+        String initialer = initialerInput.getInputValue();
         Fad fra = fraFad.getListView().getSelectionModel().getSelectedItem();
         Fad til = tilFad.getListView().getSelectionModel().getSelectedItem();
         double liter = Double.parseDouble(antalLiter.getTextField().getText());
 
         Destillat destillat = fra.getPåfyldning() != null ? fra.getPåfyldning().getDestillat() : null;
 
-        HyldePlads hyldePlads = til.getFadPlacering() != null ? til.getFadPlacering().getHyldePlads() : null;
+        HyldePlads hyldePlads = til.getFadPlacering() != null ? til.getFadPlacering().getHyldePlads() : Controller.getFørsteLedigHyldePlads();
 
-        if (til.getNuværendeIndhold()==0)
-
-        Controller.omhældDestillat(liter, fra, til, destillat, hyldePlads);
-
-        // Opdater begge listviews med ny data
-        fraFad.getListView().getItems().setAll(Controller.getFadeMedPåfyldning());
-        tilFad.getListView().getItems().setAll(Controller.getFadeMedPåfyldning());
-
-        visDialog(Alert.AlertType.CONFIRMATION,
-                "Omhældning gennemført",
-                "Destillat er hældt fra fad #" + fra.getFadID() + " til fad #" + til.getFadID());
+        Controller.omhældDestillat(liter, fra, til, destillat, hyldePlads, initialer);
 
         visDialog(Alert.AlertType.CONFIRMATION,
                 "Antal liter omhældt",
                 "Der er hældt " + liter + " liter fra fad #" + fra.getFadID() + " til fad #" + til.getFadID());
+
+        // Opdater begge listviews med ny data
+        fraFad.getListView().getItems().setAll(Controller.getFadeMedPåfyldning());
+        tilFad.getListView().getItems().setAll(Controller.getFadeMedPåfyldning());
 
         this.close();
     }
