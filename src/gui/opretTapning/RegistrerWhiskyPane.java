@@ -20,6 +20,7 @@ import static gui.component.InputValidering.visDialog;
 
 public class RegistrerWhiskyPane extends Stage {
     private static RegistrerWhiskyPane registrerWhiskyPane = null;
+
     private final List<Tapning> tapninger = new ArrayList<>();
     private final LabeledTextInput whiskyIdInput = new LabeledTextInput("Whisky ID");
     private final LabeledTextInput whiskyNavnInput = new LabeledTextInput("Indtast whisky navn");
@@ -29,9 +30,9 @@ public class RegistrerWhiskyPane extends Stage {
     private final LabeledComboBoxInput<WhiskyType> whiskyTypeInput = new LabeledComboBoxInput<>("Vælg whisky type");
     private final LabeledComboBoxInput<Integer> flaskeStørrelseCombo = new LabeledComboBoxInput<>("Vælg flaske størrelse (cl)");
     private final LabeledTextInput antalFlaskerOutPut = new LabeledTextInput("Antal flasker (beregnet)");
+
     private final LabeledButton tilføjTapning = new LabeledButton("Tilføj tapning", "Tilføj");
     private final LabeledButton registrerButton = new LabeledButton("Registrer Whisky", "Registrer");
-
 
     public static RegistrerWhiskyPane getInstance(Fad fad, double antalLiter, double fortynding, Tapning nyTapning) {
         if (registrerWhiskyPane == null) {
@@ -62,9 +63,12 @@ public class RegistrerWhiskyPane extends Stage {
 
         whiskyIdInput.setInputValue(String.valueOf(Storage.getWhiskyer().size() + 1));
         whiskyIdInput.setDisable(true);
+
         vandMængdeFraFadInput.setInputValue(String.valueOf(antalLiter));
         vandMængdeFraFadInput.setDisable(true);
+
         fortyndningCheckBox.getCheckBox().setDisable(true);
+
         antalFlaskerOutPut.setDisable(true);
 
         tapninger.add(førsteTapning);
@@ -148,7 +152,6 @@ public class RegistrerWhiskyPane extends Stage {
         }
     }
 
-
     public void addTapning(Tapning tapning) {
         this.tapninger.add(tapning);
         updateAntalFlasker();
@@ -169,6 +172,5 @@ public class RegistrerWhiskyPane extends Stage {
         } else {
             antalFlaskerOutPut.getTextField().setText("Vælg flaske størrelse");
         }
-
     }
 }
