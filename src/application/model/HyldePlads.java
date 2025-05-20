@@ -2,6 +2,7 @@ package application.model;
 
 public class HyldePlads {
     private int hyldePladsID;
+
     private Reol reol;
     private FadPlacering fadPlaceret;
 
@@ -25,10 +26,6 @@ public class HyldePlads {
 
     public int getHyldePladsID() {
         return hyldePladsID;
-    }
-
-    public void setHyldePladsID(int hyldePladsID) {
-        this.hyldePladsID = hyldePladsID;
     }
 
     public boolean isPladsFri() {

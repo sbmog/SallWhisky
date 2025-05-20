@@ -14,10 +14,6 @@ public class Fortynding {
         return vandmængde;
     }
 
-    public void setVandmængde(double vandmængde) {
-        this.vandmængde = vandmængde;
-    }
-
     public String toString() {
         return "Fortynding i liter: " + vandmængde;
     }

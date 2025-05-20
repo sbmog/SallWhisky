@@ -7,6 +7,7 @@ public class Tapning {
     private LocalDate tapningsDato;
     private String initialerForMedarbejder;
     private double antalLiterFraFad;
+
     private Fad fad;
     private ArrayList<Fortynding> fortyndinger;
 
@@ -18,7 +19,6 @@ public class Tapning {
         } else if (antalLiterFraFad <= 0) {
             throw new IllegalArgumentException("Antal liter fra fad skal være større end 0.");
         }
-
         this.tapningsDato = tapningsDato;
         this.initialerForMedarbejder = initialerForMedarbejder;
         this.antalLiterFraFad = antalLiterFraFad;
@@ -44,24 +44,12 @@ public class Tapning {
         return tapningsDato;
     }
 
-    public void setTapningsDato(LocalDate tapningsDato) {
-        this.tapningsDato = tapningsDato;
-    }
-
     public String getInitialerForMedarbejder() {
         return initialerForMedarbejder;
     }
 
-    public void setInitialerForMedarbejder(String initialerForMedarbejder) {
-        this.initialerForMedarbejder = initialerForMedarbejder;
-    }
-
     public double getAntalLiterFraFad() {
         return antalLiterFraFad;
-    }
-
-    public void setAntalLiterFraFad(double antalLiterFraFad) {
-        this.antalLiterFraFad = antalLiterFraFad;
     }
 
     public Fad getFad() {
@@ -76,25 +64,15 @@ public class Tapning {
         return fortyndinger;
     }
 
-    public void addFortyndinger(Fortynding fortynding) {
-        if (!fortyndinger.contains(fortynding)) {
-            this.fortyndinger.add(fortynding);
-        }
-    }
-
     public String toString() {
         return "Tapning fra " + fad;
     }
-
-
 
     public int beregnAntalFlasker(double flaskeStørrelseCl) {
             if (flaskeStørrelseCl <= 0) {
                 throw new IllegalArgumentException("Flaskestørrelse skal være større end 0.");
             }
-
             double totalVæske = antalLiterFraFad + getTotalFortydnigMængde();
-
 
             return (int) ((totalVæske * 100) / flaskeStørrelseCl);
     }
@@ -107,4 +85,3 @@ public class Tapning {
         return totalFortynding;
     }
 }
-

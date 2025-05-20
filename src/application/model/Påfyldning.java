@@ -23,17 +23,17 @@ public class Påfyldning {
         } else if (destillat == null) {
             throw new NullPointerException("Destillat kan ikke være null.");
         }
-
         this.initialerForMedarbejder = initialerForMedarbejder;
         this.antalLiterPåfyldt = antalLiterPåfyldt;
         this.datoForPåfyldning = datoForPåfyldning;
         this.destillat = destillat;
+
         fad.tilføjDestillat(destillat);
         fad.setNuværendeIndhold(antalLiterPåfyldt);
+
         if (hyldePlads != null && fad.getFadPlacering() == null) {
             fad.placerPåHylde(hyldePlads, datoForPåfyldning);
         }
-
         if (fad.getTapning() != null) {
             fad.setTapning(null);
         }
@@ -43,24 +43,12 @@ public class Påfyldning {
         return initialerForMedarbejder;
     }
 
-    public void setInitialerForMedarbejder(String initialerForMedarbejder) {
-        this.initialerForMedarbejder = initialerForMedarbejder;
-    }
-
     public double getAntalLiterPåfyldt() {
         return antalLiterPåfyldt;
     }
 
-    public void setAntalLiterPåfyldt(double antalLiterPåfyldt) {
-        this.antalLiterPåfyldt = antalLiterPåfyldt;
-    }
-
     public LocalDate getDatoForPåfyldning() {
         return datoForPåfyldning;
-    }
-
-    public void setDatoForPåfyldning(LocalDate datoForPåfyldning) {
-        this.datoForPåfyldning = datoForPåfyldning;
     }
 
     public Fad getFad() {

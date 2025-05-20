@@ -13,6 +13,7 @@ public class Fad {
     private int antalGangeBrugt;
     private static final int maksAntalGangeBrugt = 3;
     private double nuværendeIndhold;
+
     private Tapning tapning;
     private static final double maxFadStørrelse = 500;
     private FadPlacering fadPlacering;
@@ -28,7 +29,6 @@ public class Fad {
         } else if (fadType == null) {
             throw new NullPointerException("FadType kan ikke være null.");
         }
-
         this.fadID = ++idCounter;
         this.fadILiter = fadILiter;
         this.materiale = materiale;
@@ -38,11 +38,9 @@ public class Fad {
         this.nuværendeIndhold = 0;
     }
 
-
     public ArrayList<Destillat> getDestillater() {
         return destillater;
     }
-
 
     public void tilføjDestillat(Destillat destillat) {
         if (destillat == null) {
@@ -138,10 +136,6 @@ public class Fad {
         return fadID;
     }
 
-    public void setFadID(int fadID) {
-        this.fadID = fadID;
-    }
-
     public double getFadILiter() {
         return fadILiter;
     }
@@ -157,16 +151,8 @@ public class Fad {
         return materiale;
     }
 
-    public void setMateriale(String materiale) {
-        this.materiale = materiale;
-    }
-
     public String getLeverandør() {
         return leverandør;
-    }
-
-    public void setLeverandør(String leverandør) {
-        this.leverandør = leverandør;
     }
 
     public int getAntalGangeBrugt() {
@@ -187,10 +173,6 @@ public class Fad {
 
     public FadType getFadType() {
         return fadType;
-    }
-
-    public void setFadType(FadType fadType) {
-        this.fadType = fadType;
     }
 
     public Påfyldning getPåfyldning() {

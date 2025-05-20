@@ -17,19 +17,17 @@ public class MaltBatch {
             throw new IllegalArgumentException("Dato kan ikke være null.");
         } else if (mængdeIKg <= 0) {
             throw new IllegalArgumentException("Mængde skal være et tal over 0.");
-       }
-
-    if (malt != null && !malt.isEmpty()) {
-        double totalMaltMængde = 0;
-        for (int i = 0; i < malt.size(); i++) {
-            totalMaltMængde += malt.get(i).getMængde();
         }
 
-        if (mængdeIKg < totalMaltMængde) {
-            throw new IllegalArgumentException("Maltbatches mængde må ikke være mindre en summen af malt.");
+        if (malt != null && !malt.isEmpty()) {
+            double totalMaltMængde = 0;
+            for (int i = 0; i < malt.size(); i++) {
+                totalMaltMængde += malt.get(i).getMængde();
+            }
+            if (mængdeIKg < totalMaltMængde) {
+                throw new IllegalArgumentException("Maltbatches mængde må ikke være mindre en summen af malt.");
+            }
         }
-    }
-
         this.batchNummer = batchNummer;
         this.dato = dato;
         this.mængde = mængdeIKg;
@@ -47,10 +45,6 @@ public class MaltBatch {
         return batchNummer;
     }
 
-    public void setBatchNummer(String batchNummer) {
-        this.batchNummer = batchNummer;
-    }
-
     public LocalDate getDato() {
         return dato;
     }
@@ -61,10 +55,6 @@ public class MaltBatch {
 
     public double getMængde() {
         return mængde;
-    }
-
-    public void setMængde(double mængde) {
-        this.mængde = mængde;
     }
 
     public ArrayList<Malt> getMalt() {

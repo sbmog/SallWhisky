@@ -10,6 +10,7 @@ public class Whisky {
     private double alkoholProcent;
     private boolean fortyndet;
     private double vandMængde;
+
     private ArrayList<Flaske> flasker;
     private ArrayList<Tapning> tapninger;
     private WhiskyType whiskyType;
@@ -36,6 +37,7 @@ public class Whisky {
         this.tapninger = tapninger;
         this.whiskyType = whiskyType;
         this.flasker = new ArrayList<>();
+
         updateFortyndetStatus();
     }
 
@@ -53,7 +55,6 @@ public class Whisky {
     public void createFlaske() {
         flasker.add(new Flaske(flasker.size() + 1, this));
     }
-
 
     public String getHistorik() {
         String historik = "Historik for whisky: " + navn + "\n";
@@ -102,7 +103,6 @@ public class Whisky {
             for (Malt malt : første.getMaltBatch().getMalt()) {
                 historik += "- Malt: " + malt.toString() + "\n";
             }
-
             historik += "Røget: " + (første.isRøget() ? "Ja" : "Nej") + "\n";
             historik += "Vandmængde: " + første.getLiterVand() + "\n";
             historik += "Væskemængde: " + første.getVæskemængde() + "\n";
@@ -123,7 +123,6 @@ public class Whisky {
         return historik;
     }
 
-
     public String getNavn() {
         return navn;
     }
@@ -136,10 +135,6 @@ public class Whisky {
         return alkoholProcent;
     }
 
-    public void setAlkoholProcent(double alkoholProcent) {
-        this.alkoholProcent = alkoholProcent;
-    }
-
     public boolean isFortyndet() {
         return fortyndet;
     }
@@ -148,40 +143,20 @@ public class Whisky {
         return vandMængde;
     }
 
-    public void setVandMængde(double vandMængde) {
-        this.vandMængde = vandMængde;
-    }
-
     public ArrayList<Flaske> getFlasker() {
         return flasker;
-    }
-
-    public void setFlasker(ArrayList<Flaske> flasker) {
-        this.flasker = flasker;
     }
 
     public ArrayList<Tapning> getTapninger() {
         return tapninger;
     }
 
-    public void addTapning(Tapning tapning) {
-        this.tapninger.add(tapning);
-    }
-
     public WhiskyType getWhiskyType() {
         return whiskyType;
     }
 
-    public void setWhiskyType(WhiskyType whiskyType) {
-        this.whiskyType = whiskyType;
-    }
-
     public double getWhiskyID() {
         return whiskyID;
-    }
-
-    public void setWhiskyID(double whiskyID) {
-        this.whiskyID = whiskyID;
     }
 
     public String toString() {

@@ -46,10 +46,6 @@ public class Lager {
         return lagerID;
     }
 
-    public void setLagerID(String lagerID) {
-        this.lagerID = lagerID;
-    }
-
     public String getNavn() {
         return navn;
     }
@@ -62,16 +58,8 @@ public class Lager {
         return adresse;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
     public ArrayList<Reol> getReoler() {
         return reoler;
-    }
-
-    public void setReoler(ArrayList<Reol> reoler) {
-        this.reoler = reoler;
     }
 
     public int getTotalAntalFadePåLager() {
@@ -85,7 +73,6 @@ public class Lager {
         }
         return total;
     }
-
 
     public int getMaxAntalReoler() {
         return maxAntalReoler;

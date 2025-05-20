@@ -21,18 +21,11 @@ public class FadPlacering {
         this.datoPlaceret = datoPlaceret;
         this.fad = fad;
         this.hyldePlads = hyldePlads;
+
         if (hyldePlads.getFadPlaceret() != this) {
             fad.setFadPlacering(this);
             hyldePlads.setFadPlaceret(this);
         }
-    }
-
-    public LocalDate getDatoPlaceret() {
-        return datoPlaceret;
-    }
-
-    public void setDatoPlaceret(LocalDate datoPlaceret) {
-        this.datoPlaceret = datoPlaceret;
     }
 
     public Fad getFad() {

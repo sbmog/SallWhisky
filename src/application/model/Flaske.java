@@ -19,10 +19,6 @@ public class Flaske {
         return flaskeID;
     }
 
-    public void setFlaskeID(int flaskeID) {
-        this.flaskeID = flaskeID;
-    }
-
     public Whisky getWhisky() {
         return whisky;
     }

@@ -1,6 +1,5 @@
 package application.model;
 
-
 import java.util.ArrayList;
 
 public class Reol {
@@ -36,16 +35,8 @@ public class Reol {
         return reolID;
     }
 
-    public void setReolID(int reolID) {
-        this.reolID = reolID;
-    }
-
     public ArrayList<HyldePlads> getHyldePladser() {
         return hyldePladser;
-    }
-
-    public void setHyldePladser(ArrayList<HyldePlads> hyldePladser) {
-        this.hyldePladser = hyldePladser;
     }
 
     public Lager getLager() {

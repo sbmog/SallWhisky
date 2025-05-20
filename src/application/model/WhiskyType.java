@@ -8,7 +8,6 @@ public enum WhiskyType {
     PEATED_SINGLE_MALT("Peated Single Malt"),
     GRAIN("Grain");
 
-
     private final String displayName;
 
     WhiskyType(String displayName) {

@@ -22,24 +22,12 @@ public class Malt {
         return kornSort;
     }
 
-    public void setKornSort(String kornSort) {
-        this.kornSort = kornSort;
-    }
-
     public String getMarkNavn() {
         return markNavn;
     }
 
-    public void setMarkNavn(String markNavn) {
-        this.markNavn = markNavn;
-    }
-
     public double getMængde() {
         return mængde;
-    }
-
-    public void setMængde(double mængde) {
-        this.mængde = mængde;
     }
 
     public String toString() {

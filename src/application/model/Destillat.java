@@ -10,6 +10,7 @@ public class Destillat {
     private double alkoholProcent;
     private boolean røget;
     private double væskemængde;
+
     private MaltBatch maltBatch;
 
     public Destillat(String destillatID, LocalDate startDato, LocalDate slutDato, double literVand, double alkoholProcent, boolean røget, double væskemængde, MaltBatch maltBatch) {
@@ -36,56 +37,28 @@ public class Destillat {
         return destillatID;
     }
 
-    public void setDestillatID(String destillatID) {
-        this.destillatID = destillatID;
-    }
-
     public LocalDate getStartDato() {
         return startDato;
-    }
-
-    public void setStartDato(LocalDate startDato) {
-        this.startDato = startDato;
     }
 
     public LocalDate getSlutDato() {
         return slutDato;
     }
 
-    public void setSlutDato(LocalDate slutDato) {
-        this.slutDato = slutDato;
-    }
-
     public double getLiterVand() {
         return literVand;
-    }
-
-    public void setLiterVand(double literVand) {
-        this.literVand = literVand;
     }
 
     public double getAlkoholProcent() {
         return alkoholProcent;
     }
 
-    public void setAlkoholProcent(double alkoholProcent) {
-        this.alkoholProcent = alkoholProcent;
-    }
-
     public boolean isRøget() {
         return røget;
     }
 
-    public void setRøget(boolean røget) {
-        this.røget = røget;
-    }
-
     public double getVæskemængde() {
         return væskemængde;
-    }
-
-    public void setVæskemængde(double væskemængde) {
-        this.væskemængde = væskemængde;
     }
 
     public MaltBatch getMaltBatch() {
