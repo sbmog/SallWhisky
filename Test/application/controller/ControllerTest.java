@@ -68,12 +68,13 @@ class ControllerTest {
 
 
         // Act
-        Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, tilHyldePlads);
-        Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, tilHyldePlads);
+        Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, tilHyldePlads, "Test");
+        Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, tilHyldePlads, "Test");
+        //Test udført 2 gange, for at sikre at omhældning kunne udføres flere gange fra samme fad.
 
         // Assert
-        assertEquals(10.0, fraFad.getNuværendeIndhold(), 0.01); // Kildefadet skal have 30 liter tilbage
-        assertEquals(90.0, tilFad.getNuværendeIndhold(), 0.01); // Modtagerfadet skal have 20 liter
+        assertEquals(10.0, fraFad.getNuværendeIndhold(), 0.01); // Kildefadet skal have 10 liter tilbage
+        assertEquals(90.0, tilFad.getNuværendeIndhold(), 0.01); // Modtagerfadet skal have 40 liter tilføjet
         assertEquals(1, tilFad.getAntalGangeBrugt()); // Der skal være én påfyldning i storage
 
     }
@@ -85,7 +86,7 @@ class ControllerTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            Controller.omhældDestillat( 20.0, fraFad, fraFad, destillat, null);
+            Controller.omhældDestillat( 20.0, fraFad, fraFad, destillat, null, "Test");
         }, "Kan ikke omhælde til samme fad.");
     }
 
@@ -98,7 +99,7 @@ class ControllerTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, null);
+            Controller.omhældDestillat( 20.0,  fraFad, tilFad, destillat, null, "Test");
         }, "Ikke nok væske i kildefad.");
     }
 
@@ -106,12 +107,12 @@ class ControllerTest {
     void testOmhældningOverfilledReceiver() {
         // Arrange
         Fad fraFad = fad; // Brug den eksisterende Fad instans
-        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad", 190, fadType); // Modtagerfadet har næsten fyldt
-        fraFad.setNuværendeIndhold(50.0); // Kildefadet har 50 liter
+        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad", 1, fadType); // Modtagerfadet har næsten fyldt
+        tilFad.setNuværendeIndhold(190.0); // Kildefadet har 50 liter
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            Controller.omhældDestillat( 20.0, fraFad, tilFad, destillat, null);
+            Controller.omhældDestillat( 20.0, fraFad, tilFad, destillat, null, "Test");
         }, "Modtagerfadet bliver overfyldt.");
     }
 
@@ -124,7 +125,7 @@ class ControllerTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            Controller.omhældDestillat( 20.0, fraFad, tilFad, null, null);
+            Controller.omhældDestillat( 20.0, fraFad, tilFad, null, null, "Test");
         }, "Destillat skal angives.");
     }
 
