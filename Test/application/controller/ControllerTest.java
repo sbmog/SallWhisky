@@ -107,8 +107,8 @@ class ControllerTest {
     void testOmhældningOverfilledReceiver() {
         // Arrange
         Fad fraFad = fad; // Brug den eksisterende Fad instans
-        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad", 1, fadType); // Modtagerfadet har næsten fyldt
-        tilFad.setNuværendeIndhold(190.0); // Kildefadet har 50 liter
+        Fad tilFad = Controller.createFad(200, "Eg", "SherryFad", 1, fadType);
+        tilFad.setNuværendeIndhold(190.0); //Modtagerfadet er næsten fyldt
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {

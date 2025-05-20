@@ -87,6 +87,8 @@ public class OmhældDestillatPane extends Stage {
         // Valider valg
         if (fra == null || til == null) {
             return "Vælg både 'fra' og 'til' fad.";
+        } else if (fra.equals(til)) {
+            return "Kan ikke omhælde til samme fad.";
         }
 
         // Valider liter
