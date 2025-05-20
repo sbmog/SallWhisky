@@ -21,6 +21,6 @@ public class ProduktionsAdmOversigt extends Stage {
 
         Scene scene = new Scene(tabPane, 600, 655);
         this.setScene(scene);
-        this.setTitle("Lager administrationsoversigt");
+        this.setTitle("Produktions oversigt");
     }
 }
