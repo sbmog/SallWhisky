@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -44,9 +45,13 @@ public class OpretTapningPane extends Stage {
         VBox root = new VBox(10);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(10));
+
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
         root.getChildren().addAll(fad, tapningsDatoInput, initialerForMedarbejderInput, antalLiterFraFadInput, angelShareInput,
                 fortyndingCheckBox, fortyndingInput, whiskyMængdeInput,
-                fejlLabel, opretTapningButton);
+                fejlLabel, spacer,opretTapningButton);
 
         angelShareInput.getTextField().setDisable(true);
         angelShareInput.getTextField().setEditable(false);

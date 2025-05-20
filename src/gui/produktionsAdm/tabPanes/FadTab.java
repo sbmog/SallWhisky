@@ -54,7 +54,10 @@ public class FadTab extends BaseTab<Fad> {
                         dagePåFad.setValue(tappetTekst);
                         dageTilTapning.setValue(tappetTekst);
 
-                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal flasker (70 cl)");
+                        Whisky whisky = getWhiskyForTapning(newValue.getTapning());
+                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (" + Controller.beregnFlaskeStørrelse(whisky) + ")");
+                        estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
+
                         if (tapning != null) {
                             estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
                         } else {
@@ -88,15 +91,6 @@ public class FadTab extends BaseTab<Fad> {
                         estimeretAntalFlasker.getHeaderLabel().setText("Estimeret antal flasker (70 cl)");
 
                         estimeretAntalFlasker.setValue(String.valueOf(Controller.beregnEstimeretAntalFlasker(newValue, flaskeStørrelseCL)));
-                    } else {
-                        String erTappet = "Fadet er tappet";
-                        nuværendeIndhold.setValue(erTappet);
-                        påfyldning.setValue(erTappet);
-                        dagePåFad.setValue(erTappet);
-                        dageTilTapning.setValue(erTappet);
-                        Whisky whisky = getWhiskyForTapning(newValue.getTapning());
-                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (" + Controller.beregnFlaskeStørrelse(whisky) + ")");
-                        estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
                     }
                 } else {
                     // Fadet er aldrig brugt
