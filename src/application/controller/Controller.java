@@ -5,6 +5,7 @@ import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
@@ -135,7 +136,6 @@ public class Controller {
             fraFad.fjernFraHyldeHvisTom();
         }
     }
-
 
 
     public static ArrayList<Fad> getFade() {
@@ -329,5 +329,15 @@ public class Controller {
         Påfyldning påfyldning = fad.getPåfyldning();
         return påfyldning != null &&
                 påfyldning.getDatoForPåfyldning().plusYears(3).isBefore(LocalDate.now());
+    }
+
+    public static ArrayList<Fad> getFadeMedPlads() {
+        ArrayList<Fad> fadeMedPlads = new ArrayList<>();
+        for (Fad fad : getFade()) {
+            if (fad.getFadILiter() - fad.getNuværendeIndhold() != 0) {
+                fadeMedPlads.add(fad);
+            }
+        }
+        return fadeMedPlads;
     }
 }

@@ -21,7 +21,6 @@ import static gui.component.InputValidering.visDialog;
 public class RegistrerWhiskyPane extends Stage {
     private static RegistrerWhiskyPane registrerWhiskyPane = null;
     private final List<Tapning> tapninger = new ArrayList<>();
-    private final HeaderLabel registrerWhiskyLabel = new HeaderLabel("Registrer Whisky");
     private final LabeledTextInput whiskyIdInput = new LabeledTextInput("Whisky ID");
     private final LabeledTextInput whiskyNavnInput = new LabeledTextInput("Indtast whisky navn");
     private final LabeledTextInput alkoholProcentInput = new LabeledTextInput("Indtast alkoholprocent");
@@ -38,8 +37,8 @@ public class RegistrerWhiskyPane extends Stage {
         if (registrerWhiskyPane == null) {
             registrerWhiskyPane = new RegistrerWhiskyPane(fad, antalLiter, fortynding, nyTapning);
         } else {
-        registrerWhiskyPane.addTapning(nyTapning);
-    }
+            registrerWhiskyPane.addTapning(nyTapning);
+        }
         return registrerWhiskyPane;
     }
 
@@ -59,7 +58,7 @@ public class RegistrerWhiskyPane extends Stage {
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
         vbox.getChildren().addAll(whiskyIdInput, whiskyNavnInput, alkoholProcentInput, vandMængdeFraFadInput,
-                fortyndningCheckBox, whiskyTypeInput, flaskeStørrelseCombo, antalFlaskerOutPut, tilføjTapning, registrerButton);
+                fortyndningCheckBox, whiskyTypeInput, flaskeStørrelseCombo, antalFlaskerOutPut, spacer, tilføjTapning, registrerButton);
 
         whiskyIdInput.setInputValue(String.valueOf(Storage.getWhiskyer().size() + 1));
         whiskyIdInput.setDisable(true);
@@ -90,7 +89,7 @@ public class RegistrerWhiskyPane extends Stage {
 
         registrerButton.getButton().setOnAction(event -> håndterWhiskyRegistrering());
 
-        Scene scene = new Scene(vbox, 300, 600);
+        Scene scene = new Scene(vbox, 300, 650);
         this.setScene(scene);
         this.show();
     }
@@ -154,6 +153,7 @@ public class RegistrerWhiskyPane extends Stage {
         this.tapninger.add(tapning);
         updateAntalFlasker();
     }
+
     private void updateAntalFlasker() {
         Integer flaskeStørrelse = flaskeStørrelseCombo.getComboBox().getValue();
         if (flaskeStørrelse != null && flaskeStørrelse > 0) {

@@ -12,15 +12,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 import static gui.component.InputValidering.visDialog;
 
 public class OmhældDestillatPane extends Stage {
-    private final TextInputWithListViewInput<Fad> fraFad = new TextInputWithListViewInput<>("Vælg fad der skal hældes fra", "Søg fad");
-    private final TextInputWithListViewInput<Fad> tilFad = new TextInputWithListViewInput<>("Vælg fad der skal fyldes på", "Søg fad");
+    private final TextInputWithListViewInput<Fad> fraFad = new TextInputWithListViewInput<>("Vælg fad der skal hældes fra (Indhold)", "Søg fad");
+    private final TextInputWithListViewInput<Fad> tilFad = new TextInputWithListViewInput<>("Vælg fad der skal fyldes på (Kapacitet)", "Søg fad");
     private final LabeledTextInput antalLiter = new LabeledTextInput("Antal liter der skal hældes");
     private final LabeledButton omhældButton = new LabeledButton("Omhæld destillat", "Omhæld");
 
@@ -33,7 +36,7 @@ public class OmhældDestillatPane extends Stage {
         fejlLabel.setVisible(false);
 
         fraFad.getListView().getItems().addAll(Controller.getFadeMedPåfyldning());
-        tilFad.getListView().getItems().addAll(Controller.getFadeMedPåfyldning());
+        tilFad.getListView().getItems().addAll(Controller.getFadeMedPlads());
 
         omhældButton.getButton().setOnAction(e -> omhældDestillat());
 
@@ -52,6 +55,33 @@ public class OmhældDestillatPane extends Stage {
         antalLiter.getTextField().textProperty().addListener((obs, oldVal, newVal) -> validerInputs());
         fraFad.getListView().getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validerInputs());
         tilFad.getListView().getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validerInputs());
+
+        fraFad.getTextField().setOnAction(e -> søgFraFad());
+        tilFad.getTextField().setOnAction(e -> søgTilFad());
+    }
+
+    private void søgTilFad() {
+        String søgetekst = tilFad.getTextField().getText().toLowerCase().trim();
+        if (!søgetekst.isEmpty()) {
+            List<Fad> resultater = Controller.søgFade(søgetekst).stream()
+                    .filter(fad -> fad.getFadILiter() - fad.getNuværendeIndhold() != 0)
+                    .toList();
+            tilFad.getListView().getItems().setAll(resultater);
+        } else {
+            tilFad.getListView().getItems().setAll(Controller.getFadeMedPlads());
+        }
+    }
+
+    private void søgFraFad() {
+        String søgetekst = fraFad.getTextField().getText().toLowerCase().trim();
+        if (!søgetekst.isEmpty()) {
+            List<Fad> resultater = Controller.søgFade(søgetekst).stream()
+                    .filter(fad -> fad.getPåfyldning() != null && fad.getNuværendeIndhold() > 0)
+                    .toList();
+            fraFad.getListView().getItems().setAll(resultater);
+        } else {
+            fraFad.getListView().getItems().setAll(Controller.getFadeMedPåfyldning());
+        }
     }
 
     private void validerInputs() {
@@ -85,8 +115,7 @@ public class OmhældDestillatPane extends Stage {
         if (fra != null && til != null && liter > 0) {
             if (liter > fra.getNuværendeIndhold()) {
                 fejl.append("Antal liter overstiger kildefadets nuværende antal liter.\n");
-            }
-            else if (til.getNuværendeIndhold() + liter > til.getFadILiter()) {
+            } else if (til.getNuværendeIndhold() + liter > til.getFadILiter()) {
                 fejl.append("Antal liter overstiger modtagende fadets kapacitet.\n");
             }
         }
@@ -114,6 +143,8 @@ public class OmhældDestillatPane extends Stage {
 
         HyldePlads hyldePlads = til.getFadPlacering() != null ? til.getFadPlacering().getHyldePlads() : null;
 
+        if (til.getNuværendeIndhold()==0)
+
         Controller.omhældDestillat(liter, fra, til, destillat, hyldePlads);
 
         // Opdater begge listviews med ny data
@@ -137,7 +168,7 @@ public class OmhældDestillatPane extends Stage {
             protected void updateItem(Fad fad, boolean empty) {
                 super.updateItem(fad, empty);
                 setText(empty || fad == null ? null :
-                        "Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getFadILiter()) + " L)");
+                        "Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getNuværendeIndhold()) + " L)");
             }
         });
     }
@@ -148,7 +179,7 @@ public class OmhældDestillatPane extends Stage {
             protected void updateItem(Fad fad, boolean empty) {
                 super.updateItem(fad, empty);
                 setText(empty || fad == null ? null :
-                        "Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getFadILiter()) + " L)");
+                        "Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getFadILiter() - fad.getNuværendeIndhold()) + " L)");
             }
         });
     }
