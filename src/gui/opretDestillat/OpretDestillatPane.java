@@ -18,7 +18,6 @@ import static gui.component.InputValidering.visDialog;
 
 public class OpretDestillatPane extends Stage {
 
-
     private final LabeledTextInput indtastDestillatID = new LabeledTextInput("Destillat navn");
     private final LabeledDateInput indtastDestillatStartDato = new LabeledDateInput("Indsæt startdato");
     private final LabeledDateInput indtastDestillatSlutDato = new LabeledDateInput("Indsæt slutdato");
@@ -43,12 +42,10 @@ public class OpretDestillatPane extends Stage {
                 indtastDestillatSlutDato, indtastDestillatLiterVand, indtastDestillatAlkoholprocent,
                 indtastMæskningsMængde, checkRøget, vælgBatch, spacer, opretDestillatButton);
 
-
         Scene scene = new Scene(vbox, 300, 650);
         vbox.setPadding(new Insets(0, 5, 10, 10));
         this.setScene(scene);
         this.show();
-
 
         VBox.setVgrow(vbox, Priority.ALWAYS);
 
@@ -56,7 +53,6 @@ public class OpretDestillatPane extends Stage {
 
         opretDestillatButton.getButton().setOnAction(event -> HåndterOpretDestillat());
     }
-
 
     private void HåndterOpretDestillat() {
         try {
@@ -67,7 +63,7 @@ public class OpretDestillatPane extends Stage {
             double alkoholProcent = Double.parseDouble(indtastDestillatAlkoholprocent.getInputValue());
             double væskemængde = Double.parseDouble(indtastMæskningsMængde.getInputValue());
             boolean røget = checkRøget.isSelected();
-            MaltBatch batch = (MaltBatch) vælgBatch.getSelectedValue();
+            MaltBatch batch = vælgBatch.getSelectedValue();
 
             Controller.createDestillat(navn, startDato, slutDato, literVand, alkoholProcent, røget, væskemængde, batch);
 

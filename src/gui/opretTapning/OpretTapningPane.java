@@ -55,7 +55,7 @@ public class OpretTapningPane extends Stage {
 
         angelShareInput.getTextField().setDisable(true);
         angelShareInput.getTextField().setEditable(false);
-        whiskyMængdeInput.getTextField().setEditable(false);
+        whiskyMængdeInput.getTextField().setDisable(true);
         fortyndingInput.getTextField().setDisable(true);
 
         fejlLabel.setTextFill(javafx.scene.paint.Color.RED);
@@ -120,7 +120,6 @@ public class OpretTapningPane extends Stage {
 
         fortyndingInput.getTextField().textProperty().addListener((obs, oldVal, newVal) -> updateWhiskyMængde());
 
-        whiskyMængdeInput.getTextField().setOnAction(e -> håndterOpretTapning());
         opretTapningButton.getButton().setOnAction(e -> håndterOpretTapning());
     }
 

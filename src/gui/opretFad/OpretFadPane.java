@@ -18,13 +18,14 @@ import static gui.component.InputValidering.visDialog;
 
 public class OpretFadPane extends Stage {
 
-    LabeledTextInput literInput = new LabeledTextInput("Fadets størrelse i Liter");
-    LabeledTextInput materialInput = new LabeledTextInput("Materiale");
-    LabeledTextInput leverandørInput = new LabeledTextInput("Leverandør");
-    LabeledComboBoxInput<FadType> fadtypeInput = new LabeledComboBoxInput<>("Fadtype:");
-    LabeledButton opretFadTypeButton = new LabeledButton("Opret ny fadtype", "Opret");
+    private final LabeledTextInput literInput = new LabeledTextInput("Fadets størrelse i Liter");
+    private final LabeledTextInput materialInput = new LabeledTextInput("Materiale");
+    private final LabeledTextInput leverandørInput = new LabeledTextInput("Leverandør");
 
-    LabeledButton opretButton = new LabeledButton("Registrer fad", "Registrer");
+    private final LabeledComboBoxInput<FadType> fadtypeInput = new LabeledComboBoxInput<>("Fadtype:");
+
+    private final LabeledButton opretFadTypeButton = new LabeledButton("Opret ny fadtype", "Opret");
+    private final LabeledButton opretButton = new LabeledButton("Registrer fad", "Registrer");
 
     public OpretFadPane() {
         this.setTitle("Registrér nyt fad #" + Controller.getNæsteFadID());
@@ -39,7 +40,6 @@ public class OpretFadPane extends Stage {
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
-
 
         fadtypeInput.getComboBox().getItems().addAll(Controller.getFadTyper());
 

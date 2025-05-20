@@ -18,12 +18,13 @@ import java.util.ArrayList;
 import static gui.component.InputValidering.visDialog;
 
 public class OpretMaltBatchPane extends Stage {
-    LabeledTextInput batchNummer = new LabeledTextInput("Indtast batchnummer");
-    LabeledDateInput dato = new LabeledDateInput("Indtast dato");
-    LabeledTextInput mængde = new LabeledTextInput("Total vægt i kg");
-    LabeledComboBoxInput<Malt> maltInput = new LabeledComboBoxInput<>("Malt");
-    LabeledButton opretMaltButton = new LabeledButton("Opret malt", "opret");
-    LabeledButton opretMaltBatchButton = new LabeledButton("Opret maltbatch", "Opret");
+    private final LabeledTextInput batchNummer = new LabeledTextInput("Indtast batchnummer");
+    private final LabeledDateInput dato = new LabeledDateInput("Indtast dato");
+    private final LabeledTextInput mængde = new LabeledTextInput("Total vægt i kg");
+    private final LabeledComboBoxInput<Malt> maltInput = new LabeledComboBoxInput<>("Malt");
+
+    private final LabeledButton opretMaltButton = new LabeledButton("Opret malt", "opret");
+    private final LabeledButton opretMaltBatchButton = new LabeledButton("Opret maltbatch", "Opret");
 
     private final ArrayList<Malt> malts = new ArrayList<>();
 
@@ -46,7 +47,6 @@ public class OpretMaltBatchPane extends Stage {
         mængde.setDisable(true);
 
         opretMaltButton.getButton().setOnAction(e -> opretMalt());
-
         opretMaltBatchButton.getButton().setOnAction(e -> {
             if (validerOprettelse()) {
                 try {
@@ -60,6 +60,7 @@ public class OpretMaltBatchPane extends Stage {
                     visDialog(Alert.AlertType.CONFIRMATION,
                             "Maltbatch oprettet",
                             "Maltbatch med batchnummer " + batchNummerInput + " er nu oprettet.");
+
                     this.close();
                 } catch (Exception exception) {
                     visDialog(

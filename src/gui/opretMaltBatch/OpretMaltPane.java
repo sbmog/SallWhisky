@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 import static gui.component.InputValidering.visDialog;
 
 public class OpretMaltPane extends Stage {
-    LabeledTextInput kornSortInput = new LabeledTextInput("Kornsort");
-    LabeledTextInput markNavnInput = new LabeledTextInput("Marknavn");
-    LabeledTextInput mængdeInput = new LabeledTextInput("Mængde i kg");
-    LabeledButton opretMaltButton = new LabeledButton("Opret malt", "Opret");
+    private final LabeledTextInput kornSortInput = new LabeledTextInput("Kornsort");
+    private final LabeledTextInput markNavnInput = new LabeledTextInput("Marknavn");
+    private final LabeledTextInput mængdeInput = new LabeledTextInput("Mængde i kg");
+    private final LabeledButton opretMaltButton = new LabeledButton("Opret malt", "Opret");
 
     private Malt oprettetMalt;
     private final MaltBatch maltBatch;

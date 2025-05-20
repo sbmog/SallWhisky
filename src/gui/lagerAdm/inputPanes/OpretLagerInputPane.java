@@ -1,6 +1,7 @@
 package gui.lagerAdm.inputPanes;
 
 import application.controller.Controller;
+import application.model.Lager;
 import gui.component.InputValidering;
 import gui.component.LabeledButton;
 import gui.component.LabeledTextInput;
@@ -49,7 +50,7 @@ public class OpretLagerInputPane extends Stage {
 
         opretButton.getButton().setOnAction(event -> {
             if (validerOprettelse()) {
-                Controller.createLager(
+                Lager newLager = Controller.createLager(
                         lagerID.getInputValue(),
                         lagerNavn.getInputValue(),
                         lagerAdresse.getInputValue(),
@@ -57,7 +58,7 @@ public class OpretLagerInputPane extends Stage {
                 visDialog(
                         Alert.AlertType.CONFIRMATION,
                         "Lager oprettet",
-                        lagerNavn + " er nu oprettet");
+                        newLager.getNavn() + " er nu oprettet");
                 this.close();
             }
         });

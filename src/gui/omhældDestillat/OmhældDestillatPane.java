@@ -12,12 +12,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static gui.component.InputValidering.visDialog;
@@ -27,8 +24,8 @@ public class OmhældDestillatPane extends Stage {
     private final TextInputWithListViewInput<Fad> fraFad = new TextInputWithListViewInput<>("Vælg fad der skal hældes fra (Indhold)", "Søg fad");
     private final TextInputWithListViewInput<Fad> tilFad = new TextInputWithListViewInput<>("Vælg fad der skal fyldes på (Kapacitet)", "Søg fad");
     private final LabeledTextInput antalLiter = new LabeledTextInput("Antal liter der skal hældes");
-    private final LabeledButton omhældButton = new LabeledButton("Omhæld destillat", "Omhæld");
 
+    private final LabeledButton omhældButton = new LabeledButton("Omhæld destillat", "Omhæld");
     private final Label fejlLabel = new Label();
 
     public OmhældDestillatPane() {
@@ -171,8 +168,20 @@ public class OmhældDestillatPane extends Stage {
             @Override
             protected void updateItem(Fad fad, boolean empty) {
                 super.updateItem(fad, empty);
-                setText(empty || fad == null ? null :
-                        "Fad #" + fad.getFadID() + " (" + String.format("%.0f", fad.getFadILiter() - fad.getNuværendeIndhold()) + " L)");
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    double indhold = fad.getNuværendeIndhold();
+                    double kapacitet = fad.getFadILiter();
+                    if (indhold > 0) {
+                        setText("Fad #" + fad.getFadID() +
+                                " - " + fad.getDestillater().getLast() +
+                                " (" + String.format("%.0f", kapacitet - indhold) + " L tilbage)");
+                    } else {
+                        setText("Fad #" + fad.getFadID() +
+                                " (" + String.format("%.0f", kapacitet - indhold) + " L)");
+                    }
+                }
             }
         });
     }
