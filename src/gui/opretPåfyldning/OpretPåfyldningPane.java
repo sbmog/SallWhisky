@@ -27,6 +27,7 @@ public class OpretPåfyldningPane extends Stage {
     private final TextInputWithListViewInput<Destillat> destillater = new TextInputWithListViewInput<>("Vælg destillat der er klar til påfyldning", "Søg destillat");
     private final TextInputWithListViewInput<Fad> fade = new TextInputWithListViewInput<>("Vælg fad der skal påfyldes", "Søg fad");
     private final TextInputWithTreeViewInput<Object> hyldePladser = new TextInputWithTreeViewInput<>("Vælg en fri hylde at placere fadet på", "Søg hylde plads");
+
     private final LabeledButton opretButton = new LabeledButton("Registrer påfyldning", "Registrer");
 
     public OpretPåfyldningPane() {
@@ -45,10 +46,12 @@ public class OpretPåfyldningPane extends Stage {
 
         fejlLabel.setTextFill(javafx.scene.paint.Color.RED);
         fejlLabel.setVisible(false);
+
         antalLiterInput.getChildren().add(fejlLabel);
 
         destillater.getListView().getItems().setAll(Controller.getDestillaterMedResterendeIndhold());
         fade.getListView().getItems().setAll(Controller.getLedigeFade());
+
         opbygHyldePladsTreeView();
         konfigurerDestillatListView();
         konfigurerFadListView();
@@ -65,7 +68,6 @@ public class OpretPåfyldningPane extends Stage {
 
     private void opbygHyldePladsTreeView() {
         TreeItem<Object> root = new TreeItem<>("Lagre");
-
         for (Lager lager : Controller.getLagre()) {
             TreeItem<Object> lagerItem = new TreeItem<>(lager);
             for (Reol reol : lager.getReoler()) {
@@ -102,6 +104,7 @@ public class OpretPåfyldningPane extends Stage {
             Fad fad = fade.getListView().getSelectionModel().getSelectedItem();
             Destillat destillat = destillater.getListView().getSelectionModel().getSelectedItem();
             TreeItem<Object> selectedHylde = hyldePladser.getSelectedItem();
+
             HyldePlads hyldePlads = null;
             if (selectedHylde != null && selectedHylde.getValue() instanceof HyldePlads) {
                 hyldePlads = (HyldePlads) selectedHylde.getValue();
@@ -119,6 +122,7 @@ public class OpretPåfyldningPane extends Stage {
             }
 
             Controller.createPåfyldning(initialer, antalLiter, LocalDate.now(), fad, destillat, hyldePlads);
+
             visDialog(
                     Alert.AlertType.CONFIRMATION,
                     "Påfyldning registreret",
@@ -170,7 +174,6 @@ public class OpretPåfyldningPane extends Stage {
         String søgeTekst = hyldePladser.getTextInputValue().toLowerCase();
 
         TreeItem<Object> root = new TreeItem<>("Lagre");
-
         for (Lager lager : Controller.getLagre()) {
             boolean lagerMatch = lager.toString().toLowerCase().contains(søgeTekst);
             TreeItem<Object> lagerItem = new TreeItem<>(lager);
@@ -243,12 +246,6 @@ public class OpretPåfyldningPane extends Stage {
         }
 
         double nuværendeIndhold = fad.getNuværendeIndhold();
-//        for (Påfyldning p : Controller.getPåfyldninger()) {
-//            if (p.getFad().equals(fad)) {
-//                nuværendeIndhold += p.getAntalLiterPåfyldt();
-//            }
-//        } Var grunden til fejlen, virker uden.
-
         if (nuværendeIndhold + antalLiter > fad.getFadILiter()) {
             fejlLabel.setText("Påfyldningen overstiger fadets kapacitet.");
             fejlLabel.setVisible(true);
