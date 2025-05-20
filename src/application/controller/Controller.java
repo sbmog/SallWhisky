@@ -5,7 +5,6 @@ import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
@@ -57,7 +56,6 @@ public class Controller {
         FadType newFadType = new FadType(navn);
         Storage.addFadType(newFadType);
         return newFadType;
-
     }
 
     public static double beregnAngelShareIProcent(double antalLiterFraFad, Fad fad, LocalDate tapningsDato) {
@@ -143,32 +141,6 @@ public class Controller {
         }
     }
 
-
-    public static ArrayList<Fad> getFade() {
-        return Storage.getFade();
-    }
-
-    public static ArrayList<Whisky> getWhiskyer() {
-        return Storage.getWhiskyer();
-    }
-
-
-    public static ArrayList<Destillat> getDestillater() {
-        return Storage.getDestillater();
-    }
-
-    public static ArrayList<Lager> getLagre() {
-        return Storage.getLagre();
-    }
-
-    public static void removeLager(Lager lager) {
-        Storage.removeLager(lager);
-    }
-
-    public static ArrayList<MaltBatch> getAlleMalte() {
-        return Storage.getMaltBatches();
-    }
-
     public static List<HyldePlads> getAlleFrieHyldePladser() {
         List<HyldePlads> friePladser = new ArrayList<>();
         for (Lager lager : Storage.getLagre()) {
@@ -182,7 +154,6 @@ public class Controller {
         return friePladser;
     }
 
-
     public static void flytFadTilNyHylde(Fad fad, HyldePlads nyHyldePlads) {
         if (!nyHyldePlads.isPladsFri()) {
             throw new IllegalArgumentException("Den nye hyldePlads er allerede optaget.");
@@ -194,18 +165,6 @@ public class Controller {
         }
 
         fad.placerPåHylde(nyHyldePlads, LocalDate.now());
-    }
-
-    public static ArrayList<FadType> getFadTyper() {
-        return Storage.getFadTyper();
-    }
-
-    public static int getNæsteFadID() {
-        return Storage.getFade().size() + 1;
-    }
-
-    public static ArrayList<MaltBatch> getMaltBatch() {
-        return Storage.getMaltBatches();
     }
 
     public static ArrayList<Fad> getLedigeFade() {
@@ -270,7 +229,6 @@ public class Controller {
                     totalPåfyldt += påfyldning.getAntalLiterPåfyldt();
                 }
             }
-
             if (totalPåfyldt < destillat.getVæskemængde()) {
                 resultat.add(destillat);
             }
@@ -302,7 +260,6 @@ public class Controller {
         return fadeMedPåfyldning;
     }
 
-
     public static double getAntalLiterTilbagePåDestillat(Destillat destillat) {
         double totalPåfyldt = 0.0;
         for (Påfyldning påfyldning : getPåfyldninger()) {
@@ -318,7 +275,6 @@ public class Controller {
             throw new IllegalArgumentException("Flaskestørrelse skal være større end 0.");
         }
         double totalVæskeILiter = fad.getPåfyldning().getAntalLiterPåfyldt();
-
         return (int) ((totalVæskeILiter * 100) / flaskeStørrelseCL);
     }
 
@@ -350,5 +306,37 @@ public class Controller {
 
     public static HyldePlads getFørsteLedigHyldePlads() {
         return getAlleFrieHyldePladser().getFirst();
+    }
+
+    public static ArrayList<FadType> getFadTyper() {
+        return Storage.getFadTyper();
+    }
+
+    public static int getNæsteFadID() {
+        return Storage.getFade().size() + 1;
+    }
+
+    public static ArrayList<MaltBatch> getMaltBatch() {
+        return Storage.getMaltBatches();
+    }
+
+    public static ArrayList<Fad> getFade() {
+        return Storage.getFade();
+    }
+
+    public static ArrayList<Whisky> getWhiskyer() {
+        return Storage.getWhiskyer();
+    }
+
+    public static ArrayList<Destillat> getDestillater() {
+        return Storage.getDestillater();
+    }
+
+    public static ArrayList<Lager> getLagre() {
+        return Storage.getLagre();
+    }
+
+    public static void removeLager(Lager lager) {
+        Storage.removeLager(lager);
     }
 }
