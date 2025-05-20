@@ -64,7 +64,6 @@ public class OpretLagerInputPane extends Stage {
         });
 
         annullerButton.getButton().setOnAction(event -> this.close());
-
     }
 
     public boolean validerOprettelse() {

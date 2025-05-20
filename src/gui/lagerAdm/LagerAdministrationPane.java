@@ -110,7 +110,6 @@ public class LagerAdministrationPane extends VBox {
                         "Der er ikke plads til flere reoler på dette lager.");
                 return;
             }
-
             valgtLager.createReol();
             visDialog(
                     Alert.AlertType.CONFIRMATION,

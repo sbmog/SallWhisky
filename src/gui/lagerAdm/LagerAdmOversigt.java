@@ -19,6 +19,7 @@ public class LagerAdmOversigt extends Stage {
 
     private final LagerTreeViewPane treeViewPane = new LagerTreeViewPane();
     private final TextInputWithButton søgFad = new TextInputWithButton("Søg fad", "Ryd");
+
     private final Label beskedLabel = new Label();
 
     public LagerAdmOversigt() {
@@ -74,6 +75,5 @@ public class LagerAdmOversigt extends Stage {
                 beskedLabel.setText("Viser " + søgeFade.size() + " resultater.");
             }
         }
-
     }
 }

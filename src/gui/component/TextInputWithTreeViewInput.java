@@ -33,10 +33,6 @@ public class TextInputWithTreeViewInput<T> extends VBox {
         return textField;
     }
 
-    public TreeView<T> getTreeView() {
-        return treeView;
-    }
-
     public void setRoot(TreeItem<T> root) {
         treeView.setRoot(root);
     }

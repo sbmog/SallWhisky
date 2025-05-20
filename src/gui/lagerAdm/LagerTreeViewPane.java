@@ -17,7 +17,6 @@ public class LagerTreeViewPane extends VBox {
     private final LabeledTreeViewInput<Object> treeViewInput = new LabeledTreeViewInput<>("Lageroversigt");
     private Consumer<Object> selectionCallback;
 
-
     public LagerTreeViewPane() {
         this.getChildren().add(treeViewInput);
         this.setSpacing(5);
@@ -33,19 +32,15 @@ public class LagerTreeViewPane extends VBox {
 
     public void opbygTreeView() {
         TreeItem<Object> rootItem = new TreeItem<>("Lagre");
-
         for (Lager lager : Controller.getLagre()) {
             TreeItem<Object> lagerItem = new TreeItem<>(lager);
             rootItem.getChildren().add(lagerItem);
-
             for (Reol reol : lager.getReoler()) {
                 TreeItem<Object> reolItem = new TreeItem<>(reol);
                 lagerItem.getChildren().add(reolItem);
-
                 for (HyldePlads hylde : reol.getHyldePladser()) {
                     TreeItem<Object> hyldeItem = new TreeItem<>(hylde);
                     reolItem.getChildren().add(hyldeItem);
-
                     if (!hylde.isPladsFri()) {
                         TreeItem<Object> fadItem = new TreeItem<>(hylde.getFadPlaceret().getFad());
                         hyldeItem.getChildren().add(fadItem);
@@ -80,5 +75,4 @@ public class LagerTreeViewPane extends VBox {
         treeViewInput.setRoot(rootItem);
         treeViewInput.expandAll(rootItem);
     }
-
 }

@@ -25,10 +25,6 @@ public class LabeledCheckBoxInput extends VBox {
         return checkBox.isSelected();
     }
 
-    public void setSelected(boolean selected) {
-        checkBox.setSelected(selected);
-    }
-
     public CheckBox getCheckBox() {
         return checkBox;
     }

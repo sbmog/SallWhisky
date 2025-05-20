@@ -6,7 +6,6 @@ import javafx.scene.control.ListView;
 
 import java.util.Optional;
 
-
 public class InputValidering {
 
     private boolean valid = true;
@@ -45,21 +44,6 @@ public class InputValidering {
         if (comboBox.getComboBox().getSelectionModel() == null) {
             visDialog(Alert.AlertType.ERROR, "Fejl", errorMessage);
             valid = false;
-        }
-        return this;
-    }
-
-    public InputValidering validateDateOrder(LabeledDateInput start, LabeledDateInput end, String errorMessage) {
-        if (start.getInputValue() == null || end.getInputValue() == null || end.getInputValue().isBefore(start.getInputValue())) {
-            visDialog(Alert.AlertType.ERROR,"Fejl", errorMessage);
-            valid = false;
-        }
-        return this;
-    }
-
-    public InputValidering validateIfSelected(LabeledCheckBoxInput checkBox, Runnable validationLogic) {
-        if (checkBox.getCheckBox().isSelected()) {
-            validationLogic.run();
         }
         return this;
     }

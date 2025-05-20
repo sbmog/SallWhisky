@@ -13,9 +13,12 @@ public class LabeledListViewInput<T> extends VBox {
         this.setStyle("-fx-border-color: lightgrey; -fx-border-width: 1; -fx-background-color: aliceblue; -fx-background-radius: 10; -fx-border-radius: 10;");
         this.setPadding(new Insets(5));
         this.setMinWidth(200);
+
         Label label = new Label(labelText);
         label.setStyle("-fx-font-weight: bold;");
+
         VBox.setVgrow(listView, Priority.ALWAYS);
+
         this.getChildren().addAll(label,listView);
     }
 

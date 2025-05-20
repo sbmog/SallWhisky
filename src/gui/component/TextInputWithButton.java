@@ -10,15 +10,17 @@ import javafx.scene.layout.VBox;
 
 public class TextInputWithButton extends VBox {
 
-    TextField textField = new TextField();
-    Button button;
+    private final TextField textField = new TextField();
+    private final Button button;
 
     public TextInputWithButton(String labelText, String buttonText) {
         this.setStyle("-fx-border-color: lightgrey; -fx-border-width: 1; -fx-background-color: aliceblue; -fx-background-radius: 10; -fx-border-radius: 10;");
         this.setPadding(new Insets(5));
         this.setMinWidth(200);
+
         Label label = new Label(labelText);
         label.setStyle("-fx-font-weight: bold;");
+
         button = new Button(buttonText);
 
         HBox feltBox = new HBox(5, textField, button);
@@ -35,10 +37,6 @@ public class TextInputWithButton extends VBox {
         return textField.getText().trim();
     }
 
-    public void setInputValue(String value) {
-        textField.setText(value);
-    }
-
     public TextField getTextField() {
         return textField;
     }
@@ -46,5 +44,4 @@ public class TextInputWithButton extends VBox {
     public Button getButton() {
         return button;
     }
-
 }

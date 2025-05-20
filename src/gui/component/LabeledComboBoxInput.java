@@ -30,10 +30,6 @@ public class LabeledComboBoxInput<T> extends VBox {
         return comboBox.getValue();
     }
 
-    public void setSelectedValue(T value) {
-        comboBox.setValue(value);
-    }
-
     public void addItems(T... items) {
         comboBox.getItems().addAll(items);
     }
@@ -41,9 +37,4 @@ public class LabeledComboBoxInput<T> extends VBox {
     public void addItems(List<T> items) {
         comboBox.getItems().addAll(items);
     }
-
-    public void clearItems() {
-        comboBox.getItems().clear();
-    }
-
 }

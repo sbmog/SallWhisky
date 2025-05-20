@@ -17,7 +17,6 @@ public class LabeledTreeViewInput<T> extends VBox {
         Label label = new Label(labelText);
         label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
-
         this.getChildren().addAll(label, treeView);
     }
 
@@ -27,10 +26,6 @@ public class LabeledTreeViewInput<T> extends VBox {
 
     public void setRoot(TreeItem<T> root) {
         treeView.setRoot(root);
-    }
-
-    public TreeItem<T> getSelectedItem() {
-        return treeView.getSelectionModel().getSelectedItem();
     }
 
     public void expandAll(TreeItem<T> item) {
