@@ -20,7 +20,7 @@ import static gui.component.InputValidering.visDialog;
 
 public class OpretPåfyldningPane extends Stage {
 
-    private final LabeledTextInput initialerInput = new LabeledTextInput("Initialer for den ansvarlige");
+    private final LabeledTextInput initialerInput = new LabeledTextInput("Indtast initialer for medarbejder");
     private final LabeledTextInput antalLiterInput = new LabeledTextInput("Antal Liter påfyldt");
 
     private final Label fejlLabel = new Label();

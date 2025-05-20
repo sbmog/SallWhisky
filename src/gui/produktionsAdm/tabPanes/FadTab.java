@@ -7,6 +7,8 @@ import application.model.Whisky;
 import gui.component.AttributeDisplay;
 import storage.Storage;
 
+import java.util.Objects;
+
 public class FadTab extends BaseTab<Fad> {
     //    AttributeDisplays
     private final AttributeDisplay fadID = new AttributeDisplay("Fad ID", "");
@@ -54,13 +56,11 @@ public class FadTab extends BaseTab<Fad> {
                         dagePåFad.setValue(tappetTekst);
                         dageTilTapning.setValue(tappetTekst);
 
-                        Whisky whisky = getWhiskyForTapning(newValue.getTapning());
-                        estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (" + Controller.beregnFlaskeStørrelse(whisky) + ")");
-                        estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
-
-                        if (tapning != null) {
+                        Whisky whisky = getWhiskyForTapning(tapning);
+                        if (whisky!=null) {
+                            estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (" + Controller.beregnFlaskeStørrelse(whisky) + ")");
                             estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
-                        } else {
+                        }else {
                             estimeretAntalFlasker.setValue("Indhold omhældt til andre fade");
                         }
                     } else {
@@ -116,7 +116,7 @@ public class FadTab extends BaseTab<Fad> {
     private Whisky getWhiskyForTapning(Tapning tapning) {
         for (Whisky whisky : Storage.getWhiskyer()) {
             for (Tapning tapningFraWhsiky : whisky.getTapninger()) {
-                if (tapning.equals(tapningFraWhsiky))
+                if (Objects.equals(tapning, tapningFraWhsiky))
                     return whisky;
             }
         }

@@ -95,7 +95,8 @@ public class Controller {
             Fad fraFad,
             Fad tilFad,
             Destillat destillat,
-            HyldePlads tilHyldePlads
+            HyldePlads tilHyldePlads,
+            String initialer
     ) {
         if (fraFad == null || tilFad == null)
             throw new IllegalArgumentException("Begge fade skal være angivet.");
@@ -118,22 +119,27 @@ public class Controller {
         // Opdater mængden i kildefad
         fraFad.opdaterNuværendeInhold(antalLiter);
 
-        // Opdater mængden i modtagerfadet
-        tilFad.opdaterNuværendeInhold(-antalLiter);
+        if (tilFad.getNuværendeIndhold() == 0) {
+            // Opret ny påfyldning hvis fadet er tomt.
+            createPåfyldning(initialer, antalLiter, LocalDate.now(), tilFad, fraFad.getDestillater().getLast(), tilHyldePlads);
+        } else {
+            // Opdater mængden i modtagerfadet
+            tilFad.opdaterNuværendeInhold(-antalLiter);
 
-        tilFad.tilføjDestillat(destillat);
+            tilFad.tilføjDestillat(destillat);
 
-        // Find hyldeplads til modtagerfad
-        HyldePlads anvendtHyldePlads = tilFad.getFadPlacering() != null
-                ? tilFad.getFadPlacering().getHyldePlads()
-                : tilHyldePlads;
+            // Find hyldeplads til modtagerfad
+            HyldePlads anvendtHyldePlads = tilFad.getFadPlacering() != null
+                    ? tilFad.getFadPlacering().getHyldePlads()
+                    : tilHyldePlads;
 
-        if (anvendtHyldePlads == null) {
-            throw new IllegalArgumentException("Hyldeplads skal angives for tomt fad.");
-        }
+            if (anvendtHyldePlads == null) {
+                throw new IllegalArgumentException("Hyldeplads skal angives for tomt fad.");
+            }
 
-        if (fraFad.getNuværendeIndhold() == 0) {
-            fraFad.fjernFraHyldeHvisTom();
+            if (fraFad.getNuværendeIndhold() == 0) {
+                fraFad.fjernFraHyldeHvisTom();
+            }
         }
     }
 
@@ -145,6 +151,7 @@ public class Controller {
     public static ArrayList<Whisky> getWhiskyer() {
         return Storage.getWhiskyer();
     }
+
 
     public static ArrayList<Destillat> getDestillater() {
         return Storage.getDestillater();
@@ -339,5 +346,9 @@ public class Controller {
             }
         }
         return fadeMedPlads;
+    }
+
+    public static HyldePlads getFørsteLedigHyldePlads() {
+        return getAlleFrieHyldePladser().getFirst();
     }
 }
