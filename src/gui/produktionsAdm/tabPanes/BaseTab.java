@@ -12,6 +12,7 @@ public abstract class BaseTab<T> extends GridPane {
 
     protected LabeledTextInput søgeFelt;
     protected LabeledListViewInput<T> liste;
+
     protected VBox attributVisning;
 
     public BaseTab(String søgeFeltTekst, String listeTekst){

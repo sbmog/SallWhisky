@@ -29,9 +29,7 @@ public class FadTab extends BaseTab<Fad> {
         super("Søg fad", "Fade");
 
         liste.getListView().getItems().setAll(Controller.getFade());
-
         attributVisning.getChildren().addAll(fadID, fadStørrelse, materiale, leverandør, fadType, antalGangeBrugt, nuværendeIndhold, fadPlacering, destillater, dagePåFad, dageTilTapning, estimeretAntalFlasker);
-
 
         liste.getListView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -57,10 +55,10 @@ public class FadTab extends BaseTab<Fad> {
                         dageTilTapning.setValue(tappetTekst);
 
                         Whisky whisky = getWhiskyForTapning(tapning);
-                        if (whisky!=null) {
+                        if (whisky != null) {
                             estimeretAntalFlasker.getHeaderLabel().setText("Aktuel antal Flasker (" + Controller.beregnFlaskeStørrelse(whisky) + ")");
                             estimeretAntalFlasker.setValue(String.valueOf(tapning.beregnAntalFlasker(flaskeStørrelseCL)));
-                        }else {
+                        } else {
                             estimeretAntalFlasker.setValue("Indhold omhældt til andre fade");
                         }
                     } else {
@@ -81,6 +79,7 @@ public class FadTab extends BaseTab<Fad> {
 
                         nuværendeIndhold.setValue(newValue.getNuværendeIndhold() + " Liter");
                         dagePåFad.setValue(String.valueOf(newValue.beregnLagringstid()));
+
                         int dageTil = newValue.beregnTidTilWhisky();
                         if (dageTil <= 0) {
                             dageTilTapning.setValue("Klar til tapning");
@@ -89,7 +88,6 @@ public class FadTab extends BaseTab<Fad> {
                         }
 
                         estimeretAntalFlasker.getHeaderLabel().setText("Estimeret antal flasker (70 cl)");
-
                         estimeretAntalFlasker.setValue(String.valueOf(Controller.beregnEstimeretAntalFlasker(newValue, flaskeStørrelseCL)));
                     }
                 } else {
@@ -103,11 +101,11 @@ public class FadTab extends BaseTab<Fad> {
                     estimeretAntalFlasker.setValue(ikkeBrugt);
                 }
 
-                if (newValue.getFadPlacering() != null)
+                if (newValue.getFadPlacering() != null) {
                     fadPlacering.setValue(newValue.getFadPlacering().getFullFadPlacering());
-                else
+                }else {
                     fadPlacering.setValue("Fadet har ikke en plads på lageret");
-
+                }
                 søgeFelt.getTextField().setOnAction(event -> søgning());
             }
         });

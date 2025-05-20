@@ -1,7 +1,5 @@
 package gui.produktionsAdm;
 
-import application.model.Fad;
-import application.model.Malt;
 import application.model.Whisky;
 import gui.component.LabeledButton;
 import javafx.geometry.Insets;
@@ -28,7 +26,6 @@ public class WhiskyHistorikPane extends Stage {
 
         // Saml hele historikken som én streng
         String historik = whisky.getHistorik();
-
 
         TextArea textArea = new TextArea(historik);
         textArea.setPrefWidth(380);

@@ -20,6 +20,7 @@ public class DestillatTab extends BaseTab<Destillat> {
     private final AttributeDisplay røget = new AttributeDisplay("Røget", "");
     private final AttributeDisplay væskeMængde = new AttributeDisplay("Liter af væske i alt", "");
     private final AttributeDisplay maltBatch = new AttributeDisplay("Malt batch", "");
+
     private final LabeledListViewInput<Fad> fade = new LabeledListViewInput<>("Fyldt på fade");
 
     public DestillatTab() {
