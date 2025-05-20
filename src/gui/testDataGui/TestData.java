@@ -51,7 +51,6 @@ public class TestData {
 
         int[] tilladteFadStørrelser = {150, 200, 250, 300, 400, 500};
 
-
         // Maltbatches og malt
         ArrayList<MaltBatch> maltBatches = new ArrayList<>();
         for (int indeks = 1; indeks <= 6; indeks++) {
@@ -174,7 +173,6 @@ public class TestData {
                         fad, destillat, placering);
                 Storage.addPåfyldning(påfyldning);
 
-
                 if (erFadKlarTilTapning(fad)) {
                     if (antalTapningerSomIkkeErOprettet < 3) {
                         antalTapningerSomIkkeErOprettet++;
@@ -196,6 +194,7 @@ public class TestData {
                 resterendeLiter -= fyldMængde;
                 fadIndeks++;
             }
+
             if (!tapninger.isEmpty()) {
                 double alkoholProcent = Math.round((40.0 + Math.random() * 20.0) * 10.00) / 10.00;
 
@@ -219,8 +218,8 @@ public class TestData {
                     whisky.createFlaske();
                 }
             }
-
         }
+
 //        10 tomme fade
         for (int i = 1; i <= 10; i++) {
             int størrelse = tilladteFadStørrelser[i % tilladteFadStørrelser.length];
