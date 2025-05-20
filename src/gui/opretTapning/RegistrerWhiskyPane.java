@@ -19,7 +19,8 @@ import java.util.List;
 import static gui.component.InputValidering.visDialog;
 
 public class RegistrerWhiskyPane extends Stage {
-    private final Tapning tapning;
+    private static RegistrerWhiskyPane registrerWhiskyPane = null;
+    private final List<Tapning> tapninger = new ArrayList<>();
     private final HeaderLabel registrerWhiskyLabel = new HeaderLabel("Registrer Whisky");
     private final LabeledTextInput whiskyIdInput = new LabeledTextInput("Whisky ID");
     private final LabeledTextInput whiskyNavnInput = new LabeledTextInput("Indtast whisky navn");
@@ -29,10 +30,20 @@ public class RegistrerWhiskyPane extends Stage {
     private final LabeledComboBoxInput<WhiskyType> whiskyTypeInput = new LabeledComboBoxInput<>("Vælg whisky type");
     private final LabeledComboBoxInput<Integer> flaskeStørrelseCombo = new LabeledComboBoxInput<>("Vælg flaske størrelse (cl)");
     private final LabeledTextInput antalFlaskerOutPut = new LabeledTextInput("Antal flasker (beregnet)");
+    private final LabeledButton tilføjTapning = new LabeledButton("Tilføj tapning", "Tilføj");
     private final LabeledButton registrerButton = new LabeledButton("Registrer Whisky", "Registrer");
 
-    public RegistrerWhiskyPane(Fad fad, double antalLiter, double fortynding, Tapning tapning) {
-        this.tapning = tapning;
+
+    public static RegistrerWhiskyPane getInstance(Fad fad, double antalLiter, double fortynding, Tapning nyTapning) {
+        if (registrerWhiskyPane == null) {
+            registrerWhiskyPane = new RegistrerWhiskyPane(fad, antalLiter, fortynding, nyTapning);
+        } else {
+        registrerWhiskyPane.addTapning(nyTapning);
+    }
+        return registrerWhiskyPane;
+    }
+
+    public RegistrerWhiskyPane(Fad fad, double antalLiter, double fortynding, Tapning førsteTapning) {
         this.setTitle("Registrer Whisky");
 
         GridPane pane = new GridPane();
@@ -47,8 +58,8 @@ public class RegistrerWhiskyPane extends Stage {
         VBox vbox = new VBox(5);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(10);
-        vbox.getChildren().addAll(whiskyIdInput, whiskyNavnInput, alkoholProcentInput, vandMængdeFraFadInput, fortyndningCheckBox, whiskyTypeInput, flaskeStørrelseCombo, antalFlaskerOutPut, registrerButton);
-
+        vbox.getChildren().addAll(whiskyIdInput, whiskyNavnInput, alkoholProcentInput, vandMængdeFraFadInput,
+                fortyndningCheckBox, whiskyTypeInput, flaskeStørrelseCombo, antalFlaskerOutPut, tilføjTapning, registrerButton);
 
         whiskyIdInput.setInputValue(String.valueOf(Storage.getWhiskyer().size() + 1));
         whiskyIdInput.setDisable(true);
@@ -57,6 +68,7 @@ public class RegistrerWhiskyPane extends Stage {
         fortyndningCheckBox.getCheckBox().setDisable(true);
         antalFlaskerOutPut.setDisable(true);
 
+        tapninger.add(førsteTapning);
 
         if (fortynding > 0) {
             fortyndningCheckBox.getCheckBox().setSelected(true);
@@ -66,26 +78,30 @@ public class RegistrerWhiskyPane extends Stage {
 
         flaskeStørrelseCombo.addItems(5, 50, 70);
         flaskeStørrelseCombo.getComboBox().valueProperty().addListener((obs, oldVal, newVal) -> {
-            updateAntalFlasker(antalLiter);
+            updateAntalFlasker();
         });
 
+        updateAntalFlasker();
 
-        updateAntalFlasker(antalLiter);
-        registrerButton.getButton().setOnAction(event -> håndterWhiskyRegistrering(tapning));
+        tilføjTapning.getButton().setOnAction(e -> {
+            OpretTapningPane nyTapning = new OpretTapningPane();
+            nyTapning.show();
+        });
 
+        registrerButton.getButton().setOnAction(event -> håndterWhiskyRegistrering());
 
         Scene scene = new Scene(vbox, 300, 600);
         this.setScene(scene);
         this.show();
     }
 
-    private void håndterWhiskyRegistrering(Tapning tapning) {
+    private void håndterWhiskyRegistrering() {
         try {
             double whiskyID = Double.parseDouble(whiskyIdInput.getInputValue());
             String navn = whiskyNavnInput.getInputValue();
             double alkoholProcent = Double.parseDouble(alkoholProcentInput.getInputValue());
             boolean fortyndet = fortyndningCheckBox.getCheckBox().isSelected();
-            double WhiskyMængde = Double.parseDouble(vandMængdeFraFadInput.getInputValue());
+            double whiskyMængde = Double.parseDouble(vandMængdeFraFadInput.getInputValue());
             WhiskyType whiskyType = whiskyTypeInput.getComboBox().getValue();
             Integer flaskeStørrelse = flaskeStørrelseCombo.getComboBox().getValue();
 
@@ -105,13 +121,17 @@ public class RegistrerWhiskyPane extends Stage {
                     navn,
                     alkoholProcent,
                     fortyndet,
-                    WhiskyMængde,
-                    new ArrayList<>(List.of(tapning)),
+                    whiskyMængde,
+                    new ArrayList<>(tapninger),
                     whiskyType
             );
 
-            // Beregn og opret flasker
-            int antalFlasker = tapning.beregnAntalFlasker(flaskeStørrelse);
+            // Beregn og opret flasker (sum over alle tapninger)
+            int antalFlasker = 0;
+            for (Tapning t : tapninger) {
+                antalFlasker += t.beregnAntalFlasker(flaskeStørrelse);
+            }
+
             for (int i = 0; i < antalFlasker; i++) {
                 whisky.createFlaske();
             }
@@ -129,23 +149,26 @@ public class RegistrerWhiskyPane extends Stage {
         }
     }
 
-    private void updateAntalFlasker(double liter) {
+
+    public void addTapning(Tapning tapning) {
+        this.tapninger.add(tapning);
+        updateAntalFlasker();
+    }
+    private void updateAntalFlasker() {
         Integer flaskeStørrelse = flaskeStørrelseCombo.getComboBox().getValue();
         if (flaskeStørrelse != null && flaskeStørrelse > 0) {
             try {
-                if (tapning == null) {
-                    throw new IllegalArgumentException("Tapning kan ikke være null");
+                int samletAntalFlasker = 0;
+                for (Tapning t : tapninger) {
+                    samletAntalFlasker += t.beregnAntalFlasker(flaskeStørrelse);
                 }
-
-                int antalFlasker = tapning.beregnAntalFlasker(flaskeStørrelse);
-                antalFlaskerOutPut.getTextField().setText(String.valueOf(antalFlasker));
-            } catch (IllegalArgumentException e) {
-                antalFlaskerOutPut.getTextField().setText("Ugyldig flaske størrelse");
+                antalFlaskerOutPut.getTextField().setText(String.valueOf(samletAntalFlasker));
             } catch (Exception e) {
-                antalFlaskerOutPut.getTextField().setText("Tapning er ikke tilgængelig");
+                antalFlaskerOutPut.getTextField().setText("Beregningsfejl");
             }
         } else {
             antalFlaskerOutPut.getTextField().setText("Vælg flaske størrelse");
         }
+
     }
 }
