@@ -1,32 +1,32 @@
 # Sall Whisky Distillery - Production & Inventory Management
 
-Dette projekt er udviklet som en del af 2. semester på Datamatikeruddannelsen. Formålet har været at skabe et specialiseret IT-system til at styre produktionsflows og lagerstyring for et moderne destilleri.
+This project was developed as part of the 2nd semester of the Computer Science program. The objective was to create a specialized IT system to manage production workflows and inventory for a modern distillery.
 
-## Projektbeskrivelse
-Systemet digitaliserer hele processen fra modtagelse af malt til det færdige produkt. Det sikrer fuld sporbarhed og overblik over whiskyens modningsproces, lagerplaceringer og kvalitetskontrol.
+## Project Description
+The system digitalizes the entire process from receiving malt to the finished product. It ensures full traceability and provides an overview of the whisky maturation process, warehouse locations, and quality control.
 
-### Hovedfunktioner
-* **Produktionsstyring:** Registrering og overblik over Malt Batches, Destillater og den efterfølgende påfyldning på fade.
-* **Avanceret Lagerstyring:** Visuel håndtering af lageret via en TreeView-struktur, der dækker lagerhaller, reoler og specifikke hyldepladser.
-* **Sporbarhed:** Mulighed for at spore en specifik flaske eller et fad tilbage gennem hele produktionshistorikken (fra fad til destillat til malt).
-* **Modningskontrol:** Logik til beregning af "Angel's Share" (fordampning) og håndtering af omhældning mellem fade.
-* **Tapning & Fortynding:** Styring af processen fra modnet whisky til færdige flasker, inklusiv beregning af alkoholprocent ved fortynding.
+### Key Features
+* **Production Management:** Registration and overview of Malt Batches, Distillates, and the subsequent filling into casks.
+* **Advanced Inventory Management:** Visual handling of the warehouse via a TreeView structure, covering warehouses, racks, and specific shelf positions.
+* **Traceability:** Ability to trace a specific bottle or cask back through the entire production history (from cask to distillate to malt).
+* **Maturation Control:** Logic for calculating the "Angel's Share" (evaporation) and handling the re-racking (transfer) between casks.
+* **Bottling & Dilution:** Management of the process from matured whisky to finished bottles, including alcohol percentage calculations during dilution.
 
-## Teknisk Stack
-* **Sprog:** Java (JDK 17+)
-* **GUI:** JavaFX (med brug af custom panes, TreeView og CSS-styling)
-* **Test:** JUnit til unit-testing af forretningslogik
-* **Udviklingsmetode:** Unified Process (UP)
-* **Værktøjer:** IntelliJ IDEA, Git, UML (Enterprise Architect/StarUML)
+## Technical Stack
+* **Language:** Java (JDK 17+)
+* **GUI:** JavaFX (utilizing custom panes, TreeView, and CSS styling)
+* **Testing:** JUnit for unit testing of business logic
+* **Development Methodology:** Unified Process (UP)
+* **Tools:** IntelliJ IDEA, Git, UML (Enterprise Architect/StarUML)
 
-## Arkitektur & Metodik
-Projektet er opbygget efter en lagdelt arkitektur for at sikre separation of concerns:
-1. **GUI Lag:** Håndterer brugerinteraktion via JavaFX.
-2. **Controller Lag:** Fungerer som bindeled mellem UI og domænemodel (Controller-pattern).
-3. **Model Lag:** En kompleks domænemodel, der afspejler destilleriets fysiske virkelighed.
-4. **Storage Lag:** Centraliseret opbevaring af systemets tilstand.
+## Architecture & Methodology
+The project is built using a layered architecture to ensure separation of concerns:
+1. **GUI Layer:** Handles user interaction via JavaFX.
+2. **Controller Layer:** Acts as a link between the UI and the domain model (Controller pattern).
+3. **Model Layer:** A complex domain model reflecting the physical reality of the distillery.
+4. **Storage Layer:** Centralized storage of the system state.
 
-Der er i udviklingen lagt stor vægt på **Systemudvikling (SU)**, herunder udarbejdelse af Use Cases, Domænemodeller og Design-klassediagrammer for at sikre en robust softwarearkitektur.
+During development, significant emphasis was placed on **System Development (SD)**, including the creation of Use Cases, Domain Models, and Design Class Diagrams to ensure a robust software architecture.
 
-## Forfattere
-Karsten Kirkegaard, Rune Hyldgaard Jensen og Sidse Borch Mogensen
+## Authors
+Karsten Kirkegaard, Rune Hyldgaard Jensen, and Sidse Borch Mogensen
