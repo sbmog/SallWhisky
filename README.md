@@ -27,3 +27,6 @@ Projektet er opbygget efter en lagdelt arkitektur for at sikre separation of con
 4. **Storage Lag:** Centraliseret opbevaring af systemets tilstand.
 
 Der er i udviklingen lagt stor vægt på **Systemudvikling (SU)**, herunder udarbejdelse af Use Cases, Domænemodeller og Design-klassediagrammer for at sikre en robust softwarearkitektur.
+
+## Forfattere
+Karsten Kirkegaard, Rune Hyldgaard Jensen og Sidse Borch Mogensen
